@@ -1,0 +1,716 @@
+<!doctype html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<meta name="theme-color" content="#101b2b">
+
+<title>Дальнобойщик — играть онлайн бесплатно | Симулятор грузовика</title>
+
+<meta name="description" content="Дальнобойщик — бесплатная браузерная игра. Вези грузы по городам мира, следи за топливом и погодой, улучшай грузовик. Играй онлайн на телефоне и компьютере без установки.">
+<meta name="keywords" content="дальнобойщик, игра про грузовик, симулятор дальнобойщика, играть онлайн, браузерная игра, грузовик, рейс">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Дальнобойщик">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Дальнобойщик — играть онлайн бесплатно">
+<meta property="og:description" content="Вези грузы по городам мира, следи за топливом и погодой, улучшай грузовик. Бесплатно, прямо в браузере.">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Дальнобойщик — играть онлайн бесплатно">
+<meta name="twitter:description" content="Браузерный симулятор грузовика: рейсы по миру, погода, апгрейды.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚛%3C/text%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Дальнобойщик",
+  "description": "Бесплатная браузерная игра-симулятор грузовика: рейсы по городам мира, погода, топливо и апгрейды.",
+  "inLanguage": "ru",
+  "genre": "Симулятор",
+  "applicationCategory": "Game",
+  "operatingSystem": "Any (web browser)",
+  "playMode": "SinglePlayer",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<style>
+
+:root {
+
+  --site-primary: #e6a23c;
+
+  --site-on-primary: #17202c;
+
+  --site-secondary: #234a61;
+
+  --site-on-secondary: #ffffff;
+
+  --site-background: #101b2b;
+
+  --site-on-background: #f3f5f7;
+
+  --site-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --site-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --site-heading-scale: 1;
+
+  --site-spacing-scale: 1;
+
+  --site-radius-scale: 1;
+
+  --site-decoration-opacity: 1;
+
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; overflow: hidden; }
+
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: calc(14px * var(--site-spacing-scale)) calc(18px * var(--site-spacing-scale)); background:var(--site-secondary); color:var(--site-on-secondary); border-bottom:1px solid #ffffff24; }
+
+.brand { display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.04em; }
+
+.brand-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:12px; background:var(--site-primary); color:var(--site-on-primary); font-size:21px; }
+
+.brand small { display:block; opacity:.7; font-size:10px; letter-spacing:.16em; font-weight:700; }
+
+.status { font-size:12px; font-weight:800; color:#b9e7c5; }
+
+main { max-width:1050px; margin:0 auto; padding:18px; }
+
+.intro { display:flex; justify-content:space-between; align-items:end; gap:14px; margin:4px 0 14px; }
+
+h1 { margin:0; font-size:calc(27px * var(--site-heading-scale)); line-height:1.05; letter-spacing:-.04em; }
+
+.sub { color:#aab8c8; font-size:13px; margin-top:6px; }
+
+.badge { border:1px solid #ffffff26; border-radius:999px; padding:7px 11px; font-size:11px; color:#d6e1eb; white-space:nowrap; }
+
+.game-shell { background:#172638; border:1px solid #ffffff20; border-radius:20px; overflow:hidden; box-shadow:0 18px 45px #0005; }
+
+.hud { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#ffffff16; }
+
+.metric { background:#1b2d40; padding:12px 14px; min-width:0; }
+
+.metric span { display:block; color:#91a5b9; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+
+.metric strong { display:block; font-size:20px; margin-top:3px; font-variant-numeric:tabular-nums; }
+
+.metric em { font-style:normal; font-size:11px; color:#a9bac9; }
+
+.canvas-wrap { position:relative; background:#9ac9dc; }
+
+canvas { display:block; width:100%; height:auto; aspect-ratio: 16 / 7; touch-action:none; }
+
+.overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:#0c1726a8; padding:16px; }
+
+.overlay[hidden] { display:none !important; }
+
+.panel { max-width:360px; width:100%; text-align:center; background:#182a3c; border:1px solid #ffffff2b; border-radius:18px; padding:22px; box-shadow:0 16px 40px #0007; }
+
+.panel h2 { margin:0 0 8px; font-size:23px; }
+
+.panel p { margin:0 0 17px; color:#b6c5d3; font-size:13px; line-height:1.5; }
+
+button { font:inherit; border:0; cursor:pointer; touch-action: manipulation; }
+
+.primary { background:var(--site-primary); color:var(--site-on-primary); border-radius:12px; padding:12px 20px; font-weight:900; min-height:46px; }
+
+.primary:active,.control:active { transform:translateY(1px); filter:brightness(.94); }
+
+.game-bottom { display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:12px; padding:14px; align-items:center; background:#142336; }
+
+.control { min-height:58px; border-radius:14px; background:#29465e; color:white; font-weight:900; font-size:14px; border:1px solid #ffffff20; }
+
+.control small { display:block; opacity:.65; font-size:10px; font-weight:700; margin-top:2px; }
+
+.control.gas { background:var(--site-primary); color:var(--site-on-primary); }
+
+.control.lights { background:#35536a; }
+
+.control.lights.on { background:#e6c35b; color:#17202c; }
+
+.gear { text-align:center; color:#9fb1c2; font-size:11px; }
+
+.gear b { display:block; color:#fff; font-size:19px; }
+
+.info-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:14px; margin-top:14px; }
+
+.card { background:#172638; border:1px solid #ffffff1b; border-radius:16px; padding:16px; }
+
+.card h3 { margin:0 0 12px; font-size:15px; }
+
+.loadrow { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:#c4d0db; }
+
+.progress { height:9px; border-radius:99px; background:#304457; overflow:hidden; margin:9px 0 6px; }
+
+.progress div { height:100%; width:10%; background:var(--site-primary); border-radius:99px; transition:width .2s; }
+
+.muted { color:#8fa3b7; font-size:11px; line-height:1.5; }
+
+select { background:#263d52; color:white; border:1px solid #ffffff25; border-radius:10px; padding:10px; width:100%; margin-top:9px; font:inherit; }
+
+.actions { display:flex; gap:8px; margin-top:10px; }
+
+.actions button { flex:1; background:#29465e; color:#fff; border:1px solid #ffffff20; border-radius:10px; padding:10px; font-size:12px; font-weight:800; }
+
+.notice { color:#e9b967; min-height:16px; font-size:11px; margin-top:8px; }
+
+.route-card { background:#20364a; border:1px solid #ffffff20; border-radius:16px; padding:16px; margin:0 0 14px; }
+
+.route-card h3 { margin:0 0 10px; font-size:15px; }
+
+.route-fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+.route-fields label { color:#aebdca; font-size:11px; font-weight:800; }
+
+.route-fields select { margin-top:5px; }
+
+.route-summary { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; align-items:center; margin-top:10px; color:#dce6ee; font-size:13px; }
+
+.route-summary strong { color:#f2bd62; font-size:18px; }
+
+.route-extra { color:#8fa3b7; font-size:11px; line-height:1.5; margin-top:7px; }
+
+.garage-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+
+.upgrade { background:#20364a; border:1px solid #ffffff20; border-radius:12px; padding:12px; }
+
+.upgrade b { display:block; margin-bottom:5px; }
+
+.upgrade p { color:#9fb1c2; font-size:11px; min-height:32px; margin:0 0 9px; }
+
+.upgrade button,.settings-row button { width:100%; background:#29465e; color:#fff; border:1px solid #ffffff20; border-radius:9px; padding:9px; font-size:11px; font-weight:800; }
+
+.settings-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:9px 0; color:#c4d0db; font-size:13px; }
+
+.settings-row select { width:auto; min-width:120px; margin:0; }
+
+.convoy-status { color:#b9e7c5; font-size:12px; margin-top:8px; }
+
+.map-launch { display:flex; gap:10px; align-items:center; justify-content:space-between; margin:0 0 14px; padding:13px 15px; background:#20364a; border:1px solid #ffffff20; border-radius:14px; }
+
+.map-launch span { color:#aebdca; font-size:12px; }
+
+.map-launch button { background:var(--site-primary); color:#17202c; border-radius:10px; padding:11px 15px; font-weight:900; }
+
+.map-modal { position:fixed; z-index:20; inset:0; display:flex; align-items:center; justify-content:center; padding:16px; background:#07111dcc; }
+
+.map-modal[hidden] { display:none !important; }
+
+.map-panel { width:min(560px,100%); max-height:90vh; overflow:auto; background:#172638; border:1px solid #ffffff30; border-radius:18px; padding:18px; box-shadow:0 18px 55px #0009; }
+
+.map-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
+
+.map-head h2 { margin:0; font-size:20px; }
+
+.map-close { background:#29465e; color:white; border-radius:9px; padding:8px 12px; font-weight:800; }
+
+.world-map { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; padding:12px; background:#102033; border-radius:13px; }
+
+.map-region { min-height:54px; display:grid; place-items:center; text-align:center; padding:7px; border:1px solid #ffffff25; border-radius:9px; background:#29465e; color:#dce8f2; font-size:11px; font-weight:800; }
+
+.map-region.active { background:#e6a23c; color:#17202c; border-color:#ffd18a; }
+
+.timezone-info { margin-top:12px; padding:14px; border-radius:12px; background:#20364a; line-height:1.7; }
+
+.timezone-info strong { color:#f2bd62; }
+
+.about { margin-top:14px; }
+
+.about h2 { margin:0 0 10px; font-size:17px; }
+
+.about p { margin:0 0 10px; color:#aebdca; font-size:13px; line-height:1.6; }
+
+footer { text-align:center; color:#71869b; font-size:10px; padding:18px; }
+
+@media (max-width:650px) {
+
+ main { padding:13px; }
+
+ .intro { align-items:start; }
+
+ h1 { font-size:calc(23px * var(--site-heading-scale)); }
+
+ .badge { font-size:10px; }
+
+ .hud { grid-template-columns:repeat(2,1fr); }
+
+ .metric { padding:9px 12px; }
+
+ .metric strong { font-size:18px; }
+
+ canvas { aspect-ratio: 4 / 3; }
+
+ .info-grid { grid-template-columns:1fr; }
+
+ .garage-grid { grid-template-columns:1fr; }
+
+ .route-fields { grid-template-columns:1fr; }
+
+ .game-bottom { grid-template-columns:1fr 1fr 1fr; gap:7px; padding:10px; }
+
+ .control { min-height:55px; font-size:12px; }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="app">
+
+  <header class="topbar">
+
+    <div class="brand"><div class="brand-mark">🚛</div><div>ДАЛЬНОБОЙЩИК<small>ДОРОГА ЖДЁТ</small></div></div>
+
+    <div class="status" id="status">● ГОТОВ К РЕЙСУ</div>
+
+  </header>
+
+  <main>
+
+    <div class="intro"><div><h1>Дальнобойщик — твой первый рейс</h1><div class="sub">Вези груз, следи за топливом и доберись до города.</div></div><div class="badge">СЕЗОН 01 · ШОССЕ</div></div>
+
+    <noscript><p style="color:#e9b967">Для игры нужен включённый JavaScript.</p></noscript>
+
+    <section class="route-card">
+
+      <h3>🌍 Выбор маршрута по миру</h3>
+
+      <div class="route-fields">
+
+        <label>Откуда<select id="originCity"></select></label>
+
+        <label>Куда<select id="destinationCity"></select></label>
+
+        <label>Погода в рейсе<select id="weatherSelect"><option value="auto">🔄 Автоматически</option><option value="sun">☀️ Ясно</option><option value="rain">🌧️ Дождь</option><option value="snow">❄️ Снег</option></select></label>
+
+      </div>
+
+      <div class="route-summary"><span id="routeNames">Киев → Львов</span><strong id="routeDistance">≈ 470 км</strong></div>
+
+      <div class="route-extra" id="routeMessage">Маршруты от 100 до 4000 км. Города России исключены. Расстояние приблизительное, по условной дороге.</div>
+
+    </section>
+
+    <div class="map-launch"><div><b>🗺️ Карта мира и часовые пояса</b><br><span id="regionSummary">Регион и местное время выбранного города</span></div><button id="openMap">ОТКРЫТЬ КАРТУ</button></div>
+
+    <section class="game-shell">
+
+      <div class="hud">
+
+        <div class="metric"><span>Скорость</span><strong><b id="speed">0</b> <em>км/ч</em></strong></div>
+
+        <div class="metric"><span>Пройдено</span><strong><b id="distance">0.0</b> <em>км</em></strong></div>
+
+        <div class="metric"><span>Осталось</span><strong><b id="hudRemaining">470</b> <em>км</em></strong></div>
+
+        <div class="metric"><span>Топливо</span><strong><b id="fuel">100</b><em>%</em></strong></div>
+
+        <div class="metric"><span>Заработано</span><strong><b id="money">0</b> <em>₴</em></strong></div>
+
+        <div class="metric"><span>Время</span><strong><b id="gameClock">17:00</b></strong></div>
+
+      </div>
+
+      <div class="canvas-wrap">
+
+        <canvas id="game" width="960" height="420" aria-label="Игра: грузовик едет по дороге"></canvas>
+
+        <div class="overlay" id="startOverlay"><div class="panel"><h2>Рейс начинается!</h2><p>Твой грузовик готов. Начальная грузоподъёмность — <b>300 кг</b>. Выбери груз и нажми «В путь».</p><button class="primary" id="startBtn">В ПУТЬ →</button></div></div>
+
+        <div class="overlay" id="endOverlay" hidden><div class="panel"><h2 id="endTitle">Рейс завершён</h2><p id="endText">Ты добрался до пункта назначения.</p><button class="primary" id="againBtn">НОВЫЙ РЕЙС</button></div></div>
+
+      </div>
+
+      <div class="game-bottom">
+
+        <button class="control" id="brake">ТОРМОЗ<small>удерживай</small></button>
+
+        <div class="gear">ПЕРЕДАЧА<b id="gear">N</b><span id="engineText">Двигатель выключен</span></div>
+
+        <button class="control gas" id="gas">ГАЗ<small>удерживай</small></button>
+
+        <button class="control lights" id="lightsToggle">💡 ФАРЫ: ВЫКЛ</button>
+
+      </div>
+
+    </section>
+
+    <div class="info-grid">
+
+      <section class="card">
+
+        <h3>📦 Груз в прицепе</h3>
+
+        <div class="loadrow"><span id="cargoName">Коробки с товарами</span><b><span id="cargoWeight">250</span> / <span id="capacity">300</span> кг</b></div>
+
+        <div class="progress"><div id="loadBar"></div></div>
+
+        <div class="muted">Тяжёлый груз замедляет разгон. Не превышай грузоподъёмность!</div>
+
+        <select id="cargoSelect" aria-label="Выбрать груз">
+
+          <option value="250">Коробки с товарами — 250 кг</option>
+
+          <option value="300">Мебель — 300 кг</option>
+
+          <option value="180">Посылки — 180 кг</option>
+
+          <option value="200">Продукты — 200 кг</option>
+
+          <option value="220">Электроника — 220 кг</option>
+
+          <option value="280">Автозапчасти — 280 кг</option>
+
+          <option value="150">Медицинские товары — 150 кг</option>
+
+        </select>
+
+        <div class="notice" id="notice">Груз закреплён. Можно отправляться.</div>
+
+      </section>
+
+      <section class="card">
+
+        <h3>🧭 Задание</h3>
+
+        <div class="loadrow"><span>До города</span><b><span id="remaining">5.0</span> км</b></div>
+
+        <div class="progress"><div id="tripBar"></div></div>
+
+        <div class="muted">Оплата зависит от длины рейса и веса груза. По пути следи за топливом и не превышай скорость.</div>
+
+        <div class="actions"><button id="refuel">⛽ Заправить · 100 ₴</button><button id="repair">🔧 Сбросить</button></div>
+
+      </section>
+
+    </div>
+
+    <div class="info-grid">
+
+      <section class="card">
+
+        <h3>🛠️ Гараж и апгрейды</h3>
+
+        <div class="garage-grid">
+
+          <div class="upgrade"><b>⚙️ Двигатель</b><p>Быстрее разгон и выше максимальная скорость.</p><button id="engineUpgrade">Купить · 800 ₴</button></div>
+
+          <div class="upgrade"><b>⛽ Бак</b><p>Увеличивает запас топлива на 25%.</p><button id="tankUpgrade">Купить · 600 ₴</button></div>
+
+          <div class="upgrade"><b>📦 Прицеп</b><p>Поднимает грузоподъёмность на 100 кг.</p><button id="cargoUpgrade">Купить · 1 000 ₴</button></div>
+
+        </div>
+
+        <div class="notice" id="garageNotice">Зарабатывай за доставку и улучшай грузовик.</div>
+
+      </section>
+
+      <section class="card">
+
+        <h3>⚙️ Настройки</h3>
+
+        <div class="settings-row"><label for="difficulty">Сложность</label><select id="difficulty"><option value="easy">Лёгкая</option><option value="normal" selected>Обычная</option><option value="hard">Сложная</option></select></div>
+
+        <div class="settings-row"><label for="soundToggle">Звуковые сигналы</label><button id="soundToggle" style="width:auto">ВЫКЛ</button></div>
+
+        <div class="settings-row"><label for="trafficToggle">Колонна с напарником</label><button id="trafficToggle" style="width:auto">ВЫКЛ</button></div>
+
+        <div class="convoy-status" id="convoyStatus">Одиночный рейс. Онлайн-мультиплеер пока не подключён.</div>
+
+      </section>
+
+    </div>
+
+    <section class="card about">
+
+      <h2>Об игре «Дальнобойщик»</h2>
+
+      <p>«Дальнобойщик» — бесплатный симулятор грузовика, в который можно играть прямо в браузере на телефоне или компьютере, без скачивания и регистрации.</p>
+
+      <p>Выбери город отправления и назначения среди 70+ городов мира, загрузи прицеп, включи фары и отправляйся в рейс. В пути меняется погода (ясно, дождь, снег), расходуется топливо, а время суток влияет на видимость.</p>
+
+      <p>За каждую доставку ты получаешь деньги. Трать их на заправку и улучшения: мощный двигатель, увеличенный бак и более грузоподъёмный прицеп. Управление: кнопки «Газ» и «Тормоз» на экране или стрелки ← → на клавиатуре.</p>
+
+    </section>
+
+  </main>
+
+  <div class="map-modal" id="mapModal" hidden><div class="map-panel"><div class="map-head"><h2>🗺️ Карта регионов</h2><button class="map-close" id="closeMap">ЗАКРЫТЬ ✕</button></div><div class="world-map" id="worldMap"><div class="map-region" data-region="Северная Америка">Северная<br>Америка</div><div class="map-region" data-region="Европа">Европа</div><div class="map-region" data-region="Азия">Азия</div><div class="map-region" data-region="Восточная Азия">Восточная<br>Азия</div><div class="map-region" data-region="Южная Америка">Южная<br>Америка</div><div class="map-region" data-region="Африка">Африка</div><div class="map-region" data-region="Ближний Восток">Ближний<br>Восток</div><div class="map-region" data-region="Океания">Океания</div></div><div class="timezone-info" id="timezoneInfo">Выбери город отправления, чтобы увидеть его регион и часовой пояс.</div><p class="muted">Карта показывает регион выбранного города отправления. Время обновляется автоматически.</p></div></div>
+
+  <footer>ИГРА-ПРОТОТИП · Управление: кнопки на экране или ← → на клавиатуре</footer>
+
+</div>
+
+<script>
+
+(() => {
+
+  const canvas = document.getElementById('game');
+
+  const ctx = canvas.getContext('2d');
+
+  const $ = id => document.getElementById(id);
+
+  const state = { running:false, speed:0, distance:0, fuel:100, money:0, capacity:300, cargo:250, road:0, gas:false, brake:false, finished:false, time:17*60, weather:'sun', weatherMode:'auto', weatherTimer:0, headlights:false };
+
+  let tripLength = 470;
+
+  const cities = [
+
+    ['Киев, Украина',50.45,30.52],['Львов, Украина',49.84,24.03],['Одесса, Украина',46.48,30.72],['Варшава, Польша',52.23,21.01],['Краков, Польша',50.06,19.94],['Берлин, Германия',52.52,13.40],['Мюнхен, Германия',48.14,11.58],['Прага, Чехия',50.08,14.44],['Вена, Австрия',48.21,16.37],['Будапешт, Венгрия',47.50,19.04],['Бухарест, Румыния',44.43,26.10],['София, Болгария',42.70,23.32],['Афины, Греция',37.98,23.73],['Стамбул, Турция',41.01,28.97],['Анкара, Турция',39.93,32.86],['Тбилиси, Грузия',41.72,44.78],['Ереван, Армения',40.18,44.51],['Баку, Азербайджан',40.41,49.87],['Вильнюс, Литва',54.69,25.28],['Рига, Латвия',56.95,24.11],['Таллин, Эстония',59.44,24.75],['Хельсинки, Финляндия',60.17,24.94],['Стокгольм, Швеция',59.33,18.07],['Осло, Норвегия',59.91,10.75],['Копенгаген, Дания',55.68,12.57],['Амстердам, Нидерланды',52.37,4.90],['Брюссель, Бельгия',50.85,4.35],['Париж, Франция',48.86,2.35],['Лион, Франция',45.76,4.84],['Лондон, Великобритания',51.51,-0.13],['Мадрид, Испания',40.42,-3.70],['Барселона, Испания',41.39,2.17],['Лиссабон, Португалия',38.72,-9.14],['Рим, Италия',41.90,12.50],['Милан, Италия',45.46,9.19],['Цюрих, Швейцария',47.38,8.54],['Белград, Сербия',44.79,20.45],['Загреб, Хорватия',45.82,15.98],['Сараево, Босния и Герцеговина',43.86,18.41],['Скопье, Северная Македония',41.998,21.43],['Алматы, Казахстан',43.24,76.95],['Астана, Казахстан',51.17,71.43],['Ташкент, Узбекистан',41.31,69.28],['Бишкек, Кыргызстан',42.87,74.59],['Душанбе, Таджикистан',38.56,68.78],['Пекин, Китай',39.90,116.40],['Сеул, Южная Корея',37.57,126.98],['Токио, Япония',35.68,139.69],['Бангкок, Таиланд',13.76,100.50],['Ханой, Вьетнам',21.03,105.85],['Сингапур',1.35,103.82],['Куала-Лумпур, Малайзия',3.14,101.69],['Джакарта, Индонезия',-6.21,106.85],['Дели, Индия',28.61,77.21],['Мумбаи, Индия',19.08,72.88],['Дубай, ОАЭ',25.20,55.27],['Эр-Рияд, Саудовская Аравия',24.71,46.67],['Каир, Египет',30.04,31.24],['Найроби, Кения',-1.29,36.82],['Лагос, Нигерия',6.52,3.38],['Кейптаун, ЮАР',-33.92,18.42],['Нью-Йорк, США',40.71,-74.01],['Вашингтон, США',38.91,-77.04],['Майами, США',25.76,-80.19],['Чикаго, США',41.88,-87.63],['Лос-Анджелес, США',34.05,-118.24],['Сан-Франциско, США',37.77,-122.42],['Торонто, Канада',43.65,-79.38],['Ванкувер, Канада',49.28,-123.12],['Мехико, Мексика',19.43,-99.13],['Сан-Паулу, Бразилия',-23.55,-46.63],['Буэнос-Айрес, Аргентина',-34.60,-58.38],['Сантьяго, Чили',-33.45,-70.67],['Сидней, Австралия',-33.87,151.21],['Мельбурн, Австралия',-37.81,144.96],['Окленд, Новая Зеландия',-36.85,174.76]
+
+  ];
+
+  function roadDistance(a,b){const rad=n=>n*Math.PI/180;const dLat=rad(b[1]-a[1]),dLon=rad(b[2]-a[2]);const h=Math.sin(dLat/2)**2+Math.cos(rad(a[1]))*Math.cos(rad(b[1]))*Math.sin(dLon/2)**2;return Math.round(6371*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h))*1.25);}
+
+  function updateRoute(){const a=cities[Number($('originCity').value)],b=cities[Number($('destinationCity').value)];const km=roadDistance(a,b);$('routeNames').textContent=a[0]+' → '+b[0];$('routeDistance').textContent='≈ '+km.toLocaleString('ru-RU')+' км';const valid=a!==b&&km>=100&&km<=4000;$('routeMessage').textContent=valid?'Маршрут подходит! Приблизительное расстояние по условной дороге.':'Выбери другой город: расстояние должно быть от 100 до 4000 км.';$('startBtn').disabled=!valid;$('startBtn').style.opacity=valid?'1':'.45';if(valid)tripLength=km;}
+
+  function setupCities(){cities.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=c[0];$('originCity').appendChild(o);const d=o.cloneNode(true);$('destinationCity').appendChild(d);});$('originCity').value='0';$('destinationCity').value='1';$('originCity').addEventListener('change',updateRoute);$('destinationCity').addEventListener('change',updateRoute);updateRoute();}
+
+  const zoneByCountry={'Украина':'Europe/Kyiv','Польша':'Europe/Warsaw','Германия':'Europe/Berlin','Чехия':'Europe/Prague','Австрия':'Europe/Vienna','Венгрия':'Europe/Budapest','Румыния':'Europe/Bucharest','Болгария':'Europe/Sofia','Греция':'Europe/Athens','Турция':'Europe/Istanbul','Грузия':'Asia/Tbilisi','Армения':'Asia/Yerevan','Азербайджан':'Asia/Baku','Литва':'Europe/Vilnius','Латвия':'Europe/Riga','Эстония':'Europe/Tallinn','Финляндия':'Europe/Helsinki','Швеция':'Europe/Stockholm','Норвегия':'Europe/Oslo','Дания':'Europe/Copenhagen','Нидерланды':'Europe/Amsterdam','Бельгия':'Europe/Brussels','Франция':'Europe/Paris','Великобритания':'Europe/London','Испания':'Europe/Madrid','Португалия':'Europe/Lisbon','Италия':'Europe/Rome','Швейцария':'Europe/Zurich','Сербия':'Europe/Belgrade','Хорватия':'Europe/Zagreb','Босния и Герцеговина':'Europe/Sarajevo','Северная Македония':'Europe/Skopje','Казахстан':'Asia/Almaty','Узбекистан':'Asia/Tashkent','Кыргызстан':'Asia/Bishkek','Таджикистан':'Asia/Dushanbe','Китай':'Asia/Shanghai','Южная Корея':'Asia/Seoul','Япония':'Asia/Tokyo','Таиланд':'Asia/Bangkok','Вьетнам':'Asia/Ho_Chi_Minh','Малайзия':'Asia/Kuala_Lumpur','Индонезия':'Asia/Jakarta','Индия':'Asia/Kolkata','ОАЭ':'Asia/Dubai','Саудовская Аравия':'Asia/Riyadh','Египет':'Africa/Cairo','Кения':'Africa/Nairobi','Нигерия':'Africa/Lagos','ЮАР':'Africa/Johannesburg','США':'America/New_York','Канада':'America/Toronto','Мексика':'America/Mexico_City','Бразилия':'America/Sao_Paulo','Аргентина':'America/Argentina/Buenos_Aires','Чили':'America/Santiago','Австралия':'Australia/Sydney','Новая Зеландия':'Pacific/Auckland','Сингапур':'Asia/Singapore'};
+
+  function cityRegion(name){const country=name.includes(', ')?name.split(', ').pop():name;if(['Украина','Польша','Германия','Чехия','Австрия','Венгрия','Румыния','Болгария','Греция','Литва','Латвия','Эстония','Финляндия','Швеция','Норвегия','Дания','Нидерланды','Бельгия','Франция','Великобритания','Испания','Португалия','Италия','Швейцария','Сербия','Хорватия','Босния и Герцеговина','Северная Македония'].includes(country))return 'Европа';if(['США','Канада','Мексика'].includes(country))return 'Северная Америка';if(['Бразилия','Аргентина','Чили'].includes(country))return 'Южная Америка';if(['Египет','Кения','Нигерия','ЮАР'].includes(country))return 'Африка';if(['ОАЭ','Саудовская Аравия','Турция','Грузия','Армения','Азербайджан'].includes(country))return 'Ближний Восток';if(['Австралия','Новая Зеландия'].includes(country))return 'Океания';if(['Китай','Южная Корея','Япония'].includes(country))return 'Восточная Азия';return 'Азия';}
+
+  function selectedZone(){const city=cities[Number($('originCity').value)];const country=city[0].includes(', ')?city[0].split(', ').pop():city[0];let zone=zoneByCountry[country]||'UTC';if(city[0].includes('Нью-Йорк')||city[0].includes('Вашингтон')||city[0].includes('Майами'))zone='America/New_York';if(city[0].includes('Чикаго'))zone='America/Chicago';if(city[0].includes('Лос-Анджелес')||city[0].includes('Сан-Франциско'))zone='America/Los_Angeles';if(city[0].includes('Ванкувер'))zone='America/Vancouver';return zone;}
+
+  function syncCityTime(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:selectedZone(),hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const hour=Number(parts.find(p=>p.type==='hour').value),minute=Number(parts.find(p=>p.type==='minute').value);state.time=hour*60+minute;updateHud();}
+
+  function updateMapInfo(){const city=cities[Number($('originCity').value)];const zone=selectedZone();const region=cityRegion(city[0]);const hh=String(Math.floor(state.time/60)%24).padStart(2,'0'),mm=String(Math.floor(state.time)%60).padStart(2,'0');const time=hh+':'+mm;$('regionSummary').textContent=region+' · '+zone.replaceAll('_',' ');$('timezoneInfo').innerHTML='Город: <strong>'+city[0]+'</strong><br>Регион: <strong>'+region+'</strong><br>Часовой пояс: <strong>'+zone+'</strong><br>Местное время: <strong id="localClock">'+time+'</strong>';document.querySelectorAll('.map-region').forEach(el=>el.classList.toggle('active',el.dataset.region===region));}
+
+  const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+
+  function rounded(x,y,w,h,r,color) { ctx.fillStyle=color; ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fill(); }
+
+  function draw() {
+
+    const w=canvas.width, h=canvas.height;
+
+    const sky=ctx.createLinearGradient(0,0,0,h); sky.addColorStop(0,'#78b7d1'); sky.addColorStop(1,'#d5e7d9'); ctx.fillStyle=sky; ctx.fillRect(0,0,w,h);
+
+    // distant clouds
+
+    ctx.globalAlpha=.65; for(let i=0;i<5;i++){ let x=((i*235-state.road*.12)%(w+180)+w+180)%(w+180)-80; let y=48+(i%3)*29; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,19,0,7);ctx.arc(x+22,y-8,24,0,7);ctx.arc(x+47,y,18,0,7);ctx.fill(); } ctx.globalAlpha=1;
+
+    // rolling hills and mountains
+
+    ctx.fillStyle='#789d82'; ctx.beginPath(); ctx.moveTo(0,248);
+
+    for(let x=0;x<=w+20;x+=20){ const y=220+Math.sin((x+state.road*.18)/95)*19+Math.sin((x+state.road*.09)/43)*8; ctx.lineTo(x,y); } ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill();
+
+    ctx.fillStyle='#587d70'; ctx.beginPath();ctx.moveTo(0,270);
+
+    for(let x=0;x<=w+20;x+=20){const y=246+Math.sin((x+state.road*.3)/120)*24+Math.sin((x+state.road*.13)/55)*10;ctx.lineTo(x,y);}ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill();
+
+    // road
+
+    ctx.fillStyle='#505c66';ctx.fillRect(0,286,w,134);
+
+    ctx.fillStyle='#d5d0b7';ctx.fillRect(0,286,w,5);ctx.fillRect(0,414,w,6);
+
+    ctx.fillStyle='#f5e6a5'; for(let x=-100-(state.road%180);x<w;x+=180)ctx.fillRect(x,347,92,7);
+
+    // roadside grass and posts
+
+    ctx.fillStyle='#5e865c';ctx.fillRect(0,272,w,14);
+
+    for(let x=-40-(state.road%150);x<w;x+=150){ctx.fillStyle='#e8e5d5';ctx.fillRect(x,260,7,27);ctx.fillStyle='#d15d4b';ctx.fillRect(x,260,7,7);}
+
+    // truck body (shadow removed)
+
+    ctx.save();ctx.translate(0,22);
+
+    // trailer body
+
+    rounded(255,220,365,105,8,'#dce3e5'); ctx.fillStyle='#aab9c0';ctx.fillRect(264,229,347,7);
+
+    ctx.fillStyle='#8ca0aa'; for(let x=285;x<600;x+=48)ctx.fillRect(x,246,3,65);
+
+    ctx.fillStyle='#f1b24c';ctx.fillRect(270,306,335,7);
+
+    // cab
+
+    rounded(620,242,132,83,10,'#e6a23c');
+
+    ctx.fillStyle='#f5bb61';ctx.beginPath();ctx.moveTo(685,242);ctx.lineTo(728,242);ctx.lineTo(748,271);ctx.lineTo(748,282);ctx.lineTo(685,282);ctx.closePath();ctx.fill();
+
+    rounded(695,248,37,28,5,'#5c91a8');ctx.fillStyle='#c5e7ef';ctx.fillRect(700,251,26,3);
+
+    ctx.fillStyle='#273746';ctx.fillRect(626,296,120,9);
+
+    ctx.fillStyle='#f8e9b8';ctx.fillRect(742,282,9,12);
+
+    ctx.fillStyle='#b64f3e';ctx.fillRect(620,286,8,10);
+
+    // wheels (three visible on truck + trailer)
+
+    const wheels=[290,370,560,652,714];
+
+    wheels.forEach((x,i)=>{ctx.fillStyle='#17212a';ctx.beginPath();ctx.arc(x,328,23,0,7);ctx.fill();ctx.fillStyle='#8d9aa2';ctx.beginPath();ctx.arc(x,328,11,0,7);ctx.fill();ctx.fillStyle='#d5dde0';ctx.beginPath();ctx.arc(x,328,4,0,7);ctx.fill();ctx.strokeStyle='#d5dde0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,318);ctx.lineTo(x,338);ctx.moveTo(x-10,328);ctx.lineTo(x+10,328);ctx.stroke();});
+
+    // door detail and mirror
+
+    ctx.strokeStyle='#a96e27';ctx.lineWidth=3;ctx.strokeRect(633,253,43,63);ctx.fillStyle='#243746';ctx.fillRect(748,256,15,5);
+
+    // realistic truck details: grille, bumper, lights and trailer reflectors
+
+    ctx.fillStyle='#344653';ctx.fillRect(735,292,18,5);for(let y=294;y<306;y+=4){ctx.fillStyle='#9eabb2';ctx.fillRect(737,y,13,1);}
+
+    ctx.fillStyle='#f6e6b0';ctx.fillRect(748,282,6,8);ctx.fillStyle='#bd493c';ctx.fillRect(620,296,7,7);
+
+    ctx.fillStyle='#d5a24f';for(let x=278;x<610;x+=55)ctx.fillRect(x,314,13,4);
+
+    ctx.strokeStyle='#647985';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(270,238);ctx.lineTo(608,238);ctx.stroke();
+
+    ctx.restore();
+
+    if(state.convoy){ctx.save();ctx.globalAlpha=.92;ctx.translate(-205,18);ctx.scale(.62,.62);rounded(255,220,365,105,8,'#c3d2d9');rounded(620,242,132,83,10,'#4b9b83');ctx.fillStyle='#263746';[290,370,560,652,714].forEach(x=>{ctx.beginPath();ctx.arc(x,328,23,0,7);ctx.fill();ctx.fillStyle='#9aa8ae';ctx.beginPath();ctx.arc(x,328,10,0,7);ctx.fill();ctx.fillStyle='#263746';});ctx.restore();}
+
+    // speed streaks when moving
+
+    if(state.speed>25){ctx.globalAlpha=.22;ctx.strokeStyle='#fff';ctx.lineWidth=2;for(let i=0;i<7;i++){let x=(i*151-state.road*2)%(w+100);ctx.beginPath();ctx.moveTo(x,300+i*9);ctx.lineTo(x+35,300+i*9);ctx.stroke();}ctx.globalAlpha=1;}
+
+    if(state.weather==='rain'||state.weather==='snow'){ctx.globalAlpha=.48;ctx.strokeStyle=state.weather==='rain'?'#d8f0ff':'#ffffff';ctx.fillStyle='#ffffff';ctx.lineWidth=2;for(let i=0;i<90;i++){const x=(i*83+state.road*1.7)%(w+20),y=(i*47+state.road*2.3)%(h-100);if(state.weather==='rain'){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-7,y+17);ctx.stroke();}else{ctx.beginPath();ctx.arc(x,y,2.2,0,Math.PI*2);ctx.fill();}}ctx.globalAlpha=1;}
+
+    const hour=Math.floor(state.time/60)%24;
+
+    const night=hour>=20||hour<6;
+
+    if(night){ctx.fillStyle='rgba(5,13,35,.68)';ctx.fillRect(0,0,w,h);if(state.headlights){const beam=ctx.createLinearGradient(750,300,960,340);beam.addColorStop(0,'rgba(255,239,170,.5)');beam.addColorStop(1,'rgba(255,239,170,0)');ctx.fillStyle=beam;ctx.beginPath();ctx.moveTo(750,286);ctx.lineTo(960,248);ctx.lineTo(960,420);ctx.lineTo(750,322);ctx.closePath();ctx.fill();ctx.fillStyle='#fff4bd';ctx.fillRect(748,285,8,8);}}
+
+    if(state.headlights){ctx.save();ctx.globalAlpha=night?.95:.7;ctx.fillStyle='#fff2b0';ctx.beginPath();ctx.arc(751,289,5,0,Math.PI*2);ctx.fill();ctx.restore();}
+
+  }
+
+  function updateHud(){
+
+    $('speed').textContent=Math.round(state.speed);$('distance').textContent=state.distance.toFixed(1);$('hudRemaining').textContent=Math.ceil(Math.max(0,tripLength-state.distance)).toLocaleString('ru-RU');$('fuel').textContent=Math.round(state.fuel/state.fuelMax*100);$('money').textContent=state.money;
+
+    $('remaining').textContent=Math.max(0,tripLength-state.distance).toFixed(1);$('tripBar').style.width=(state.distance/tripLength*100)+'%';
+
+    $('gear').textContent=state.speed<1?'N':state.speed<35?'1':state.speed<70?'2':'3';
+
+    $('engineText').textContent=state.running?'Двигатель работает':'Двигатель выключен';
+
+    $('loadBar').style.width=(state.cargo/state.capacity*100)+'%';$('cargoWeight').textContent=state.cargo;$('capacity').textContent=state.capacity;
+
+    [...$('cargoSelect').options].forEach(o=>{o.disabled=Number(o.value)>state.capacity;});
+
+    $('status').textContent=state.running?'● В РЕЙСЕ':'● ГОТОВ К РЕЙСУ';
+
+    const hh=String(Math.floor(state.time/60)%24).padStart(2,'0'),mm=String(Math.floor(state.time)%60).padStart(2,'0');$('gameClock').textContent=hh+':'+mm;
+
+  }
+
+  function finish(success){state.running=false;state.finished=true;state.speed=0;if(success){const reward=Math.round(250+tripLength*2+state.cargo*.8);state.money+=reward;$('endTitle').textContent='Доставка выполнена!';$('endText').textContent='Ты прошёл '+tripLength.toLocaleString('ru-RU')+' км и заработал '+reward.toLocaleString('ru-RU')+' ₴. Отличная работа, водитель!';}else{$('endTitle').textContent='Топливо закончилось';$('endText').textContent='Грузовик остановился. Заправься и попробуй ещё раз.';} $('endOverlay').hidden=false;updateHud();}
+
+  let lastFrame=0;
+
+  function tick(now){
+
+    const dt=lastFrame?Math.min((now-lastFrame)/1000,.05):0;lastFrame=now;
+
+    if(state.running){
+
+      state.time=(state.time+dt*3)%1440;
+
+      if(state.weatherMode==='auto'){state.weatherTimer+=dt;if(state.weatherTimer>=35){state.weatherTimer=0;const choices=['sun','rain','snow'];let next=choices[Math.floor(Math.random()*choices.length)];if(next===state.weather)next=choices[(choices.indexOf(next)+1)%choices.length];state.weather=next;$('weatherSelect').value='auto';$('routeMessage').textContent='Погода изменилась автоматически: '+(next==='sun'?'ясно ☀️':next==='rain'?'дождь 🌧️':'снег ❄️');}}
+
+      const loadFactor=1-(state.cargo/state.capacity)*.28;
+
+      const difficulty=$('difficulty').value;
+
+      const power=state.engineLevel*4;
+
+      if(state.gas && state.fuel>0) state.speed+=(22+power)*(difficulty==='easy'?1.15:difficulty==='hard'?.82:1)*loadFactor*dt;
+
+      else state.speed-=2.5*dt;
+
+      if(state.brake)state.speed-=45*dt;
+
+      const speedLimit=(state.weather==='snow'?75:state.weather==='rain'?95:120)+state.engineLevel*5;
+
+      state.speed=clamp(state.speed,0,speedLimit);
+
+      if(state.speed>0){const km=state.speed*dt*60/3600;state.distance+=km;state.road+=state.speed*dt*2.2;state.fuel-=km*.12*(difficulty==='hard'?1.35:difficulty==='easy'?.8:1);}
+
+      state.fuel=clamp(state.fuel,0,state.fuelMax);
+
+      if(state.distance>=tripLength) {state.distance=tripLength;finish(true);}
+
+      else if(state.fuel<=0 && state.speed<1)finish(false);
+
+      updateHud();
+
+    }
+
+    draw(); requestAnimationFrame(tick);
+
+  }
+
+  function start(){if($('startBtn').disabled)return;state.running=true;state.finished=false;state.gas=false;state.brake=false;state.speed=0;state.distance=0;state.fuel=state.fuelMax;state.road=0;$('startOverlay').hidden=true;$('endOverlay').hidden=true;$('notice').textContent='Удачного пути!';updateHud();}
+
+  function reset(){state.running=false;state.gas=false;state.brake=false;state.speed=0;state.distance=0;state.fuel=state.fuelMax;state.road=0;state.finished=false;$('endOverlay').hidden=true;$('startOverlay').hidden=false;updateHud();}
+
+  function hold(button,field){const down=e=>{e.preventDefault();state[field]=true;};const up=e=>{e.preventDefault();state[field]=false;};button.addEventListener('pointerdown',down);['pointerup','pointerleave','pointercancel'].forEach(ev=>button.addEventListener(ev,up));}
+
+  hold($('gas'),'gas');hold($('brake'),'brake');
+
+  window.addEventListener('pointerup',()=>{state.gas=false;state.brake=false;});window.addEventListener('pointercancel',()=>{state.gas=false;state.brake=false;});
+
+  $('startBtn').addEventListener('click',start);$('againBtn').addEventListener('click',reset);$('repair').addEventListener('click',reset);
+
+  $('cargoSelect').addEventListener('change',e=>{state.cargo=Number(e.target.value);$('cargoName').textContent=e.target.options[e.target.selectedIndex].text.split(' — ')[0];$('notice').textContent=state.cargo>state.capacity?'Слишком тяжёлый груз!':'Груз закреплён. Можно отправляться.';updateHud();});
+
+  $('weatherSelect').addEventListener('change',e=>{state.weatherMode=e.target.value;state.weatherTimer=0;if(state.weatherMode==='auto'){$('routeMessage').textContent='Погода будет меняться сама каждые 35 секунд.';return;}state.weather=state.weatherMode;$('routeMessage').textContent=state.weather==='snow'?'Снег: грузовик ограничен до 75 км/ч. Будь осторожен!':state.weather==='rain'?'Дождь: максимальная скорость 95 км/ч. Дорога скользкая.':'Ясная погода: можно ехать до 120 км/ч.';});
+
+  $('lightsToggle').addEventListener('click',()=>{state.headlights=!state.headlights;$('lightsToggle').textContent=state.headlights?'💡 ФАРЫ: ВКЛ':'💡 ФАРЫ: ВЫКЛ';$('lightsToggle').classList.toggle('on',state.headlights);});
+
+  $('refuel').addEventListener('click',()=>{if(state.money>=100){state.money-=100;state.fuel=state.fuelMax;$('notice').textContent='Бак заправлен!';}else{$('notice').textContent='Пока не хватает денег на заправку.';}updateHud();});
+
+  state.engineLevel=0;state.fuelMax=100;state.convoy=false;
+
+  function buyUpgrade(cost,apply,message){if(state.money<cost){$('garageNotice').textContent='Не хватает денег. Выполни ещё один рейс!';return;}state.money-=cost;apply();$('garageNotice').textContent=message;updateHud();}
+
+  $('engineUpgrade').addEventListener('click',()=>buyUpgrade(800,()=>{state.engineLevel++;$('engineUpgrade').textContent='Уровень '+state.engineLevel+' · улучшено';},'Двигатель улучшен!'));
+
+  $('tankUpgrade').addEventListener('click',()=>buyUpgrade(600,()=>{state.fuelMax+=25;state.fuel=state.fuelMax;$('tankUpgrade').textContent='Бак '+state.fuelMax+'% · улучшено';},'Установлен увеличенный бак!'));
+
+  $('cargoUpgrade').addEventListener('click',()=>buyUpgrade(1000,()=>{state.capacity+=100;$('cargoUpgrade').textContent='Груз '+state.capacity+' кг · улучшено';updateHud();},'Прицеп усилен: +100 кг!'));
+
+  $('soundToggle').addEventListener('click',()=>{$('soundToggle').textContent=$('soundToggle').textContent==='ВЫКЛ'?'ВКЛ':'ВЫКЛ';$('garageNotice').textContent='Настройка звука сохранена для этой сессии.';});
+
+  $('trafficToggle').addEventListener('click',()=>{state.convoy=!state.convoy;$('trafficToggle').textContent=state.convoy?'ВКЛ':'ВЫКЛ';$('convoyStatus').textContent=state.convoy?'Рядом едет грузовик-напарник (тренировочный режим).':'Одиночный рейс. Онлайн-мультиплеер пока не подключён.';});
+
+  $('openMap').addEventListener('click',()=>{$('mapModal').hidden=false;updateMapInfo();});$('closeMap').addEventListener('click',()=>$('mapModal').hidden=true);$('mapModal').addEventListener('click',e=>{if(e.target===$('mapModal'))$('mapModal').hidden=true;});$('originCity').addEventListener('change',()=>{syncCityTime();updateMapInfo();});setInterval(()=>{if(!$('mapModal').hidden)updateMapInfo();},1000);
+
+  window.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='d')state.gas=true;if(e.key==='ArrowLeft'||e.key==='a')state.brake=true;});
+
+  window.addEventListener('keyup',e=>{if(e.key==='ArrowRight'||e.key==='d')state.gas=false;if(e.key==='ArrowLeft'||e.key==='a')state.brake=false;});
+
+  setupCities();syncCityTime();updateMapInfo();updateHud();draw();requestAnimationFrame(tick);
+
+})();
+
+</script>
+
+</body>
+
+</html>
