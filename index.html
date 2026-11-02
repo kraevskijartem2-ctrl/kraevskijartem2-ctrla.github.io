@@ -1,716 +1,707 @@
 <!doctype html>
-
-<html lang="ru">
-
+<html lang="uk">
 <head>
-
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
 <meta name="theme-color" content="#101b2b">
-
-<title>Дальнобойщик — играть онлайн бесплатно | Симулятор грузовика</title>
-
-<meta name="description" content="Дальнобойщик — бесплатная браузерная игра. Вези грузы по городам мира, следи за топливом и погодой, улучшай грузовик. Играй онлайн на телефоне и компьютере без установки.">
-<meta name="keywords" content="дальнобойщик, игра про грузовик, симулятор дальнобойщика, играть онлайн, браузерная игра, грузовик, рейс">
+<title>Дальнобійник Онлайн — гра про вантажівки, доставка по світу | Trucker Online</title>
+<meta name="description" content="Дальнобійник Онлайн — безкоштовна браузерна гра: розвози вантажі між містами світу, покращуй вантажівку, змагайся з друзями в кімнаті. Українською та іншими мовами. Без встановлення.">
+<meta name="keywords" content="дальнобійник, гра про вантажівки, симулятор дальнобійника, trucker game, truck simulator online, мультиплеєр, браузерна гра">
 <meta name="robots" content="index, follow">
-<meta name="author" content="Дальнобойщик">
-
 <meta property="og:type" content="website">
-<meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="Дальнобойщик — играть онлайн бесплатно">
-<meta property="og:description" content="Вези грузы по городам мира, следи за топливом и погодой, улучшай грузовик. Бесплатно, прямо в браузере.">
-
+<meta property="og:title" content="Дальнобійник Онлайн — Trucker Online">
+<meta property="og:description" content="Доставка вантажів по всьому світу, апгрейди вантажівки, гонки з друзями онлайн. Безкоштовно у браузері.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Дальнобойщик — играть онлайн бесплатно">
-<meta name="twitter:description" content="Браузерный симулятор грузовика: рейсы по миру, погода, апгрейды.">
-
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚛%3C/text%3E%3C/svg%3E">
-
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoGame",
-  "name": "Дальнобойщик",
-  "description": "Бесплатная браузерная игра-симулятор грузовика: рейсы по городам мира, погода, топливо и апгрейды.",
-  "inLanguage": "ru",
-  "genre": "Симулятор",
-  "applicationCategory": "Game",
-  "operatingSystem": "Any (web browser)",
-  "playMode": "SinglePlayer",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-}
+{"@context":"https://schema.org","@type":"VideoGame","name":"Дальнобійник Онлайн","alternateName":"Trucker Online","description":"Безкоштовна браузерна гра: доставка вантажів між містами світу, апгрейди вантажівки, гонки з друзями.","inLanguage":["uk","en","ru","pl","de","fr","es","it","pt","tr"],"genre":"Симулятор","applicationCategory":"Game","operatingSystem":"Any (web browser)","playMode":["SinglePlayer","MultiPlayer"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 </script>
-
 <style>
-
-:root {
-
-  --site-primary: #e6a23c;
-
-  --site-on-primary: #17202c;
-
-  --site-secondary: #234a61;
-
-  --site-on-secondary: #ffffff;
-
-  --site-background: #101b2b;
-
-  --site-on-background: #f3f5f7;
-
-  --site-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  --site-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  --site-heading-scale: 1;
-
-  --site-spacing-scale: 1;
-
-  --site-radius-scale: 1;
-
-  --site-decoration-opacity: 1;
-
-}
-
-* { box-sizing: border-box; }
-
-body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
-
-#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; overflow: hidden; }
-
-.topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: calc(14px * var(--site-spacing-scale)) calc(18px * var(--site-spacing-scale)); background:var(--site-secondary); color:var(--site-on-secondary); border-bottom:1px solid #ffffff24; }
-
-.brand { display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.04em; }
-
-.brand-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:12px; background:var(--site-primary); color:var(--site-on-primary); font-size:21px; }
-
-.brand small { display:block; opacity:.7; font-size:10px; letter-spacing:.16em; font-weight:700; }
-
-.status { font-size:12px; font-weight:800; color:#b9e7c5; }
-
-main { max-width:1050px; margin:0 auto; padding:18px; }
-
-.intro { display:flex; justify-content:space-between; align-items:end; gap:14px; margin:4px 0 14px; }
-
-h1 { margin:0; font-size:calc(27px * var(--site-heading-scale)); line-height:1.05; letter-spacing:-.04em; }
-
-.sub { color:#aab8c8; font-size:13px; margin-top:6px; }
-
-.badge { border:1px solid #ffffff26; border-radius:999px; padding:7px 11px; font-size:11px; color:#d6e1eb; white-space:nowrap; }
-
-.game-shell { background:#172638; border:1px solid #ffffff20; border-radius:20px; overflow:hidden; box-shadow:0 18px 45px #0005; }
-
-.hud { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#ffffff16; }
-
-.metric { background:#1b2d40; padding:12px 14px; min-width:0; }
-
-.metric span { display:block; color:#91a5b9; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
-
-.metric strong { display:block; font-size:20px; margin-top:3px; font-variant-numeric:tabular-nums; }
-
-.metric em { font-style:normal; font-size:11px; color:#a9bac9; }
-
-.canvas-wrap { position:relative; background:#9ac9dc; }
-
-canvas { display:block; width:100%; height:auto; aspect-ratio: 16 / 7; touch-action:none; }
-
-.overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:#0c1726a8; padding:16px; }
-
-.overlay[hidden] { display:none !important; }
-
-.panel { max-width:360px; width:100%; text-align:center; background:#182a3c; border:1px solid #ffffff2b; border-radius:18px; padding:22px; box-shadow:0 16px 40px #0007; }
-
-.panel h2 { margin:0 0 8px; font-size:23px; }
-
-.panel p { margin:0 0 17px; color:#b6c5d3; font-size:13px; line-height:1.5; }
-
-button { font:inherit; border:0; cursor:pointer; touch-action: manipulation; }
-
-.primary { background:var(--site-primary); color:var(--site-on-primary); border-radius:12px; padding:12px 20px; font-weight:900; min-height:46px; }
-
-.primary:active,.control:active { transform:translateY(1px); filter:brightness(.94); }
-
-.game-bottom { display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:12px; padding:14px; align-items:center; background:#142336; }
-
-.control { min-height:58px; border-radius:14px; background:#29465e; color:white; font-weight:900; font-size:14px; border:1px solid #ffffff20; }
-
-.control small { display:block; opacity:.65; font-size:10px; font-weight:700; margin-top:2px; }
-
-.control.gas { background:var(--site-primary); color:var(--site-on-primary); }
-
-.control.lights { background:#35536a; }
-
-.control.lights.on { background:#e6c35b; color:#17202c; }
-
-.gear { text-align:center; color:#9fb1c2; font-size:11px; }
-
-.gear b { display:block; color:#fff; font-size:19px; }
-
-.info-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:14px; margin-top:14px; }
-
-.card { background:#172638; border:1px solid #ffffff1b; border-radius:16px; padding:16px; }
-
-.card h3 { margin:0 0 12px; font-size:15px; }
-
-.loadrow { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:#c4d0db; }
-
-.progress { height:9px; border-radius:99px; background:#304457; overflow:hidden; margin:9px 0 6px; }
-
-.progress div { height:100%; width:10%; background:var(--site-primary); border-radius:99px; transition:width .2s; }
-
-.muted { color:#8fa3b7; font-size:11px; line-height:1.5; }
-
-select { background:#263d52; color:white; border:1px solid #ffffff25; border-radius:10px; padding:10px; width:100%; margin-top:9px; font:inherit; }
-
-.actions { display:flex; gap:8px; margin-top:10px; }
-
-.actions button { flex:1; background:#29465e; color:#fff; border:1px solid #ffffff20; border-radius:10px; padding:10px; font-size:12px; font-weight:800; }
-
-.notice { color:#e9b967; min-height:16px; font-size:11px; margin-top:8px; }
-
-.route-card { background:#20364a; border:1px solid #ffffff20; border-radius:16px; padding:16px; margin:0 0 14px; }
-
-.route-card h3 { margin:0 0 10px; font-size:15px; }
-
-.route-fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-
-.route-fields label { color:#aebdca; font-size:11px; font-weight:800; }
-
-.route-fields select { margin-top:5px; }
-
-.route-summary { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; align-items:center; margin-top:10px; color:#dce6ee; font-size:13px; }
-
-.route-summary strong { color:#f2bd62; font-size:18px; }
-
-.route-extra { color:#8fa3b7; font-size:11px; line-height:1.5; margin-top:7px; }
-
-.garage-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-
-.upgrade { background:#20364a; border:1px solid #ffffff20; border-radius:12px; padding:12px; }
-
-.upgrade b { display:block; margin-bottom:5px; }
-
-.upgrade p { color:#9fb1c2; font-size:11px; min-height:32px; margin:0 0 9px; }
-
-.upgrade button,.settings-row button { width:100%; background:#29465e; color:#fff; border:1px solid #ffffff20; border-radius:9px; padding:9px; font-size:11px; font-weight:800; }
-
-.settings-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:9px 0; color:#c4d0db; font-size:13px; }
-
-.settings-row select { width:auto; min-width:120px; margin:0; }
-
-.convoy-status { color:#b9e7c5; font-size:12px; margin-top:8px; }
-
-.map-launch { display:flex; gap:10px; align-items:center; justify-content:space-between; margin:0 0 14px; padding:13px 15px; background:#20364a; border:1px solid #ffffff20; border-radius:14px; }
-
-.map-launch span { color:#aebdca; font-size:12px; }
-
-.map-launch button { background:var(--site-primary); color:#17202c; border-radius:10px; padding:11px 15px; font-weight:900; }
-
-.map-modal { position:fixed; z-index:20; inset:0; display:flex; align-items:center; justify-content:center; padding:16px; background:#07111dcc; }
-
-.map-modal[hidden] { display:none !important; }
-
-.map-panel { width:min(560px,100%); max-height:90vh; overflow:auto; background:#172638; border:1px solid #ffffff30; border-radius:18px; padding:18px; box-shadow:0 18px 55px #0009; }
-
-.map-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
-
-.map-head h2 { margin:0; font-size:20px; }
-
-.map-close { background:#29465e; color:white; border-radius:9px; padding:8px 12px; font-weight:800; }
-
-.world-map { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; padding:12px; background:#102033; border-radius:13px; }
-
-.map-region { min-height:54px; display:grid; place-items:center; text-align:center; padding:7px; border:1px solid #ffffff25; border-radius:9px; background:#29465e; color:#dce8f2; font-size:11px; font-weight:800; }
-
-.map-region.active { background:#e6a23c; color:#17202c; border-color:#ffd18a; }
-
-.timezone-info { margin-top:12px; padding:14px; border-radius:12px; background:#20364a; line-height:1.7; }
-
-.timezone-info strong { color:#f2bd62; }
-
-.about { margin-top:14px; }
-
-.about h2 { margin:0 0 10px; font-size:17px; }
-
-.about p { margin:0 0 10px; color:#aebdca; font-size:13px; line-height:1.6; }
-
-footer { text-align:center; color:#71869b; font-size:10px; padding:18px; }
-
-@media (max-width:650px) {
-
- main { padding:13px; }
-
- .intro { align-items:start; }
-
- h1 { font-size:calc(23px * var(--site-heading-scale)); }
-
- .badge { font-size:10px; }
-
- .hud { grid-template-columns:repeat(2,1fr); }
-
- .metric { padding:9px 12px; }
-
- .metric strong { font-size:18px; }
-
- canvas { aspect-ratio: 4 / 3; }
-
- .info-grid { grid-template-columns:1fr; }
-
- .garage-grid { grid-template-columns:1fr; }
-
- .route-fields { grid-template-columns:1fr; }
-
- .game-bottom { grid-template-columns:1fr 1fr 1fr; gap:7px; padding:10px; }
-
- .control { min-height:55px; font-size:12px; }
-
-}
-
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#101b2b;color:#f3f5f7;-webkit-user-select:none;user-select:none}
+.wrap{max-width:520px;margin:0 auto;padding:12px}
+header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.logo{width:40px;height:40px;border-radius:12px;background:#e6a23c;display:grid;place-items:center;font-size:22px;flex:none}
+h1{margin:0;font-size:19px;line-height:1.1}
+.sub{font-size:11px;color:#9fb1c2}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.tab{background:#1b2d40;color:#aebdca;border:1px solid #ffffff1b;border-radius:10px;padding:11px 6px;font-weight:800;font-size:13px}
+.tab.on{background:#e6a23c;color:#17202c;border-color:#e6a23c}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.nav button{background:#29465e;color:#fff;border:1px solid #ffffff20;border-radius:10px;padding:10px 4px;font-weight:800;font-size:12px}
+.card{background:#172638;border:1px solid #ffffff1b;border-radius:14px;padding:12px;margin-bottom:10px}
+.card h2{margin:0 0 8px;font-size:14px}
+.row{display:flex;gap:8px;margin-bottom:8px}
+.row>*{min-width:0}
+label.f{flex:1;font-size:10px;font-weight:800;color:#91a5b9;letter-spacing:.06em;text-transform:uppercase}
+input,select{width:100%;background:#263d52;color:#fff;border:1px solid #ffffff25;border-radius:10px;padding:10px;font:inherit;font-size:14px;margin-top:4px}
+button{font:inherit;border:0;cursor:pointer;touch-action:manipulation}
+.btn{flex:1;background:#29465e;color:#fff;border:1px solid #ffffff20;border-radius:10px;padding:11px;font-weight:800;font-size:13px}
+.btn.main{background:#e6a23c;color:#17202c;border:0}
+.btn.off{background:#6b3b3b}
+.btn:disabled{opacity:.45}
+.status{font-size:12px;color:#e9b967;min-height:16px;line-height:1.4}
+.sum{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:#dce6ee;margin:4px 0 8px}
+.sum strong{color:#f2bd62;font-size:17px;white-space:nowrap}
+.stat{font-size:11px;color:#8fa3b7;margin-top:6px}
+.code{display:flex;align-items:center;gap:8px;font-size:12px;color:#c4d0db;margin-top:6px}
+.code b{font-size:22px;letter-spacing:.18em;color:#f2bd62;font-variant-numeric:tabular-nums}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ffffff16;border-radius:12px 12px 0 0;overflow:hidden}
+.m{background:#1b2d40;padding:7px 8px;min-width:0}
+.m span{display:block;font-size:9px;color:#91a5b9;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m b{font-size:16px;font-variant-numeric:tabular-nums}
+.m small{font-size:10px;color:#a9bac9}
+.bar{height:6px;background:#304457}
+.bar div{height:100%;width:100%;background:#e6a23c;transition:width .15s}
+.cwrap{position:relative;background:#4f7c4f;line-height:0}
+canvas{width:100%;height:auto;display:block;touch-action:none}
+.ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0c1726b0;padding:16px;line-height:1.4}
+.ov[hidden]{display:none}
+.panel{background:#182a3c;border:1px solid #ffffff2b;border-radius:16px;padding:20px;text-align:center;max-width:320px;width:100%}
+.panel h3{margin:0 0 6px;font-size:21px}
+.panel p{margin:0 0 14px;color:#b6c5d3;font-size:13px}
+.ctrl{display:grid;grid-template-columns:1fr 1fr 1.1fr 1.3fr;gap:7px;padding:9px;background:#142336;border-radius:0 0 12px 12px;margin-bottom:10px}
+.cb{min-height:62px;border-radius:12px;background:#29465e;color:#fff;font-weight:900;font-size:13px;border:1px solid #ffffff20}
+.cb.gas{background:#e6a23c;color:#17202c}
+.cb:active,.cb.on{filter:brightness(1.25)}
+.lb{font-size:13px;line-height:1.8}
+.lb div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #ffffff10}
+.lb .me{color:#f2bd62;font-weight:800}
+.about p{margin:0 0 8px;color:#aebdca;font-size:12px;line-height:1.6}
+footer{text-align:center;color:#71869b;font-size:10px;padding:10px}
+.modal{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:14px;background:#07111dcc}
+.modal[hidden]{display:none}
+.mp{width:min(560px,100%);max-height:92vh;overflow:auto;background:#172638;border:1px solid #ffffff30;border-radius:16px;padding:14px}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.mh h2{margin:0;font-size:18px}
+.x{background:#29465e;color:#fff;border-radius:9px;padding:8px 12px;font-weight:800}
+.up{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;background:#20364a;border:1px solid #ffffff20;border-radius:12px;padding:10px;margin-bottom:8px}
+.up b{font-size:14px}
+.up p{grid-column:1;margin:0;color:#9fb1c2;font-size:11px}
+.up .btn{grid-column:2;grid-row:1/3;flex:none;min-width:96px}
+.dots{display:flex;gap:3px;margin-top:3px}
+.dots i{width:14px;height:6px;border-radius:3px;background:#3b556b}
+.dots i.on{background:#e6a23c}
+.wm{width:100%;height:auto;display:block;border-radius:10px;background:#0f2338}
+.tzc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.tzc div{background:#20364a;border-radius:10px;padding:10px;font-size:12px;line-height:1.7;min-width:0}
+.tzc strong{color:#f2bd62}
+.tzc .t{font-size:22px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#e6a23c;color:#17202c;font-weight:800;font-size:13px;padding:10px 16px;border-radius:12px;z-index:30;max-width:90vw;text-align:center}
+.toast[hidden]{display:none}
+@media (max-width:420px){.tzc{grid-template-columns:1fr}}
 </style>
-
 </head>
-
 <body>
-
-<div id="app">
-
-  <header class="topbar">
-
-    <div class="brand"><div class="brand-mark">🚛</div><div>ДАЛЬНОБОЙЩИК<small>ДОРОГА ЖДЁТ</small></div></div>
-
-    <div class="status" id="status">● ГОТОВ К РЕЙСУ</div>
-
-  </header>
-
-  <main>
-
-    <div class="intro"><div><h1>Дальнобойщик — твой первый рейс</h1><div class="sub">Вези груз, следи за топливом и доберись до города.</div></div><div class="badge">СЕЗОН 01 · ШОССЕ</div></div>
-
-    <noscript><p style="color:#e9b967">Для игры нужен включённый JavaScript.</p></noscript>
-
-    <section class="route-card">
-
-      <h3>🌍 Выбор маршрута по миру</h3>
-
-      <div class="route-fields">
-
-        <label>Откуда<select id="originCity"></select></label>
-
-        <label>Куда<select id="destinationCity"></select></label>
-
-        <label>Погода в рейсе<select id="weatherSelect"><option value="auto">🔄 Автоматически</option><option value="sun">☀️ Ясно</option><option value="rain">🌧️ Дождь</option><option value="snow">❄️ Снег</option></select></label>
-
-      </div>
-
-      <div class="route-summary"><span id="routeNames">Киев → Львов</span><strong id="routeDistance">≈ 470 км</strong></div>
-
-      <div class="route-extra" id="routeMessage">Маршруты от 100 до 4000 км. Города России исключены. Расстояние приблизительное, по условной дороге.</div>
-
-    </section>
-
-    <div class="map-launch"><div><b>🗺️ Карта мира и часовые пояса</b><br><span id="regionSummary">Регион и местное время выбранного города</span></div><button id="openMap">ОТКРЫТЬ КАРТУ</button></div>
-
-    <section class="game-shell">
-
-      <div class="hud">
-
-        <div class="metric"><span>Скорость</span><strong><b id="speed">0</b> <em>км/ч</em></strong></div>
-
-        <div class="metric"><span>Пройдено</span><strong><b id="distance">0.0</b> <em>км</em></strong></div>
-
-        <div class="metric"><span>Осталось</span><strong><b id="hudRemaining">470</b> <em>км</em></strong></div>
-
-        <div class="metric"><span>Топливо</span><strong><b id="fuel">100</b><em>%</em></strong></div>
-
-        <div class="metric"><span>Заработано</span><strong><b id="money">0</b> <em>₴</em></strong></div>
-
-        <div class="metric"><span>Время</span><strong><b id="gameClock">17:00</b></strong></div>
-
-      </div>
-
-      <div class="canvas-wrap">
-
-        <canvas id="game" width="960" height="420" aria-label="Игра: грузовик едет по дороге"></canvas>
-
-        <div class="overlay" id="startOverlay"><div class="panel"><h2>Рейс начинается!</h2><p>Твой грузовик готов. Начальная грузоподъёмность — <b>300 кг</b>. Выбери груз и нажми «В путь».</p><button class="primary" id="startBtn">В ПУТЬ →</button></div></div>
-
-        <div class="overlay" id="endOverlay" hidden><div class="panel"><h2 id="endTitle">Рейс завершён</h2><p id="endText">Ты добрался до пункта назначения.</p><button class="primary" id="againBtn">НОВЫЙ РЕЙС</button></div></div>
-
-      </div>
-
-      <div class="game-bottom">
-
-        <button class="control" id="brake">ТОРМОЗ<small>удерживай</small></button>
-
-        <div class="gear">ПЕРЕДАЧА<b id="gear">N</b><span id="engineText">Двигатель выключен</span></div>
-
-        <button class="control gas" id="gas">ГАЗ<small>удерживай</small></button>
-
-        <button class="control lights" id="lightsToggle">💡 ФАРЫ: ВЫКЛ</button>
-
-      </div>
-
-    </section>
-
-    <div class="info-grid">
-
-      <section class="card">
-
-        <h3>📦 Груз в прицепе</h3>
-
-        <div class="loadrow"><span id="cargoName">Коробки с товарами</span><b><span id="cargoWeight">250</span> / <span id="capacity">300</span> кг</b></div>
-
-        <div class="progress"><div id="loadBar"></div></div>
-
-        <div class="muted">Тяжёлый груз замедляет разгон. Не превышай грузоподъёмность!</div>
-
-        <select id="cargoSelect" aria-label="Выбрать груз">
-
-          <option value="250">Коробки с товарами — 250 кг</option>
-
-          <option value="300">Мебель — 300 кг</option>
-
-          <option value="180">Посылки — 180 кг</option>
-
-          <option value="200">Продукты — 200 кг</option>
-
-          <option value="220">Электроника — 220 кг</option>
-
-          <option value="280">Автозапчасти — 280 кг</option>
-
-          <option value="150">Медицинские товары — 150 кг</option>
-
-        </select>
-
-        <div class="notice" id="notice">Груз закреплён. Можно отправляться.</div>
-
-      </section>
-
-      <section class="card">
-
-        <h3>🧭 Задание</h3>
-
-        <div class="loadrow"><span>До города</span><b><span id="remaining">5.0</span> км</b></div>
-
-        <div class="progress"><div id="tripBar"></div></div>
-
-        <div class="muted">Оплата зависит от длины рейса и веса груза. По пути следи за топливом и не превышай скорость.</div>
-
-        <div class="actions"><button id="refuel">⛽ Заправить · 100 ₴</button><button id="repair">🔧 Сбросить</button></div>
-
-      </section>
-
-    </div>
-
-    <div class="info-grid">
-
-      <section class="card">
-
-        <h3>🛠️ Гараж и апгрейды</h3>
-
-        <div class="garage-grid">
-
-          <div class="upgrade"><b>⚙️ Двигатель</b><p>Быстрее разгон и выше максимальная скорость.</p><button id="engineUpgrade">Купить · 800 ₴</button></div>
-
-          <div class="upgrade"><b>⛽ Бак</b><p>Увеличивает запас топлива на 25%.</p><button id="tankUpgrade">Купить · 600 ₴</button></div>
-
-          <div class="upgrade"><b>📦 Прицеп</b><p>Поднимает грузоподъёмность на 100 кг.</p><button id="cargoUpgrade">Купить · 1 000 ₴</button></div>
-
-        </div>
-
-        <div class="notice" id="garageNotice">Зарабатывай за доставку и улучшай грузовик.</div>
-
-      </section>
-
-      <section class="card">
-
-        <h3>⚙️ Настройки</h3>
-
-        <div class="settings-row"><label for="difficulty">Сложность</label><select id="difficulty"><option value="easy">Лёгкая</option><option value="normal" selected>Обычная</option><option value="hard">Сложная</option></select></div>
-
-        <div class="settings-row"><label for="soundToggle">Звуковые сигналы</label><button id="soundToggle" style="width:auto">ВЫКЛ</button></div>
-
-        <div class="settings-row"><label for="trafficToggle">Колонна с напарником</label><button id="trafficToggle" style="width:auto">ВЫКЛ</button></div>
-
-        <div class="convoy-status" id="convoyStatus">Одиночный рейс. Онлайн-мультиплеер пока не подключён.</div>
-
-      </section>
-
-    </div>
-
-    <section class="card about">
-
-      <h2>Об игре «Дальнобойщик»</h2>
-
-      <p>«Дальнобойщик» — бесплатный симулятор грузовика, в который можно играть прямо в браузере на телефоне или компьютере, без скачивания и регистрации.</p>
-
-      <p>Выбери город отправления и назначения среди 70+ городов мира, загрузи прицеп, включи фары и отправляйся в рейс. В пути меняется погода (ясно, дождь, снег), расходуется топливо, а время суток влияет на видимость.</p>
-
-      <p>За каждую доставку ты получаешь деньги. Трать их на заправку и улучшения: мощный двигатель, увеличенный бак и более грузоподъёмный прицеп. Управление: кнопки «Газ» и «Тормоз» на экране или стрелки ← → на клавиатуре.</p>
-
-    </section>
-
-  </main>
-
-  <div class="map-modal" id="mapModal" hidden><div class="map-panel"><div class="map-head"><h2>🗺️ Карта регионов</h2><button class="map-close" id="closeMap">ЗАКРЫТЬ ✕</button></div><div class="world-map" id="worldMap"><div class="map-region" data-region="Северная Америка">Северная<br>Америка</div><div class="map-region" data-region="Европа">Европа</div><div class="map-region" data-region="Азия">Азия</div><div class="map-region" data-region="Восточная Азия">Восточная<br>Азия</div><div class="map-region" data-region="Южная Америка">Южная<br>Америка</div><div class="map-region" data-region="Африка">Африка</div><div class="map-region" data-region="Ближний Восток">Ближний<br>Восток</div><div class="map-region" data-region="Океания">Океания</div></div><div class="timezone-info" id="timezoneInfo">Выбери город отправления, чтобы увидеть его регион и часовой пояс.</div><p class="muted">Карта показывает регион выбранного города отправления. Время обновляется автоматически.</p></div></div>
-
-  <footer>ИГРА-ПРОТОТИП · Управление: кнопки на экране или ← → на клавиатуре</footer>
-
+<div class="wrap">
+<header><div class="logo">🚛</div><div><h1 data-i18n="app"></h1><div class="sub" data-i18n="tag"></div></div></header>
+<div class="tabs"><button class="tab on" id="tDel" data-i18n="mDel"></button><button class="tab" id="tRace" data-i18n="mRace"></button></div>
+<div class="nav"><button id="bGar" data-i18n="bGar"></button><button id="bMap" data-i18n="bMap"></button><button id="bSet" data-i18n="bSet"></button></div>
+
+<section class="card" id="delCard">
+<h2 data-i18n="routeT"></h2>
+<div class="row"><label class="f"><span data-i18n="from"></span><select id="selFrom"></select></label><label class="f"><span data-i18n="to"></span><select id="selTo"></select></label></div>
+<div class="row"><label class="f"><span data-i18n="cargo"></span><select id="selCargo"></select></label></div>
+<div class="sum"><span id="routeNames"></span><strong id="routeKm"></strong></div>
+<div class="status" id="routeMsg"></div>
+<div class="row"><button class="btn" id="refuelBtn" data-i18n="refuel"></button></div>
+<div class="stat" id="statLine"></div>
+</section>
+
+<section class="card" id="raceCard" hidden>
+<h2 data-i18n="roomT"></h2>
+<div class="row"><label class="f"><span data-i18n="rName"></span><input id="name" maxlength="14" autocomplete="off"></label><label class="f"><span data-i18n="rColor"></span><select id="color"><option value="#e6a23c">🟧</option><option value="#c0564b">🟥</option><option value="#4b9b83">🟩</option><option value="#6a7fc4">🟦</option><option value="#b18ad1">🟪</option></select></label></div>
+<div class="row"><button class="btn main" id="createBtn" data-i18n="rCreate"></button></div>
+<div class="row"><label class="f"><span data-i18n="rCode"></span><input id="room" maxlength="6" autocomplete="off" style="text-transform:uppercase"></label><button class="btn" id="joinBtn" style="flex:0 0 110px;align-self:flex-end" data-i18n="rJoin"></button></div>
+<div class="code" id="codeBox" hidden><span data-i18n="rYour"></span><b id="codeTxt"></b><button class="btn" id="copyBtn" style="flex:none;padding:8px 12px" data-i18n="rCopy"></button></div>
+<div class="row" id="leaveRow" hidden><button class="btn off" id="leaveBtn" data-i18n="rLeave"></button></div>
+<div class="status" id="netStatus"></div>
+</section>
+
+<section>
+<div class="hud">
+<div class="m"><span id="l1"></span><b id="v1">0</b> <small id="u1"></small></div>
+<div class="m"><span id="l2"></span><b id="v2">0</b> <small id="u2"></small></div>
+<div class="m"><span id="l3"></span><b id="v3">0</b> <small id="u3"></small></div>
+<div class="m"><span id="l4"></span><b id="v4">0</b> <small id="u4"></small></div>
+</div>
+<div class="bar"><div id="fuelBar"></div></div>
+<div class="cwrap">
+<canvas id="game" width="480" height="720" aria-label="Trucker game"></canvas>
+<div class="ov" id="ov"><div class="panel"><h3 id="ovT"></h3><p id="ovP"></p><button class="btn main" id="startBtn" style="width:100%"></button></div></div>
+</div>
+<div class="ctrl">
+<button class="cb" id="bL">◀</button><button class="cb" id="bR">▶</button><button class="cb" id="bB" data-i18n="brake"></button><button class="cb gas" id="bG" data-i18n="gas"></button>
+</div>
+</section>
+
+<section class="card" id="boardCard"><h2 data-i18n="board"></h2><div class="lb" id="lb"></div></section>
+
+<section class="card about">
+<h2 data-i18n="aboutT"></h2>
+<p data-i18n="about1"></p><p data-i18n="about2"></p><p data-i18n="about3"></p>
+</section>
+<footer>Trucker Online · PeerJS</footer>
 </div>
 
+<div class="modal" id="mGar" hidden><div class="mp"><div class="mh"><h2 data-i18n="bGar"></h2><button class="x" data-close="mGar">✕</button></div><div class="status" id="garMoney"></div><div id="garList"></div></div></div>
+
+<div class="modal" id="mMap" hidden><div class="mp"><div class="mh"><h2 data-i18n="bMap"></h2><button class="x" data-close="mMap">✕</button></div><canvas id="wm" class="wm" width="720" height="360"></canvas><div class="tzc"><div id="tzA"></div><div id="tzB"></div></div></div></div>
+
+<div class="modal" id="mSet" hidden><div class="mp"><div class="mh"><h2 data-i18n="bSet"></h2><button class="x" data-close="mSet">✕</button></div>
+<label class="f"><span data-i18n="lang"></span><select id="selLang"></select></label>
+<div class="stat" data-i18n="langNote"></div>
+<div class="row" style="margin-top:10px"><label class="f"><span data-i18n="diff"></span><select id="selDiff"></select></label><label class="f"><span data-i18n="scale"></span><select id="selScale"><option value="30">x30</option><option value="60">x60</option><option value="120">x120</option><option value="240">x240</option></select></label></div>
+<div class="row"><button class="btn off" id="resetBtn" data-i18n="reset"></button></div>
+</div></div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
-
-(() => {
-
-  const canvas = document.getElementById('game');
-
-  const ctx = canvas.getContext('2d');
-
-  const $ = id => document.getElementById(id);
-
-  const state = { running:false, speed:0, distance:0, fuel:100, money:0, capacity:300, cargo:250, road:0, gas:false, brake:false, finished:false, time:17*60, weather:'sun', weatherMode:'auto', weatherTimer:0, headlights:false };
-
-  let tripLength = 470;
-
-  const cities = [
-
-    ['Киев, Украина',50.45,30.52],['Львов, Украина',49.84,24.03],['Одесса, Украина',46.48,30.72],['Варшава, Польша',52.23,21.01],['Краков, Польша',50.06,19.94],['Берлин, Германия',52.52,13.40],['Мюнхен, Германия',48.14,11.58],['Прага, Чехия',50.08,14.44],['Вена, Австрия',48.21,16.37],['Будапешт, Венгрия',47.50,19.04],['Бухарест, Румыния',44.43,26.10],['София, Болгария',42.70,23.32],['Афины, Греция',37.98,23.73],['Стамбул, Турция',41.01,28.97],['Анкара, Турция',39.93,32.86],['Тбилиси, Грузия',41.72,44.78],['Ереван, Армения',40.18,44.51],['Баку, Азербайджан',40.41,49.87],['Вильнюс, Литва',54.69,25.28],['Рига, Латвия',56.95,24.11],['Таллин, Эстония',59.44,24.75],['Хельсинки, Финляндия',60.17,24.94],['Стокгольм, Швеция',59.33,18.07],['Осло, Норвегия',59.91,10.75],['Копенгаген, Дания',55.68,12.57],['Амстердам, Нидерланды',52.37,4.90],['Брюссель, Бельгия',50.85,4.35],['Париж, Франция',48.86,2.35],['Лион, Франция',45.76,4.84],['Лондон, Великобритания',51.51,-0.13],['Мадрид, Испания',40.42,-3.70],['Барселона, Испания',41.39,2.17],['Лиссабон, Португалия',38.72,-9.14],['Рим, Италия',41.90,12.50],['Милан, Италия',45.46,9.19],['Цюрих, Швейцария',47.38,8.54],['Белград, Сербия',44.79,20.45],['Загреб, Хорватия',45.82,15.98],['Сараево, Босния и Герцеговина',43.86,18.41],['Скопье, Северная Македония',41.998,21.43],['Алматы, Казахстан',43.24,76.95],['Астана, Казахстан',51.17,71.43],['Ташкент, Узбекистан',41.31,69.28],['Бишкек, Кыргызстан',42.87,74.59],['Душанбе, Таджикистан',38.56,68.78],['Пекин, Китай',39.90,116.40],['Сеул, Южная Корея',37.57,126.98],['Токио, Япония',35.68,139.69],['Бангкок, Таиланд',13.76,100.50],['Ханой, Вьетнам',21.03,105.85],['Сингапур',1.35,103.82],['Куала-Лумпур, Малайзия',3.14,101.69],['Джакарта, Индонезия',-6.21,106.85],['Дели, Индия',28.61,77.21],['Мумбаи, Индия',19.08,72.88],['Дубай, ОАЭ',25.20,55.27],['Эр-Рияд, Саудовская Аравия',24.71,46.67],['Каир, Египет',30.04,31.24],['Найроби, Кения',-1.29,36.82],['Лагос, Нигерия',6.52,3.38],['Кейптаун, ЮАР',-33.92,18.42],['Нью-Йорк, США',40.71,-74.01],['Вашингтон, США',38.91,-77.04],['Майами, США',25.76,-80.19],['Чикаго, США',41.88,-87.63],['Лос-Анджелес, США',34.05,-118.24],['Сан-Франциско, США',37.77,-122.42],['Торонто, Канада',43.65,-79.38],['Ванкувер, Канада',49.28,-123.12],['Мехико, Мексика',19.43,-99.13],['Сан-Паулу, Бразилия',-23.55,-46.63],['Буэнос-Айрес, Аргентина',-34.60,-58.38],['Сантьяго, Чили',-33.45,-70.67],['Сидней, Австралия',-33.87,151.21],['Мельбурн, Австралия',-37.81,144.96],['Окленд, Новая Зеландия',-36.85,174.76]
-
-  ];
-
-  function roadDistance(a,b){const rad=n=>n*Math.PI/180;const dLat=rad(b[1]-a[1]),dLon=rad(b[2]-a[2]);const h=Math.sin(dLat/2)**2+Math.cos(rad(a[1]))*Math.cos(rad(b[1]))*Math.sin(dLon/2)**2;return Math.round(6371*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h))*1.25);}
-
-  function updateRoute(){const a=cities[Number($('originCity').value)],b=cities[Number($('destinationCity').value)];const km=roadDistance(a,b);$('routeNames').textContent=a[0]+' → '+b[0];$('routeDistance').textContent='≈ '+km.toLocaleString('ru-RU')+' км';const valid=a!==b&&km>=100&&km<=4000;$('routeMessage').textContent=valid?'Маршрут подходит! Приблизительное расстояние по условной дороге.':'Выбери другой город: расстояние должно быть от 100 до 4000 км.';$('startBtn').disabled=!valid;$('startBtn').style.opacity=valid?'1':'.45';if(valid)tripLength=km;}
-
-  function setupCities(){cities.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=c[0];$('originCity').appendChild(o);const d=o.cloneNode(true);$('destinationCity').appendChild(d);});$('originCity').value='0';$('destinationCity').value='1';$('originCity').addEventListener('change',updateRoute);$('destinationCity').addEventListener('change',updateRoute);updateRoute();}
-
-  const zoneByCountry={'Украина':'Europe/Kyiv','Польша':'Europe/Warsaw','Германия':'Europe/Berlin','Чехия':'Europe/Prague','Австрия':'Europe/Vienna','Венгрия':'Europe/Budapest','Румыния':'Europe/Bucharest','Болгария':'Europe/Sofia','Греция':'Europe/Athens','Турция':'Europe/Istanbul','Грузия':'Asia/Tbilisi','Армения':'Asia/Yerevan','Азербайджан':'Asia/Baku','Литва':'Europe/Vilnius','Латвия':'Europe/Riga','Эстония':'Europe/Tallinn','Финляндия':'Europe/Helsinki','Швеция':'Europe/Stockholm','Норвегия':'Europe/Oslo','Дания':'Europe/Copenhagen','Нидерланды':'Europe/Amsterdam','Бельгия':'Europe/Brussels','Франция':'Europe/Paris','Великобритания':'Europe/London','Испания':'Europe/Madrid','Португалия':'Europe/Lisbon','Италия':'Europe/Rome','Швейцария':'Europe/Zurich','Сербия':'Europe/Belgrade','Хорватия':'Europe/Zagreb','Босния и Герцеговина':'Europe/Sarajevo','Северная Македония':'Europe/Skopje','Казахстан':'Asia/Almaty','Узбекистан':'Asia/Tashkent','Кыргызстан':'Asia/Bishkek','Таджикистан':'Asia/Dushanbe','Китай':'Asia/Shanghai','Южная Корея':'Asia/Seoul','Япония':'Asia/Tokyo','Таиланд':'Asia/Bangkok','Вьетнам':'Asia/Ho_Chi_Minh','Малайзия':'Asia/Kuala_Lumpur','Индонезия':'Asia/Jakarta','Индия':'Asia/Kolkata','ОАЭ':'Asia/Dubai','Саудовская Аравия':'Asia/Riyadh','Египет':'Africa/Cairo','Кения':'Africa/Nairobi','Нигерия':'Africa/Lagos','ЮАР':'Africa/Johannesburg','США':'America/New_York','Канада':'America/Toronto','Мексика':'America/Mexico_City','Бразилия':'America/Sao_Paulo','Аргентина':'America/Argentina/Buenos_Aires','Чили':'America/Santiago','Австралия':'Australia/Sydney','Новая Зеландия':'Pacific/Auckland','Сингапур':'Asia/Singapore'};
-
-  function cityRegion(name){const country=name.includes(', ')?name.split(', ').pop():name;if(['Украина','Польша','Германия','Чехия','Австрия','Венгрия','Румыния','Болгария','Греция','Литва','Латвия','Эстония','Финляндия','Швеция','Норвегия','Дания','Нидерланды','Бельгия','Франция','Великобритания','Испания','Португалия','Италия','Швейцария','Сербия','Хорватия','Босния и Герцеговина','Северная Македония'].includes(country))return 'Европа';if(['США','Канада','Мексика'].includes(country))return 'Северная Америка';if(['Бразилия','Аргентина','Чили'].includes(country))return 'Южная Америка';if(['Египет','Кения','Нигерия','ЮАР'].includes(country))return 'Африка';if(['ОАЭ','Саудовская Аравия','Турция','Грузия','Армения','Азербайджан'].includes(country))return 'Ближний Восток';if(['Австралия','Новая Зеландия'].includes(country))return 'Океания';if(['Китай','Южная Корея','Япония'].includes(country))return 'Восточная Азия';return 'Азия';}
-
-  function selectedZone(){const city=cities[Number($('originCity').value)];const country=city[0].includes(', ')?city[0].split(', ').pop():city[0];let zone=zoneByCountry[country]||'UTC';if(city[0].includes('Нью-Йорк')||city[0].includes('Вашингтон')||city[0].includes('Майами'))zone='America/New_York';if(city[0].includes('Чикаго'))zone='America/Chicago';if(city[0].includes('Лос-Анджелес')||city[0].includes('Сан-Франциско'))zone='America/Los_Angeles';if(city[0].includes('Ванкувер'))zone='America/Vancouver';return zone;}
-
-  function syncCityTime(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:selectedZone(),hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const hour=Number(parts.find(p=>p.type==='hour').value),minute=Number(parts.find(p=>p.type==='minute').value);state.time=hour*60+minute;updateHud();}
-
-  function updateMapInfo(){const city=cities[Number($('originCity').value)];const zone=selectedZone();const region=cityRegion(city[0]);const hh=String(Math.floor(state.time/60)%24).padStart(2,'0'),mm=String(Math.floor(state.time)%60).padStart(2,'0');const time=hh+':'+mm;$('regionSummary').textContent=region+' · '+zone.replaceAll('_',' ');$('timezoneInfo').innerHTML='Город: <strong>'+city[0]+'</strong><br>Регион: <strong>'+region+'</strong><br>Часовой пояс: <strong>'+zone+'</strong><br>Местное время: <strong id="localClock">'+time+'</strong>';document.querySelectorAll('.map-region').forEach(el=>el.classList.toggle('active',el.dataset.region===region));}
-
-  const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
-
-  function rounded(x,y,w,h,r,color) { ctx.fillStyle=color; ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fill(); }
-
-  function draw() {
-
-    const w=canvas.width, h=canvas.height;
-
-    const sky=ctx.createLinearGradient(0,0,0,h); sky.addColorStop(0,'#78b7d1'); sky.addColorStop(1,'#d5e7d9'); ctx.fillStyle=sky; ctx.fillRect(0,0,w,h);
-
-    // distant clouds
-
-    ctx.globalAlpha=.65; for(let i=0;i<5;i++){ let x=((i*235-state.road*.12)%(w+180)+w+180)%(w+180)-80; let y=48+(i%3)*29; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,19,0,7);ctx.arc(x+22,y-8,24,0,7);ctx.arc(x+47,y,18,0,7);ctx.fill(); } ctx.globalAlpha=1;
-
-    // rolling hills and mountains
-
-    ctx.fillStyle='#789d82'; ctx.beginPath(); ctx.moveTo(0,248);
-
-    for(let x=0;x<=w+20;x+=20){ const y=220+Math.sin((x+state.road*.18)/95)*19+Math.sin((x+state.road*.09)/43)*8; ctx.lineTo(x,y); } ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill();
-
-    ctx.fillStyle='#587d70'; ctx.beginPath();ctx.moveTo(0,270);
-
-    for(let x=0;x<=w+20;x+=20){const y=246+Math.sin((x+state.road*.3)/120)*24+Math.sin((x+state.road*.13)/55)*10;ctx.lineTo(x,y);}ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill();
-
-    // road
-
-    ctx.fillStyle='#505c66';ctx.fillRect(0,286,w,134);
-
-    ctx.fillStyle='#d5d0b7';ctx.fillRect(0,286,w,5);ctx.fillRect(0,414,w,6);
-
-    ctx.fillStyle='#f5e6a5'; for(let x=-100-(state.road%180);x<w;x+=180)ctx.fillRect(x,347,92,7);
-
-    // roadside grass and posts
-
-    ctx.fillStyle='#5e865c';ctx.fillRect(0,272,w,14);
-
-    for(let x=-40-(state.road%150);x<w;x+=150){ctx.fillStyle='#e8e5d5';ctx.fillRect(x,260,7,27);ctx.fillStyle='#d15d4b';ctx.fillRect(x,260,7,7);}
-
-    // truck body (shadow removed)
-
-    ctx.save();ctx.translate(0,22);
-
-    // trailer body
-
-    rounded(255,220,365,105,8,'#dce3e5'); ctx.fillStyle='#aab9c0';ctx.fillRect(264,229,347,7);
-
-    ctx.fillStyle='#8ca0aa'; for(let x=285;x<600;x+=48)ctx.fillRect(x,246,3,65);
-
-    ctx.fillStyle='#f1b24c';ctx.fillRect(270,306,335,7);
-
-    // cab
-
-    rounded(620,242,132,83,10,'#e6a23c');
-
-    ctx.fillStyle='#f5bb61';ctx.beginPath();ctx.moveTo(685,242);ctx.lineTo(728,242);ctx.lineTo(748,271);ctx.lineTo(748,282);ctx.lineTo(685,282);ctx.closePath();ctx.fill();
-
-    rounded(695,248,37,28,5,'#5c91a8');ctx.fillStyle='#c5e7ef';ctx.fillRect(700,251,26,3);
-
-    ctx.fillStyle='#273746';ctx.fillRect(626,296,120,9);
-
-    ctx.fillStyle='#f8e9b8';ctx.fillRect(742,282,9,12);
-
-    ctx.fillStyle='#b64f3e';ctx.fillRect(620,286,8,10);
-
-    // wheels (three visible on truck + trailer)
-
-    const wheels=[290,370,560,652,714];
-
-    wheels.forEach((x,i)=>{ctx.fillStyle='#17212a';ctx.beginPath();ctx.arc(x,328,23,0,7);ctx.fill();ctx.fillStyle='#8d9aa2';ctx.beginPath();ctx.arc(x,328,11,0,7);ctx.fill();ctx.fillStyle='#d5dde0';ctx.beginPath();ctx.arc(x,328,4,0,7);ctx.fill();ctx.strokeStyle='#d5dde0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,318);ctx.lineTo(x,338);ctx.moveTo(x-10,328);ctx.lineTo(x+10,328);ctx.stroke();});
-
-    // door detail and mirror
-
-    ctx.strokeStyle='#a96e27';ctx.lineWidth=3;ctx.strokeRect(633,253,43,63);ctx.fillStyle='#243746';ctx.fillRect(748,256,15,5);
-
-    // realistic truck details: grille, bumper, lights and trailer reflectors
-
-    ctx.fillStyle='#344653';ctx.fillRect(735,292,18,5);for(let y=294;y<306;y+=4){ctx.fillStyle='#9eabb2';ctx.fillRect(737,y,13,1);}
-
-    ctx.fillStyle='#f6e6b0';ctx.fillRect(748,282,6,8);ctx.fillStyle='#bd493c';ctx.fillRect(620,296,7,7);
-
-    ctx.fillStyle='#d5a24f';for(let x=278;x<610;x+=55)ctx.fillRect(x,314,13,4);
-
-    ctx.strokeStyle='#647985';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(270,238);ctx.lineTo(608,238);ctx.stroke();
-
-    ctx.restore();
-
-    if(state.convoy){ctx.save();ctx.globalAlpha=.92;ctx.translate(-205,18);ctx.scale(.62,.62);rounded(255,220,365,105,8,'#c3d2d9');rounded(620,242,132,83,10,'#4b9b83');ctx.fillStyle='#263746';[290,370,560,652,714].forEach(x=>{ctx.beginPath();ctx.arc(x,328,23,0,7);ctx.fill();ctx.fillStyle='#9aa8ae';ctx.beginPath();ctx.arc(x,328,10,0,7);ctx.fill();ctx.fillStyle='#263746';});ctx.restore();}
-
-    // speed streaks when moving
-
-    if(state.speed>25){ctx.globalAlpha=.22;ctx.strokeStyle='#fff';ctx.lineWidth=2;for(let i=0;i<7;i++){let x=(i*151-state.road*2)%(w+100);ctx.beginPath();ctx.moveTo(x,300+i*9);ctx.lineTo(x+35,300+i*9);ctx.stroke();}ctx.globalAlpha=1;}
-
-    if(state.weather==='rain'||state.weather==='snow'){ctx.globalAlpha=.48;ctx.strokeStyle=state.weather==='rain'?'#d8f0ff':'#ffffff';ctx.fillStyle='#ffffff';ctx.lineWidth=2;for(let i=0;i<90;i++){const x=(i*83+state.road*1.7)%(w+20),y=(i*47+state.road*2.3)%(h-100);if(state.weather==='rain'){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-7,y+17);ctx.stroke();}else{ctx.beginPath();ctx.arc(x,y,2.2,0,Math.PI*2);ctx.fill();}}ctx.globalAlpha=1;}
-
-    const hour=Math.floor(state.time/60)%24;
-
-    const night=hour>=20||hour<6;
-
-    if(night){ctx.fillStyle='rgba(5,13,35,.68)';ctx.fillRect(0,0,w,h);if(state.headlights){const beam=ctx.createLinearGradient(750,300,960,340);beam.addColorStop(0,'rgba(255,239,170,.5)');beam.addColorStop(1,'rgba(255,239,170,0)');ctx.fillStyle=beam;ctx.beginPath();ctx.moveTo(750,286);ctx.lineTo(960,248);ctx.lineTo(960,420);ctx.lineTo(750,322);ctx.closePath();ctx.fill();ctx.fillStyle='#fff4bd';ctx.fillRect(748,285,8,8);}}
-
-    if(state.headlights){ctx.save();ctx.globalAlpha=night?.95:.7;ctx.fillStyle='#fff2b0';ctx.beginPath();ctx.arc(751,289,5,0,Math.PI*2);ctx.fill();ctx.restore();}
-
+(()=>{
+const I18N={};
+I18N.uk={app:'Дальнобійник Онлайн',tag:'Розвози вантажі світом, прокачуй вантажівку, їдь з друзями',mDel:'📦 Доставка',mRace:'🏁 Гонка онлайн',bGar:'🛠️ Гараж',bMap:'🗺️ Карта',bSet:'⚙️ Налаштування',routeT:'🌍 Маршрут по світу',from:'Звідки',to:'Куди',cargo:'Вантаж',refuel:'⛽ Заправити · 100 ₴',roomT:'🌐 Кімната для гри з друзями',rName:"Ім'я",rColor:'Колір',rCreate:'➕ Створити кімнату',rCode:'Код кімнати',rJoin:'Увійти',rYour:'Код:',rCopy:'Копіювати',rLeave:'Вийти з кімнати',brake:'ГАЛЬМО',gas:'ГАЗ',board:'🏁 Таблиця',aboutT:'Про гру «Дальнобійник Онлайн»',about1:"Безкоштовна гра про вантажівки: працює в браузері на телефоні та комп'ютері, нічого встановлювати не треба.",about2:'Обери місто відправлення та призначення в будь-якій країні світу (крім Росії), вантаж і їдь. Дорогою міняється погода, день змінюється ніччю, а місцевий час залежить від часового поясу міста.',about3:'Заробляй гроші, прокачуй двигун, бак, шини та причіп. Створи кімнату й запроси друзів на гонку: хто перший доїде, той переміг.',langNote:'Усі підписи гри перекладено на ці мови. Назви країн показуються вашою мовою автоматично.',lang:'Мова',diff:'Складність',scale:'Стиснення часу',reset:'Скинути прогрес',dE:'Легка',dN:'Звичайна',dH:'Складна',kmU:'км',mU:'м',kmhU:'км/г',spd:'Швидкість',left:'Залишилось',clock:'Час',money:'Гроші',dist:'Дистанція',place:'Місце',timeL:'Час, с',go:'СТАРТ',again:'ЩЕ РАЗ',rdyT:'Готовий до рейсу?',rdyDel:'Обери маршрут і вантаж. Збирай каністри ⛽ і об\'їжджай авто.',rdyRace:'Проїдь 5000 м першим. Збирай каністри ⛽ і об\'їжджай авто.',okT:'Доставлено! 🏁',okDel:'{km} км позаду. Нагорода: {reward} ₴{bonus}',okRace:'Твій час: {time} с.',noT:'Паливо скінчилось',noP:'Вантажівка зупинилась. Збирай каністри ⛽ дорогою.',noMoney:'Не вистачає грошей',refueled:'Бак повний!',you:'ти',rOff:'Онлайн-режим працює на окремому сайті, не всередині Claude.',rConn:'Підключення...',rIn:'Ви в кімнаті {code}. Натисни СТАРТ, і гонка почнеться в усіх.',rFail:'Не вдалося підключитись. Спробуй ще раз.',rNotFound:'Кімнату не знайдено.',rLost:"Зв'язок втрачено.",rEnter:'Введи код кімнати.',rCopied:'Скопійовано',gMoney:'Гроші: {n} ₴',up_e:'⚙️ Двигун',up_t:'⛽ Бак',up_r:'🛞 Шини',up_c:'📦 Причіп',d_e:'Швидший розгін і вища максимальна швидкість',d_t:'Більше палива на рейс',d_r:'Краще керування, менше проблем у дощ і сніг',d_c:'+10% до оплати за доставку',lvl:'Рівень',buy:'Купити · {n} ₴',max:'МАКС',noCash:'Не вистачає грошей',bought:'Покращено!',tzCity:'Місто',tzReg:'Регіон',tzZone:'Пояс',tzNow:'Місцевий час',rg_eu:'Європа',rg_na:'Північна Америка',rg_sa:'Південна Америка',rg_af:'Африка',rg_me:'Близький Схід',rg_as:'Азія',rg_ea:'Східна Азія',rg_oc:'Океанія',c_box:'Коробки з товарами',c_fur:'Меблі',c_par:'Посилки',c_food:'Продукти (експрес)',c_el:'Електроніка (крихке)',c_part:'Автозапчастини',c_med:'Медикаменти (експрес)',c_glass:'Скло (крихке)',stat:'Усього: {km} км · {trips} рейсів',crashes:'аварій: {n}',express:' · експрес-бонус +25%',same:'Обери різні міста',minU:'хв'};
+I18N.en={app:'Trucker Online',tag:'Deliver cargo worldwide, upgrade your truck, drive with friends',mDel:'📦 Delivery',mRace:'🏁 Online race',bGar:'🛠️ Garage',bMap:'🗺️ Map',bSet:'⚙️ Settings',routeT:'🌍 Route across the world',from:'From',to:'To',cargo:'Cargo',refuel:'⛽ Refuel · 100 ₴',roomT:'🌐 Room to play with friends',rName:'Name',rColor:'Color',rCreate:'➕ Create room',rCode:'Room code',rJoin:'Join',rYour:'Code:',rCopy:'Copy',rLeave:'Leave room',brake:'BRAKE',gas:'GAS',board:'🏁 Standings',aboutT:'About Trucker Online',about1:'A free truck game that runs in your browser on a phone or computer. Nothing to install.',about2:'Pick a departure and destination city in any country of the world (except Russia), choose your cargo and drive. The weather changes on the way, day turns to night, and local time follows the time zone of the city.',about3:'Earn money and upgrade the engine, tank, tires and trailer. Create a room and invite friends to a race: the first to arrive wins.',langNote:'All game text is translated into these languages. Country names are shown in your language automatically.',lang:'Language',diff:'Difficulty',scale:'Time compression',reset:'Reset progress',dE:'Easy',dN:'Normal',dH:'Hard',kmU:'km',mU:'m',kmhU:'km/h',spd:'Speed',left:'Left',clock:'Time',money:'Money',dist:'Distance',place:'Place',timeL:'Time, s',go:'START',again:'AGAIN',rdyT:'Ready to roll?',rdyDel:'Pick a route and cargo. Collect fuel cans ⛽ and avoid cars.',rdyRace:'Be first to drive 5000 m. Collect fuel cans ⛽ and avoid cars.',okT:'Delivered! 🏁',okDel:'{km} km done. Reward: {reward} ₴{bonus}',okRace:'Your time: {time} s.',noT:'Out of fuel',noP:'The truck has stopped. Collect fuel cans ⛽ on the road.',noMoney:'Not enough money',refueled:'Tank is full!',you:'you',rOff:'Online mode works on a standalone website, not inside Claude.',rConn:'Connecting...',rIn:'You are in room {code}. Press START and the race begins for everyone.',rFail:'Could not connect. Try again.',rNotFound:'Room not found.',rLost:'Connection lost.',rEnter:'Enter a room code.',rCopied:'Copied',gMoney:'Money: {n} ₴',up_e:'⚙️ Engine',up_t:'⛽ Tank',up_r:'🛞 Tires',up_c:'📦 Trailer',d_e:'Faster acceleration and higher top speed',d_t:'More fuel per trip',d_r:'Better handling, less trouble in rain and snow',d_c:'+10% pay per delivery',lvl:'Level',buy:'Buy · {n} ₴',max:'MAX',noCash:'Not enough money',bought:'Upgraded!',tzCity:'City',tzReg:'Region',tzZone:'Zone',tzNow:'Local time',rg_eu:'Europe',rg_na:'North America',rg_sa:'South America',rg_af:'Africa',rg_me:'Middle East',rg_as:'Asia',rg_ea:'East Asia',rg_oc:'Oceania',c_box:'Boxes of goods',c_fur:'Furniture',c_par:'Parcels',c_food:'Food (express)',c_el:'Electronics (fragile)',c_part:'Auto parts',c_med:'Medicine (express)',c_glass:'Glass (fragile)',stat:'Total: {km} km · {trips} trips',crashes:'crashes: {n}',express:' · express bonus +25%',same:'Pick different cities',minU:'min'};
+I18N.ru={app:'Дальнобойщик Онлайн',tag:'Развози грузы по миру, прокачивай грузовик, езжай с друзьями',mDel:'📦 Доставка',mRace:'🏁 Гонка онлайн',bGar:'🛠️ Гараж',bMap:'🗺️ Карта',bSet:'⚙️ Настройки',routeT:'🌍 Маршрут по миру',from:'Откуда',to:'Куда',cargo:'Груз',refuel:'⛽ Заправить · 100 ₴',roomT:'🌐 Комната для игры с друзьями',rName:'Имя',rColor:'Цвет',rCreate:'➕ Создать комнату',rCode:'Код комнаты',rJoin:'Войти',rYour:'Код:',rCopy:'Копировать',rLeave:'Выйти из комнаты',brake:'ТОРМОЗ',gas:'ГАЗ',board:'🏁 Таблица',aboutT:'Об игре «Дальнобойщик Онлайн»',about1:'Бесплатная игра про грузовики: работает в браузере на телефоне и компьютере, ничего устанавливать не нужно.',about2:'Выбери город отправления и назначения в любой стране мира (кроме России), груз и поезжай. В пути меняется погода, день сменяется ночью, а местное время зависит от часового пояса города.',about3:'Зарабатывай деньги, прокачивай двигатель, бак, шины и прицеп. Создай комнату и пригласи друзей на гонку: кто первый доедет, тот победил.',langNote:'Все надписи игры переведены на эти языки. Названия стран показываются на вашем языке автоматически.',lang:'Язык',diff:'Сложность',scale:'Сжатие времени',reset:'Сбросить прогресс',dE:'Лёгкая',dN:'Обычная',dH:'Сложная',kmU:'км',mU:'м',kmhU:'км/ч',spd:'Скорость',left:'Осталось',clock:'Время',money:'Деньги',dist:'Дистанция',place:'Место',timeL:'Время, с',go:'СТАРТ',again:'ЕЩЁ РАЗ',rdyT:'Готов к рейсу?',rdyDel:'Выбери маршрут и груз. Собирай канистры ⛽ и объезжай машины.',rdyRace:'Проедь 5000 м первым. Собирай канистры ⛽ и объезжай машины.',okT:'Доставлено! 🏁',okDel:'{km} км позади. Награда: {reward} ₴{bonus}',okRace:'Твоё время: {time} с.',noT:'Топливо кончилось',noP:'Грузовик остановился. Собирай канистры ⛽ по пути.',noMoney:'Не хватает денег',refueled:'Бак полный!',you:'ты',rOff:'Онлайн-режим работает на отдельном сайте, не внутри Claude.',rConn:'Подключение...',rIn:'Вы в комнате {code}. Нажми СТАРТ, и гонка начнётся у всех.',rFail:'Не удалось подключиться. Попробуй ещё раз.',rNotFound:'Комната не найдена.',rLost:'Связь потеряна.',rEnter:'Введи код комнаты.',rCopied:'Скопировано',gMoney:'Деньги: {n} ₴',up_e:'⚙️ Двигатель',up_t:'⛽ Бак',up_r:'🛞 Шины',up_c:'📦 Прицеп',d_e:'Быстрее разгон и выше максимальная скорость',d_t:'Больше топлива на рейс',d_r:'Лучше управление, меньше проблем в дождь и снег',d_c:'+10% к оплате за доставку',lvl:'Уровень',buy:'Купить · {n} ₴',max:'МАКС',noCash:'Не хватает денег',bought:'Улучшено!',tzCity:'Город',tzReg:'Регион',tzZone:'Пояс',tzNow:'Местное время',rg_eu:'Европа',rg_na:'Северная Америка',rg_sa:'Южная Америка',rg_af:'Африка',rg_me:'Ближний Восток',rg_as:'Азия',rg_ea:'Восточная Азия',rg_oc:'Океания',c_box:'Коробки с товарами',c_fur:'Мебель',c_par:'Посылки',c_food:'Продукты (экспресс)',c_el:'Электроника (хрупкое)',c_part:'Автозапчасти',c_med:'Лекарства (экспресс)',c_glass:'Стекло (хрупкое)',stat:'Всего: {km} км · {trips} рейсов',crashes:'аварий: {n}',express:' · экспресс-бонус +25%',same:'Выбери разные города',minU:'мин'};
+I18N.pl={app:'Trucker Online',tag:'Wożenie ładunków po świecie, ulepszanie ciężarówki, jazda z przyjaciółmi',mDel:'📦 Dostawa',mRace:'🏁 Wyścig online',bGar:'🛠️ Garaż',bMap:'🗺️ Mapa',bSet:'⚙️ Ustawienia',routeT:'🌍 Trasa po świecie',from:'Skąd',to:'Dokąd',cargo:'Ładunek',refuel:'⛽ Zatankuj · 100 ₴',roomT:'🌐 Pokój do gry ze znajomymi',rName:'Imię',rColor:'Kolor',rCreate:'➕ Utwórz pokój',rCode:'Kod pokoju',rJoin:'Dołącz',rYour:'Kod:',rCopy:'Kopiuj',rLeave:'Wyjdź z pokoju',brake:'HAMULEC',gas:'GAZ',board:'🏁 Tabela',aboutT:'O grze Trucker Online',about1:'Darmowa gra o ciężarówkach działa w przeglądarce na telefonie i komputerze. Nic nie trzeba instalować.',about2:'Wybierz miasto startu i celu w dowolnym kraju świata (oprócz Rosji), ładunek i jedź. W drodze zmienia się pogoda, dzień zamienia się w noc, a czas lokalny zależy od strefy czasowej miasta.',about3:'Zarabiaj pieniądze i ulepszaj silnik, zbiornik, opony i naczepę. Utwórz pokój i zaproś znajomych na wyścig: wygrywa ten, kto dojedzie pierwszy.',langNote:'Wszystkie teksty gry są przetłumaczone na te języki. Nazwy krajów pokazują się w Twoim języku automatycznie.',lang:'Język',diff:'Trudność',scale:'Kompresja czasu',reset:'Resetuj postęp',dE:'Łatwy',dN:'Normalny',dH:'Trudny',kmU:'km',mU:'m',kmhU:'km/h',spd:'Prędkość',left:'Zostało',clock:'Czas',money:'Pieniądze',dist:'Dystans',place:'Miejsce',timeL:'Czas, s',go:'START',again:'JESZCZE RAZ',rdyT:'Gotowy do drogi?',rdyDel:'Wybierz trasę i ładunek. Zbieraj kanistry ⛽ i omijaj samochody.',rdyRace:'Przejedź 5000 m jako pierwszy. Zbieraj kanistry ⛽ i omijaj samochody.',okT:'Dostarczono! 🏁',okDel:'Przejechano {km} km. Nagroda: {reward} ₴{bonus}',okRace:'Twój czas: {time} s.',noT:'Koniec paliwa',noP:'Ciężarówka stanęła. Zbieraj kanistry ⛽ po drodze.',noMoney:'Za mało pieniędzy',refueled:'Bak pełny!',you:'ty',rOff:'Tryb online działa na osobnej stronie, nie w Claude.',rConn:'Łączenie...',rIn:'Jesteś w pokoju {code}. Naciśnij START, a wyścig ruszy u wszystkich.',rFail:'Nie udało się połączyć. Spróbuj ponownie.',rNotFound:'Nie znaleziono pokoju.',rLost:'Utracono połączenie.',rEnter:'Wpisz kod pokoju.',rCopied:'Skopiowano',gMoney:'Pieniądze: {n} ₴',up_e:'⚙️ Silnik',up_t:'⛽ Zbiornik',up_r:'🛞 Opony',up_c:'📦 Naczepa',d_e:'Szybsze przyspieszenie i wyższa prędkość maksymalna',d_t:'Więcej paliwa na trasę',d_r:'Lepsze prowadzenie, mniej problemów w deszczu i śniegu',d_c:'+10% do zapłaty za dostawę',lvl:'Poziom',buy:'Kup · {n} ₴',max:'MAX',noCash:'Za mało pieniędzy',bought:'Ulepszono!',tzCity:'Miasto',tzReg:'Region',tzZone:'Strefa',tzNow:'Czas lokalny',rg_eu:'Europa',rg_na:'Ameryka Północna',rg_sa:'Ameryka Południowa',rg_af:'Afryka',rg_me:'Bliski Wschód',rg_as:'Azja',rg_ea:'Azja Wschodnia',rg_oc:'Oceania',c_box:'Pudła z towarami',c_fur:'Meble',c_par:'Paczki',c_food:'Żywność (ekspres)',c_el:'Elektronika (delikatne)',c_part:'Części samochodowe',c_med:'Leki (ekspres)',c_glass:'Szkło (delikatne)',stat:'Razem: {km} km · {trips} kursów',crashes:'wypadki: {n}',express:' · bonus ekspresowy +25%',same:'Wybierz różne miasta',minU:'min'};
+I18N.de={app:'Trucker Online',tag:'Fracht weltweit liefern, Lkw aufrüsten, mit Freunden fahren',mDel:'📦 Lieferung',mRace:'🏁 Online-Rennen',bGar:'🛠️ Garage',bMap:'🗺️ Karte',bSet:'⚙️ Einstellungen',routeT:'🌍 Route um die Welt',from:'Von',to:'Nach',cargo:'Fracht',refuel:'⛽ Tanken · 100 ₴',roomT:'🌐 Raum zum Spielen mit Freunden',rName:'Name',rColor:'Farbe',rCreate:'➕ Raum erstellen',rCode:'Raumcode',rJoin:'Beitreten',rYour:'Code:',rCopy:'Kopieren',rLeave:'Raum verlassen',brake:'BREMSE',gas:'GAS',board:'🏁 Rangliste',aboutT:'Über Trucker Online',about1:'Ein kostenloses Lkw-Spiel, das im Browser auf Handy und Computer läuft. Nichts zu installieren.',about2:'Wähle Start- und Zielstadt in einem beliebigen Land der Welt (außer Russland), such dir eine Fracht aus und fahr los. Unterwegs ändert sich das Wetter, der Tag wird zur Nacht, und die Ortszeit folgt der Zeitzone der Stadt.',about3:'Verdiene Geld und rüste Motor, Tank, Reifen und Anhänger auf. Erstelle einen Raum und lade Freunde zum Rennen ein: Wer zuerst ankommt, gewinnt.',langNote:'Alle Spieltexte sind in diese Sprachen übersetzt. Ländernamen erscheinen automatisch in deiner Sprache.',lang:'Sprache',diff:'Schwierigkeit',scale:'Zeitraffer',reset:'Fortschritt zurücksetzen',dE:'Leicht',dN:'Normal',dH:'Schwer',kmU:'km',mU:'m',kmhU:'km/h',spd:'Tempo',left:'Übrig',clock:'Zeit',money:'Geld',dist:'Strecke',place:'Platz',timeL:'Zeit, s',go:'START',again:'NOCH MAL',rdyT:'Bereit für die Fahrt?',rdyDel:'Wähle Route und Fracht. Sammle Kanister ⛽ und weiche Autos aus.',rdyRace:'Fahre als Erster 5000 m. Sammle Kanister ⛽ und weiche Autos aus.',okT:'Geliefert! 🏁',okDel:'{km} km geschafft. Belohnung: {reward} ₴{bonus}',okRace:'Deine Zeit: {time} s.',noT:'Kein Treibstoff mehr',noP:'Der Lkw steht. Sammle unterwegs Kanister ⛽.',noMoney:'Nicht genug Geld',refueled:'Tank voll!',you:'du',rOff:'Der Online-Modus läuft auf einer eigenen Website, nicht in Claude.',rConn:'Verbinde...',rIn:'Du bist in Raum {code}. Drücke START, dann beginnt das Rennen für alle.',rFail:'Verbindung fehlgeschlagen. Versuche es erneut.',rNotFound:'Raum nicht gefunden.',rLost:'Verbindung verloren.',rEnter:'Gib einen Raumcode ein.',rCopied:'Kopiert',gMoney:'Geld: {n} ₴',up_e:'⚙️ Motor',up_t:'⛽ Tank',up_r:'🛞 Reifen',up_c:'📦 Anhänger',d_e:'Schneller beschleunigen und höhere Höchstgeschwindigkeit',d_t:'Mehr Treibstoff pro Fahrt',d_r:'Bessere Lenkung, weniger Probleme bei Regen und Schnee',d_c:'+10 % Bezahlung pro Lieferung',lvl:'Stufe',buy:'Kaufen · {n} ₴',max:'MAX',noCash:'Nicht genug Geld',bought:'Aufgerüstet!',tzCity:'Stadt',tzReg:'Region',tzZone:'Zone',tzNow:'Ortszeit',rg_eu:'Europa',rg_na:'Nordamerika',rg_sa:'Südamerika',rg_af:'Afrika',rg_me:'Naher Osten',rg_as:'Asien',rg_ea:'Ostasien',rg_oc:'Ozeanien',c_box:'Kisten mit Waren',c_fur:'Möbel',c_par:'Pakete',c_food:'Lebensmittel (Express)',c_el:'Elektronik (zerbrechlich)',c_part:'Autoteile',c_med:'Medikamente (Express)',c_glass:'Glas (zerbrechlich)',stat:'Gesamt: {km} km · {trips} Fahrten',crashes:'Unfälle: {n}',express:' · Express-Bonus +25 %',same:'Wähle verschiedene Städte',minU:'Min.'};
+/* Короткі словники: відсутні ключі автоматично беруться з англійської */
+I18N.fr={app:'Trucker Online',tag:'Livre partout dans le monde, améliore ton camion, roule avec tes amis',mDel:'📦 Livraison',mRace:'🏁 Course en ligne',bGar:'🛠️ Garage',bMap:'🗺️ Carte',bSet:'⚙️ Réglages',routeT:'🌍 Itinéraire dans le monde',from:'De',to:'Vers',cargo:'Cargaison',refuel:'⛽ Faire le plein · 100 ₴',roomT:'🌐 Salon pour jouer entre amis',rName:'Nom',rColor:'Couleur',rCreate:'➕ Créer un salon',rCode:'Code du salon',rJoin:'Rejoindre',rCopy:'Copier',rLeave:'Quitter le salon',brake:'FREIN',gas:'GAZ',board:'🏁 Classement',lang:'Langue',diff:'Difficulté',reset:'Réinitialiser',dE:'Facile',dN:'Normal',dH:'Difficile',spd:'Vitesse',left:'Reste',clock:'Heure',money:'Argent',dist:'Distance',place:'Place',go:'DÉPART',again:'ENCORE',rdyT:'Prêt à partir ?',noT:'Panne sèche',okT:'Livré ! 🏁',up_e:'⚙️ Moteur',up_t:'⛽ Réservoir',up_r:'🛞 Pneus',up_c:'📦 Remorque',lvl:'Niveau',buy:'Acheter · {n} ₴',max:'MAX',tzCity:'Ville',tzReg:'Région',tzZone:'Fuseau',tzNow:'Heure locale',rg_eu:'Europe',rg_na:'Amérique du Nord',rg_sa:'Amérique du Sud',rg_af:'Afrique',rg_me:'Moyen-Orient',rg_as:'Asie',rg_ea:'Asie de l’Est',rg_oc:'Océanie'};
+I18N.es={app:'Trucker Online',tag:'Reparte carga por el mundo, mejora tu camión, juega con amigos',mDel:'📦 Entrega',mRace:'🏁 Carrera online',bGar:'🛠️ Garaje',bMap:'🗺️ Mapa',bSet:'⚙️ Ajustes',routeT:'🌍 Ruta por el mundo',from:'Desde',to:'Hasta',cargo:'Carga',refuel:'⛽ Repostar · 100 ₴',roomT:'🌐 Sala para jugar con amigos',rName:'Nombre',rColor:'Color',rCreate:'➕ Crear sala',rCode:'Código de sala',rJoin:'Entrar',rCopy:'Copiar',rLeave:'Salir de la sala',brake:'FRENO',gas:'GAS',board:'🏁 Clasificación',lang:'Idioma',diff:'Dificultad',reset:'Reiniciar progreso',dE:'Fácil',dN:'Normal',dH:'Difícil',spd:'Velocidad',left:'Falta',clock:'Hora',money:'Dinero',dist:'Distancia',place:'Puesto',go:'SALIR',again:'OTRA VEZ',rdyT:'¿Listo para salir?',noT:'Sin combustible',okT:'¡Entregado! 🏁',up_e:'⚙️ Motor',up_t:'⛽ Depósito',up_r:'🛞 Neumáticos',up_c:'📦 Remolque',lvl:'Nivel',buy:'Comprar · {n} ₴',max:'MÁX',tzCity:'Ciudad',tzReg:'Región',tzZone:'Zona',tzNow:'Hora local',rg_eu:'Europa',rg_na:'Norteamérica',rg_sa:'Sudamérica',rg_af:'África',rg_me:'Oriente Medio',rg_as:'Asia',rg_ea:'Asia Oriental',rg_oc:'Oceanía'};
+I18N.it={app:'Trucker Online',tag:'Consegna carichi nel mondo, potenzia il camion, gioca con gli amici',mDel:'📦 Consegna',mRace:'🏁 Gara online',bGar:'🛠️ Garage',bMap:'🗺️ Mappa',bSet:'⚙️ Impostazioni',routeT:'🌍 Percorso nel mondo',from:'Da',to:'A',cargo:'Carico',refuel:'⛽ Rifornisci · 100 ₴',roomT:'🌐 Stanza per giocare con gli amici',rName:'Nome',rColor:'Colore',rCreate:'➕ Crea stanza',rCode:'Codice stanza',rJoin:'Entra',rCopy:'Copia',rLeave:'Esci dalla stanza',brake:'FRENO',gas:'GAS',board:'🏁 Classifica',lang:'Lingua',diff:'Difficoltà',reset:'Azzera progressi',dE:'Facile',dN:'Normale',dH:'Difficile',spd:'Velocità',left:'Restano',clock:'Ora',money:'Soldi',dist:'Distanza',place:'Posto',go:'VIA',again:'ANCORA',rdyT:'Pronto a partire?',noT:'Carburante finito',okT:'Consegnato! 🏁',up_e:'⚙️ Motore',up_t:'⛽ Serbatoio',up_r:'🛞 Gomme',up_c:'📦 Rimorchio',lvl:'Livello',buy:'Compra · {n} ₴',max:'MAX',tzCity:'Città',tzReg:'Regione',tzZone:'Fuso',tzNow:'Ora locale',rg_eu:'Europa',rg_na:'Nord America',rg_sa:'Sud America',rg_af:'Africa',rg_me:'Medio Oriente',rg_as:'Asia',rg_ea:'Asia orientale',rg_oc:'Oceania'};
+I18N.pt={app:'Trucker Online',tag:'Entregue cargas pelo mundo, melhore o caminhão, jogue com amigos',mDel:'📦 Entrega',mRace:'🏁 Corrida online',bGar:'🛠️ Garagem',bMap:'🗺️ Mapa',bSet:'⚙️ Configurações',routeT:'🌍 Rota pelo mundo',from:'De',to:'Para',cargo:'Carga',refuel:'⛽ Abastecer · 100 ₴',roomT:'🌐 Sala para jogar com amigos',rName:'Nome',rColor:'Cor',rCreate:'➕ Criar sala',rCode:'Código da sala',rJoin:'Entrar',rCopy:'Copiar',rLeave:'Sair da sala',brake:'FREIO',gas:'GÁS',board:'🏁 Classificação',lang:'Idioma',diff:'Dificuldade',reset:'Zerar progresso',dE:'Fácil',dN:'Normal',dH:'Difícil',spd:'Velocidade',left:'Falta',clock:'Hora',money:'Dinheiro',dist:'Distância',place:'Lugar',go:'INICIAR',again:'DE NOVO',rdyT:'Pronto para partir?',noT:'Sem combustível',okT:'Entregue! 🏁',up_e:'⚙️ Motor',up_t:'⛽ Tanque',up_r:'🛞 Pneus',up_c:'📦 Reboque',lvl:'Nível',buy:'Comprar · {n} ₴',max:'MÁX',tzCity:'Cidade',tzReg:'Região',tzZone:'Fuso',tzNow:'Hora local',rg_eu:'Europa',rg_na:'América do Norte',rg_sa:'América do Sul',rg_af:'África',rg_me:'Oriente Médio',rg_as:'Ásia',rg_ea:'Leste Asiático',rg_oc:'Oceania'};
+I18N.tr={app:'Trucker Online',tag:'Dünyaya yük taşı, kamyonunu geliştir, arkadaşlarınla sür',mDel:'📦 Teslimat',mRace:'🏁 Online yarış',bGar:'🛠️ Garaj',bMap:'🗺️ Harita',bSet:'⚙️ Ayarlar',routeT:'🌍 Dünya rotası',from:'Nereden',to:'Nereye',cargo:'Yük',refuel:'⛽ Yakıt al · 100 ₴',roomT:'🌐 Arkadaşlarla oynamak için oda',rName:'İsim',rColor:'Renk',rCreate:'➕ Oda oluştur',rCode:'Oda kodu',rJoin:'Katıl',rCopy:'Kopyala',rLeave:'Odadan çık',brake:'FREN',gas:'GAZ',board:'🏁 Sıralama',lang:'Dil',diff:'Zorluk',reset:'İlerlemeyi sıfırla',dE:'Kolay',dN:'Normal',dH:'Zor',spd:'Hız',left:'Kalan',clock:'Saat',money:'Para',dist:'Mesafe',place:'Sıra',go:'BAŞLA',again:'TEKRAR',rdyT:'Yola hazır mısın?',noT:'Yakıt bitti',okT:'Teslim edildi! 🏁',up_e:'⚙️ Motor',up_t:'⛽ Depo',up_r:'🛞 Lastikler',up_c:'📦 Dorse',lvl:'Seviye',buy:'Satın al · {n} ₴',max:'MAKS',tzCity:'Şehir',tzReg:'Bölge',tzZone:'Dilim',tzNow:'Yerel saat',rg_eu:'Avrupa',rg_na:'Kuzey Amerika',rg_sa:'Güney Amerika',rg_af:'Afrika',rg_me:'Orta Doğu',rg_as:'Asya',rg_ea:'Doğu Asya',rg_oc:'Okyanusya'};
+I18N.zh={app:'卡车司机在线',tag:'环游世界送货，升级卡车，与好友同行',mDel:'📦 送货',mRace:'🏁 在线比赛',bGar:'🛠️ 车库',bMap:'🗺️ 地图',bSet:'⚙️ 设置',routeT:'🌍 世界路线',from:'出发地',to:'目的地',cargo:'货物',refuel:'⛽ 加油 · 100 ₴',roomT:'🌐 与好友游戏的房间',rName:'名字',rColor:'颜色',rCreate:'➕ 创建房间',rCode:'房间代码',rJoin:'加入',rCopy:'复制',rLeave:'离开房间',brake:'刹车',gas:'油门',board:'🏁 排名',lang:'语言',diff:'难度',reset:'重置进度',dE:'简单',dN:'普通',dH:'困难',spd:'速度',left:'剩余',clock:'时间',money:'金钱',dist:'距离',place:'名次',go:'开始',again:'再来一次',rdyT:'准备出发？',noT:'燃料耗尽',okT:'已送达！🏁',up_e:'⚙️ 发动机',up_t:'⛽ 油箱',up_r:'🛞 轮胎',up_c:'📦 挂车',lvl:'等级',buy:'购买 · {n} ₴',max:'满级',tzCity:'城市',tzReg:'地区',tzZone:'时区',tzNow:'当地时间',rg_eu:'欧洲',rg_na:'北美洲',rg_sa:'南美洲',rg_af:'非洲',rg_me:'中东',rg_as:'亚洲',rg_ea:'东亚',rg_oc:'大洋洲'};
+I18N.ja={app:'トラッカー・オンライン',tag:'世界中へ荷物を届け、トラックを強化し、友達と走ろう',mDel:'📦 配送',mRace:'🏁 オンラインレース',bGar:'🛠️ ガレージ',bMap:'🗺️ 地図',bSet:'⚙️ 設定',routeT:'🌍 世界ルート',from:'出発地',to:'目的地',cargo:'荷物',refuel:'⛽ 給油 · 100 ₴',roomT:'🌐 友達と遊ぶルーム',rName:'名前',rColor:'色',rCreate:'➕ ルーム作成',rCode:'ルームコード',rJoin:'参加',rCopy:'コピー',rLeave:'退出',brake:'ブレーキ',gas:'アクセル',board:'🏁 順位',lang:'言語',diff:'難易度',reset:'進行状況をリセット',dE:'かんたん',dN:'ふつう',dH:'むずかしい',spd:'速度',left:'残り',clock:'時刻',money:'お金',dist:'距離',place:'順位',go:'スタート',again:'もう一度',rdyT:'出発の準備はいい？',noT:'燃料切れ',okT:'配達完了！🏁',up_e:'⚙️ エンジン',up_t:'⛽ タンク',up_r:'🛞 タイヤ',up_c:'📦 トレーラー',lvl:'レベル',buy:'購入 · {n} ₴',max:'最大',tzCity:'都市',tzReg:'地域',tzZone:'時間帯',tzNow:'現地時間',rg_eu:'ヨーロッパ',rg_na:'北アメリカ',rg_sa:'南アメリカ',rg_af:'アフリカ',rg_me:'中東',rg_as:'アジア',rg_ea:'東アジア',rg_oc:'オセアニア'};
+const LANGS=[['uk','Українська'],['en','English'],['ru','Русский'],['pl','Polski'],['de','Deutsch'],['fr','Français'],['es','Español'],['it','Italiano'],['pt','Português'],['tr','Türkçe'],['zh','中文'],['ja','日本語']];
+/* Столиці та великі міста: Назва|ISO-країна|широта|довгота|часовий пояс. Росії в списку немає. */
+const CITY_RAW=`Kyiv|UA|50.45|30.52|Europe/Kyiv
+Lviv|UA|49.84|24.03|Europe/Kyiv
+Odesa|UA|46.48|30.72|Europe/Kyiv
+Kharkiv|UA|49.99|36.23|Europe/Kyiv
+Dnipro|UA|48.46|35.05|Europe/Kyiv
+Warsaw|PL|52.23|21.01|Europe/Warsaw
+Kraków|PL|50.06|19.94|Europe/Warsaw
+Berlin|DE|52.52|13.40|Europe/Berlin
+Munich|DE|48.14|11.58|Europe/Berlin
+Prague|CZ|50.08|14.44|Europe/Prague
+Bratislava|SK|48.15|17.11|Europe/Bratislava
+Vienna|AT|48.21|16.37|Europe/Vienna
+Budapest|HU|47.50|19.04|Europe/Budapest
+Bucharest|RO|44.43|26.10|Europe/Bucharest
+Chișinău|MD|47.01|28.86|Europe/Chisinau
+Sofia|BG|42.70|23.32|Europe/Sofia
+Athens|GR|37.98|23.73|Europe/Athens
+Istanbul|TR|41.01|28.97|Europe/Istanbul
+Ankara|TR|39.93|32.86|Europe/Istanbul
+Tbilisi|GE|41.72|44.78|Asia/Tbilisi
+Yerevan|AM|40.18|44.51|Asia/Yerevan
+Baku|AZ|40.41|49.87|Asia/Baku
+Minsk|BY|53.90|27.57|Europe/Minsk
+Vilnius|LT|54.69|25.28|Europe/Vilnius
+Riga|LV|56.95|24.11|Europe/Riga
+Tallinn|EE|59.44|24.75|Europe/Tallinn
+Helsinki|FI|60.17|24.94|Europe/Helsinki
+Stockholm|SE|59.33|18.07|Europe/Stockholm
+Oslo|NO|59.91|10.75|Europe/Oslo
+Copenhagen|DK|55.68|12.57|Europe/Copenhagen
+Reykjavík|IS|64.15|-21.94|Atlantic/Reykjavik
+Dublin|IE|53.35|-6.26|Europe/Dublin
+London|GB|51.51|-0.13|Europe/London
+Amsterdam|NL|52.37|4.90|Europe/Amsterdam
+Brussels|BE|50.85|4.35|Europe/Brussels
+Luxembourg|LU|49.61|6.13|Europe/Luxembourg
+Paris|FR|48.86|2.35|Europe/Paris
+Marseille|FR|43.30|5.37|Europe/Paris
+Madrid|ES|40.42|-3.70|Europe/Madrid
+Barcelona|ES|41.39|2.17|Europe/Madrid
+Lisbon|PT|38.72|-9.14|Europe/Lisbon
+Andorra la Vella|AD|42.51|1.52|Europe/Andorra
+Rome|IT|41.90|12.50|Europe/Rome
+Milan|IT|45.46|9.19|Europe/Rome
+Valletta|MT|35.90|14.51|Europe/Malta
+Bern|CH|46.95|7.45|Europe/Zurich
+Vaduz|LI|47.14|9.52|Europe/Vaduz
+Belgrade|RS|44.79|20.45|Europe/Belgrade
+Zagreb|HR|45.82|15.98|Europe/Zagreb
+Ljubljana|SI|46.06|14.51|Europe/Ljubljana
+Sarajevo|BA|43.86|18.41|Europe/Sarajevo
+Podgorica|ME|42.44|19.26|Europe/Podgorica
+Skopje|MK|41.998|21.43|Europe/Skopje
+Tirana|AL|41.33|19.82|Europe/Tirane
+Pristina|XK|42.66|21.17|Europe/Belgrade
+Nicosia|CY|35.17|33.36|Asia/Nicosia
+Monaco|MC|43.74|7.42|Europe/Monaco
+San Marino|SM|43.94|12.45|Europe/San_Marino
+Vatican City|VA|41.90|12.45|Europe/Vatican
+Astana|KZ|51.17|71.43|Asia/Almaty
+Almaty|KZ|43.24|76.95|Asia/Almaty
+Tashkent|UZ|41.31|69.28|Asia/Tashkent
+Bishkek|KG|42.87|74.59|Asia/Bishkek
+Dushanbe|TJ|38.56|68.78|Asia/Dushanbe
+Ashgabat|TM|37.96|58.33|Asia/Ashgabat
+Kabul|AF|34.53|69.17|Asia/Kabul
+Islamabad|PK|33.69|73.05|Asia/Karachi
+Karachi|PK|24.86|67.01|Asia/Karachi
+Delhi|IN|28.61|77.21|Asia/Kolkata
+Mumbai|IN|19.08|72.88|Asia/Kolkata
+Kathmandu|NP|27.72|85.32|Asia/Kathmandu
+Thimphu|BT|27.47|89.64|Asia/Thimphu
+Dhaka|BD|23.81|90.41|Asia/Dhaka
+Colombo|LK|6.93|79.86|Asia/Colombo
+Malé|MV|4.18|73.51|Indian/Maldives
+Tehran|IR|35.69|51.39|Asia/Tehran
+Baghdad|IQ|33.31|44.37|Asia/Baghdad
+Damascus|SY|33.51|36.29|Asia/Damascus
+Beirut|LB|33.89|35.50|Asia/Beirut
+Amman|JO|31.95|35.93|Asia/Amman
+Jerusalem|IL|31.77|35.21|Asia/Jerusalem
+Riyadh|SA|24.71|46.67|Asia/Riyadh
+Kuwait City|KW|29.38|47.99|Asia/Kuwait
+Manama|BH|26.23|50.59|Asia/Bahrain
+Doha|QA|25.29|51.53|Asia/Qatar
+Dubai|AE|25.20|55.27|Asia/Dubai
+Muscat|OM|23.59|58.41|Asia/Muscat
+Sanaa|YE|15.37|44.19|Asia/Aden
+Beijing|CN|39.90|116.40|Asia/Shanghai
+Shanghai|CN|31.23|121.47|Asia/Shanghai
+Ulaanbaatar|MN|47.89|106.91|Asia/Ulaanbaatar
+Pyongyang|KP|39.04|125.76|Asia/Pyongyang
+Seoul|KR|37.57|126.98|Asia/Seoul
+Tokyo|JP|35.68|139.69|Asia/Tokyo
+Taipei|TW|25.03|121.57|Asia/Taipei
+Hong Kong|HK|22.32|114.17|Asia/Hong_Kong
+Hanoi|VN|21.03|105.85|Asia/Ho_Chi_Minh
+Vientiane|LA|17.98|102.63|Asia/Vientiane
+Phnom Penh|KH|11.56|104.93|Asia/Phnom_Penh
+Bangkok|TH|13.76|100.50|Asia/Bangkok
+Naypyidaw|MM|19.76|96.08|Asia/Yangon
+Kuala Lumpur|MY|3.14|101.69|Asia/Kuala_Lumpur
+Singapore|SG|1.35|103.82|Asia/Singapore
+Bandar Seri Begawan|BN|4.94|114.95|Asia/Brunei
+Jakarta|ID|-6.21|106.85|Asia/Jakarta
+Manila|PH|14.60|120.98|Asia/Manila
+Dili|TL|-8.56|125.57|Asia/Dili
+Cairo|EG|30.04|31.24|Africa/Cairo
+Tripoli|LY|32.89|13.19|Africa/Tripoli
+Tunis|TN|36.81|10.18|Africa/Tunis
+Algiers|DZ|36.75|3.06|Africa/Algiers
+Rabat|MA|34.02|-6.84|Africa/Casablanca
+Nouakchott|MR|18.08|-15.98|Africa/Nouakchott
+Dakar|SN|14.72|-17.47|Africa/Dakar
+Banjul|GM|13.45|-16.58|Africa/Banjul
+Bissau|GW|11.86|-15.60|Africa/Bissau
+Conakry|GN|9.64|-13.58|Africa/Conakry
+Freetown|SL|8.48|-13.23|Africa/Freetown
+Monrovia|LR|6.30|-10.80|Africa/Monrovia
+Abidjan|CI|5.36|-4.01|Africa/Abidjan
+Accra|GH|5.60|-0.19|Africa/Accra
+Lomé|TG|6.13|1.22|Africa/Lome
+Porto-Novo|BJ|6.50|2.63|Africa/Porto-Novo
+Lagos|NG|6.52|3.38|Africa/Lagos
+Abuja|NG|9.06|7.49|Africa/Lagos
+Niamey|NE|13.51|2.11|Africa/Niamey
+Ouagadougou|BF|12.37|-1.52|Africa/Ouagadougou
+Bamako|ML|12.64|-8.00|Africa/Bamako
+Praia|CV|14.93|-23.51|Atlantic/Cape_Verde
+N'Djamena|TD|12.13|15.06|Africa/Ndjamena
+Khartoum|SD|15.50|32.56|Africa/Khartoum
+Juba|SS|4.85|31.58|Africa/Juba
+Asmara|ER|15.34|38.93|Africa/Asmara
+Djibouti|DJ|11.59|43.15|Africa/Djibouti
+Addis Ababa|ET|9.03|38.75|Africa/Addis_Ababa
+Mogadishu|SO|2.05|45.32|Africa/Mogadishu
+Nairobi|KE|-1.29|36.82|Africa/Nairobi
+Kampala|UG|0.35|32.58|Africa/Kampala
+Kigali|RW|-1.95|30.06|Africa/Kigali
+Bujumbura|BI|-3.38|29.36|Africa/Bujumbura
+Dodoma|TZ|-6.16|35.75|Africa/Dar_es_Salaam
+Dar es Salaam|TZ|-6.79|39.21|Africa/Dar_es_Salaam
+Yaoundé|CM|3.85|11.50|Africa/Douala
+Bangui|CF|4.36|18.56|Africa/Bangui
+Libreville|GA|0.42|9.47|Africa/Libreville
+Malabo|GQ|3.75|8.78|Africa/Malabo
+São Tomé|ST|0.34|6.73|Africa/Sao_Tome
+Brazzaville|CG|-4.27|15.28|Africa/Brazzaville
+Kinshasa|CD|-4.44|15.27|Africa/Kinshasa
+Luanda|AO|-8.84|13.23|Africa/Luanda
+Lusaka|ZM|-15.39|28.32|Africa/Lusaka
+Harare|ZW|-17.83|31.05|Africa/Harare
+Lilongwe|MW|-13.96|33.77|Africa/Blantyre
+Maputo|MZ|-25.97|32.57|Africa/Maputo
+Antananarivo|MG|-18.88|47.51|Indian/Antananarivo
+Port Louis|MU|-20.16|57.50|Indian/Mauritius
+Moroni|KM|-11.70|43.26|Indian/Comoro
+Victoria|SC|-4.62|55.45|Indian/Mahe
+Windhoek|NA|-22.56|17.08|Africa/Windhoek
+Gaborone|BW|-24.65|25.91|Africa/Gaborone
+Pretoria|ZA|-25.75|28.19|Africa/Johannesburg
+Cape Town|ZA|-33.92|18.42|Africa/Johannesburg
+Maseru|LS|-29.31|27.48|Africa/Maseru
+Mbabane|SZ|-26.31|31.13|Africa/Mbabane
+Washington|US|38.91|-77.04|America/New_York
+New York|US|40.71|-74.01|America/New_York
+Chicago|US|41.88|-87.63|America/Chicago
+Denver|US|39.74|-104.99|America/Denver
+Los Angeles|US|34.05|-118.24|America/Los_Angeles
+San Francisco|US|37.77|-122.42|America/Los_Angeles
+Anchorage|US|61.22|-149.90|America/Anchorage
+Honolulu|US|21.31|-157.86|Pacific/Honolulu
+Ottawa|CA|45.42|-75.70|America/Toronto
+Vancouver|CA|49.28|-123.12|America/Vancouver
+Mexico City|MX|19.43|-99.13|America/Mexico_City
+Guatemala City|GT|14.63|-90.51|America/Guatemala
+Belmopan|BZ|17.25|-88.77|America/Belize
+San Salvador|SV|13.69|-89.22|America/El_Salvador
+Tegucigalpa|HN|14.07|-87.19|America/Tegucigalpa
+Managua|NI|12.13|-86.25|America/Managua
+San José|CR|9.93|-84.08|America/Costa_Rica
+Panama City|PA|8.98|-79.52|America/Panama
+Havana|CU|23.11|-82.37|America/Havana
+Kingston|JM|17.97|-76.79|America/Jamaica
+Port-au-Prince|HT|18.59|-72.31|America/Port-au-Prince
+Santo Domingo|DO|18.49|-69.93|America/Santo_Domingo
+Nassau|BS|25.05|-77.35|America/Nassau
+Bridgetown|BB|13.10|-59.61|America/Barbados
+Port of Spain|TT|10.66|-61.52|America/Port_of_Spain
+Castries|LC|14.01|-60.99|America/St_Lucia
+St. John's|AG|17.12|-61.85|America/Antigua
+Roseau|DM|15.30|-61.39|America/Dominica
+St. George's|GD|12.06|-61.75|America/Grenada
+Basseterre|KN|17.30|-62.72|America/St_Kitts
+Kingstown|VC|13.16|-61.22|America/St_Vincent
+Bogotá|CO|4.71|-74.07|America/Bogota
+Caracas|VE|10.48|-66.90|America/Caracas
+Georgetown|GY|6.80|-58.16|America/Guyana
+Paramaribo|SR|5.85|-55.20|America/Paramaribo
+Quito|EC|-0.18|-78.47|America/Guayaquil
+Lima|PE|-12.05|-77.04|America/Lima
+La Paz|BO|-16.49|-68.12|America/La_Paz
+Brasília|BR|-15.79|-47.88|America/Sao_Paulo
+São Paulo|BR|-23.55|-46.63|America/Sao_Paulo
+Manaus|BR|-3.12|-60.02|America/Manaus
+Asunción|PY|-25.26|-57.58|America/Asuncion
+Montevideo|UY|-34.90|-56.16|America/Montevideo
+Buenos Aires|AR|-34.60|-58.38|America/Argentina/Buenos_Aires
+Santiago|CL|-33.45|-70.67|America/Santiago
+Canberra|AU|-35.28|149.13|Australia/Sydney
+Sydney|AU|-33.87|151.21|Australia/Sydney
+Perth|AU|-31.95|115.86|Australia/Perth
+Wellington|NZ|-41.29|174.78|Pacific/Auckland
+Port Moresby|PG|-9.44|147.18|Pacific/Port_Moresby
+Suva|FJ|-18.14|178.44|Pacific/Fiji
+Honiara|SB|-9.43|159.95|Pacific/Guadalcanal
+Port Vila|VU|-17.73|168.32|Pacific/Efate
+Nouméa|NC|-22.27|166.46|Pacific/Noumea
+Apia|WS|-13.83|-171.76|Pacific/Apia
+Nukuʻalofa|TO|-21.14|-175.20|Pacific/Tongatapu
+Tarawa|KI|1.45|173.03|Pacific/Tarawa
+Majuro|MH|7.09|171.38|Pacific/Majuro
+Palikir|FM|6.92|158.16|Pacific/Pohnpei
+Ngerulmud|PW|7.50|134.62|Pacific/Palau
+Funafuti|TV|-8.52|179.20|Pacific/Funafuti
+Yaren|NR|-0.55|166.92|Pacific/Nauru`;
+const CITIES=CITY_RAW.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const p=l.split('|');return{n:p[0],cc:p[1],lat:+p[2],lon:+p[3],tz:p[4]};});
+const REG={UA:'eu',PL:'eu',DE:'eu',CZ:'eu',SK:'eu',AT:'eu',HU:'eu',RO:'eu',MD:'eu',BG:'eu',GR:'eu',BY:'eu',LT:'eu',LV:'eu',EE:'eu',FI:'eu',SE:'eu',NO:'eu',DK:'eu',IS:'eu',IE:'eu',GB:'eu',NL:'eu',BE:'eu',LU:'eu',FR:'eu',ES:'eu',PT:'eu',AD:'eu',IT:'eu',MT:'eu',CH:'eu',LI:'eu',RS:'eu',HR:'eu',SI:'eu',BA:'eu',ME:'eu',MK:'eu',AL:'eu',XK:'eu',CY:'eu',MC:'eu',SM:'eu',VA:'eu',US:'na',CA:'na',MX:'na',GT:'na',BZ:'na',SV:'na',HN:'na',NI:'na',CR:'na',PA:'na',CU:'na',JM:'na',HT:'na',DO:'na',BS:'na',BB:'na',TT:'na',LC:'na',AG:'na',DM:'na',GD:'na',KN:'na',VC:'na',CO:'sa',VE:'sa',GY:'sa',SR:'sa',EC:'sa',PE:'sa',BO:'sa',BR:'sa',PY:'sa',UY:'sa',AR:'sa',CL:'sa',AU:'oc',NZ:'oc',PG:'oc',FJ:'oc',SB:'oc',VU:'oc',NC:'oc',WS:'oc',TO:'oc',KI:'oc',MH:'oc',FM:'oc',PW:'oc',TV:'oc',NR:'oc',TR:'me',GE:'me',AM:'me',AZ:'me',IR:'me',IQ:'me',SY:'me',LB:'me',JO:'me',IL:'me',SA:'me',KW:'me',BH:'me',QA:'me',AE:'me',OM:'me',YE:'me',CN:'ea',MN:'ea',KP:'ea',KR:'ea',JP:'ea',TW:'ea',HK:'ea',EG:'af',LY:'af',TN:'af',DZ:'af',MA:'af',MR:'af',SN:'af',GM:'af',GW:'af',GN:'af',SL:'af',LR:'af',CI:'af',GH:'af',TG:'af',BJ:'af',NG:'af',NE:'af',BF:'af',ML:'af',CV:'af',TD:'af',SD:'af',SS:'af',ER:'af',DJ:'af',ET:'af',SO:'af',KE:'af',UG:'af',RW:'af',BI:'af',TZ:'af',CM:'af',CF:'af',GA:'af',GQ:'af',ST:'af',CG:'af',CD:'af',AO:'af',ZM:'af',ZW:'af',MW:'af',MZ:'af',MG:'af',MU:'af',KM:'af',SC:'af',NA:'af',BW:'af',ZA:'af',LS:'af',SZ:'af'};
+function regionOf(c){return REG[c.cc]||'as';}
+
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function clean(s,n){return String(s==null?'':s).replace(/[<>&"']/g,'').slice(0,n);}
+function hash(seed,k){let x=Math.imul((k|0)^seed,2654435761)>>>0;x=Math.imul(x^(x>>>15),2246822519)>>>0;x=Math.imul(x^(x>>>13),3266489917)>>>0;x^=x>>>16;return(x>>>0)/4294967296;}
+/* ---------- збереження ---------- */
+const SAVE_KEY='trk2';
+const S={lang:'uk',money:300,up:{e:0,t:0,r:0,c:0},km:0,trips:0,diff:'n',scale:240};
+try{const o=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(o){Object.assign(S,o);S.up=Object.assign({e:0,t:0,r:0,c:0},o.up||{});}}catch(e){}
+if(!I18N[S.lang])S.lang='uk';
+function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));}catch(e){}}
+function t(k,v){let s=(I18N[S.lang]&&I18N[S.lang][k])||I18N.en[k]||I18N.uk[k]||k;if(v)for(const q in v)s=s.replace('{'+q+'}',v[q]);return s;}
+/* ---------- час і пояси ---------- */
+const tzOk={};
+function safeTz(tz){if(tz in tzOk)return tzOk[tz]?tz:'UTC';try{new Intl.DateTimeFormat('en',{timeZone:tz});tzOk[tz]=1;return tz;}catch(e){tzOk[tz]=0;return 'UTC';}}
+function offMin(tz,ms){try{const f=new Intl.DateTimeFormat('en-US',{timeZone:safeTz(tz),hourCycle:'h23',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',second:'numeric'}).formatToParts(new Date(ms));const g=k=>+f.find(p=>p.type===k).value;return(Date.UTC(g('year'),g('month')-1,g('day'),g('hour'),g('minute'),g('second'))-Math.floor(ms/1000)*1000)/60000;}catch(e){return 0;}}
+function fmtT(tz,ms){try{return new Date(ms).toLocaleTimeString('en-GB',{timeZone:safeTz(tz),hour:'2-digit',minute:'2-digit'});}catch(e){return '--:--';}}
+function hourIn(tz,ms){return +fmtT(tz,ms).slice(0,2);}
+function utcLabel(tz,ms){const m=offMin(tz,ms),a=Math.abs(m);return 'UTC'+(m<0?'−':'+')+Math.floor(a/60)+(a%60?':'+String(a%60).padStart(2,'0'):'');}
+function haversine(a,b){const r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dn=r(b.lon-a.lon),h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dn/2)**2;return 6371*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));}
+function roadKm(a,b){return Math.max(1,Math.round(haversine(a,b)*1.25));}
+function countryName(cc){try{return new Intl.DisplayNames([S.lang],{type:'region'}).of(cc)||cc;}catch(e){return cc;}}
+/* ---------- вантажі ---------- */
+const CARGO=[['box','c_box',1,0,0,1],['fur','c_fur',1.15,0,0,.9],['par','c_par',.9,0,0,1],['food','c_food',1.1,0,1,1],['el','c_el',1.3,1,0,1],['part','c_part',1.2,0,0,.92],['med','c_med',1.4,0,1,1],['glass','c_glass',1.35,1,0,.95]];
+/* ---------- стан гри ---------- */
+const cv=$('game'),ctx=cv.getContext('2d');
+const W=480,H=720,PX=6,LANE=120,RL=60,PY=560,RACE=5000;
+let mode='del',phase='idle',seed=1,t0=0,countT=0,shake=0,dnfT=0,raceTime=0,weather='sun',wTimer=0,lastFrame=0;
+const me={d:0,x:1.5,v:0,fuel:100,crash:0,inv:0,fin:null,color:'#e6a23c',name:''};
+const trip={target:0,km:0,startMs:0,simMs:0,crashes:0,cargo:CARGO[0],from:null,to:null};
+const collected=new Set(),input={gas:false,brake:false,left:false,right:false},others={};
+function vmax(){const f=weather==='rain'?Math.min(1,.82+.04*S.up.r):weather==='snow'?Math.min(1,.68+.06*S.up.r):1;return(39+2*S.up.e)*f;}
+function rangeKm(){return 1500+600*S.up.t;}
+const OB0=80,OBS=30,carColors=['#c0564b','#4b7bc0','#d8c34a','#7a7f86'];
+function obAt(k){if(k<0||hash(seed,k)>.55)return null;return{d:OB0+k*OBS,lane:Math.floor(hash(seed,k+100000)*3),type:Math.floor(hash(seed,k+200000)*4)};}
+function fuelAt(k){return k<0?null:{d:150+k*220,lane:Math.floor(hash(seed,k+300000)*3)};}
+/* ---------- інтерфейс ---------- */
+function toast(m){const e=$('toast');e.textContent=m;e.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>{e.hidden=true;},2200);}
+function applyI18n(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.dataset.i18n);});
+  $('name').placeholder=t('rName');$('room').placeholder='ABCDE';
+  buildCitySelects();buildCargo();buildSettings();updateRouteInfo();setHudLabels();renderGarage();setOverlay();updateHud();
+}
+function buildCitySelects(){
+  const fa=$('selFrom'),ta=$('selTo'),ov=fa.value,od=ta.value;
+  const idx=CITIES.map((c,i)=>i).sort((a,b)=>(countryName(CITIES[a].cc)+CITIES[a].n).localeCompare(countryName(CITIES[b].cc)+CITIES[b].n,S.lang));
+  const html=idx.map(i=>'<option value="'+i+'">'+CITIES[i].n+', '+countryName(CITIES[i].cc)+'</option>').join('');
+  fa.innerHTML=html;ta.innerHTML=html;
+  const find=n=>CITIES.findIndex(c=>c.n===n);
+  fa.value=ov||String(find('Kyiv'));ta.value=od||String(find('Lviv'));
+}
+function buildCargo(){const s=$('selCargo'),o=s.value;s.innerHTML=CARGO.map((c,i)=>'<option value="'+i+'">'+t(c[1])+(c[3]?' 🧪':'')+(c[4]?' ⚡':'')+'</option>').join('');s.value=o||'0';}
+function buildSettings(){
+  $('selLang').innerHTML=LANGS.map(l=>'<option value="'+l[0]+'">'+l[1]+'</option>').join('');$('selLang').value=S.lang;
+  $('selDiff').innerHTML='<option value="e">'+t('dE')+'</option><option value="n">'+t('dN')+'</option><option value="h">'+t('dH')+'</option>';$('selDiff').value=S.diff;
+  $('selScale').value=String(S.scale);
+}
+function curCities(){return[CITIES[+$('selFrom').value],CITIES[+$('selTo').value]];}
+function updateRouteInfo(){
+  const[a,b]=curCities();const ok=a!==b;
+  $('routeNames').textContent=a.n+' → '+b.n;
+  $('routeKm').textContent=ok?'≈ '+roadKm(a,b).toLocaleString(S.lang)+' '+t('kmU'):'—';
+  $('routeMsg').textContent=ok?'':t('same');
+  $('statLine').textContent=t('stat',{km:Math.round(S.km).toLocaleString(S.lang),trips:S.trips});
+  $('startBtn').disabled=mode==='del'&&!ok;
+}
+function setHudLabels(){
+  if(mode==='del'){$('l1').textContent=t('spd');$('u1').textContent=t('kmhU');$('l2').textContent=t('left');$('u2').textContent=t('kmU');$('l3').textContent=t('clock');$('u3').textContent='';$('l4').textContent=t('money');$('u4').textContent='₴';}
+  else{$('l1').textContent=t('spd');$('u1').textContent=t('kmhU');$('l2').textContent=t('dist');$('u2').textContent='/5000 '+t('mU');$('l3').textContent=t('place');$('u3').textContent='';$('l4').textContent=t('timeL');$('u4').textContent='';}
+}
+function setOverlay(){
+  if(phase==='count'||phase==='race'){$('ov').hidden=true;return;}
+  if(phase==='idle'){$('ovT').textContent=t('rdyT');$('ovP').textContent=t(mode==='del'?'rdyDel':'rdyRace');$('startBtn').textContent=t('go');}
+  $('ov').hidden=false;
+}
+function setMode(m){
+  mode=m;phase='idle';$('tDel').classList.toggle('on',m==='del');$('tRace').classList.toggle('on',m==='race');
+  $('delCard').hidden=m!=='del';$('raceCard').hidden=m!=='race';$('boardCard').hidden=m!=='race';
+  setHudLabels();setOverlay();updateRouteInfo();updateHud();
+}
+$('tDel').onclick=()=>{if(phase==='race'||phase==='count')return;setMode('del');};
+$('tRace').onclick=()=>{if(phase==='race'||phase==='count')return;setMode('race');};
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{$(b.dataset.close).hidden=true;});
+['mGar','mMap','mSet'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))$(id).hidden=true;}));
+$('bGar').onclick=()=>{renderGarage();$('mGar').hidden=false;};
+$('bMap').onclick=()=>{$('mMap').hidden=false;drawMap();};
+$('bSet').onclick=()=>{$('mSet').hidden=false;};
+$('selFrom').onchange=$('selTo').onchange=()=>{updateRouteInfo();if(!$('mMap').hidden)drawMap();};
+$('selLang').onchange=e=>{S.lang=e.target.value;save();applyI18n();};
+$('selDiff').onchange=e=>{S.diff=e.target.value;save();};
+$('selScale').onchange=e=>{S.scale=+e.target.value;save();};
+$('resetBtn').onclick=()=>{try{localStorage.removeItem(SAVE_KEY);}catch(e){}Object.assign(S,{money:300,up:{e:0,t:0,r:0,c:0},km:0,trips:0});save();renderGarage();updateRouteInfo();updateHud();toast('OK');};
+$('refuelBtn').onclick=()=>{if(phase==='race'&&mode==='del'&&me.v>1){return;}if(S.money<100){toast(t('noMoney'));return;}S.money-=100;me.fuel=100;save();toast(t('refueled'));updateHud();};
+/* ---------- гараж ---------- */
+const UPC={e:600,t:500,r:400,c:900};
+function upCost(k){return Math.round(UPC[k]*Math.pow(S.up[k]+1,1.5)/50)*50;}
+function renderGarage(){
+  $('garMoney').textContent=t('gMoney',{n:S.money.toLocaleString(S.lang)});
+  $('garList').innerHTML=['e','t','r','c'].map(k=>{const l=S.up[k],mx=l>=5;let d='';for(let i=0;i<5;i++)d+='<i class="'+(i<l?'on':'')+'"></i>';
+    return '<div class="up"><b>'+t('up_'+k)+' · '+t('lvl')+' '+l+'</b><p>'+t('d_'+k)+'</p><div class="dots">'+d+'</div><button class="btn main" data-up="'+k+'" '+(mx?'disabled':'')+'>'+(mx?t('max'):t('buy',{n:upCost(k)}))+'</button></div>';}).join('');
+  document.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{const k=b.dataset.up,c=upCost(k);if(S.up[k]>=5)return;if(S.money<c){toast(t('noCash'));return;}S.money-=c;S.up[k]++;save();renderGarage();toast(t('bought'));updateHud();});
+}
+/* ---------- карта світу ---------- */
+function drawMap(){
+  const c=$('wm'),g=c.getContext('2d'),w=c.width,h=c.height,X=lon=>(lon+180)/360*w,Y=lat=>(90-lat)/180*h;
+  g.fillStyle='#0f2338';g.fillRect(0,0,w,h);
+  for(let i=0;i<24;i++){g.fillStyle=i%2?'#14304a':'#112a42';g.fillRect(i*w/24,0,w/24,h);}
+  g.strokeStyle='#ffffff14';g.lineWidth=1;for(let lat=-60;lat<=60;lat+=30){g.beginPath();g.moveTo(0,Y(lat));g.lineTo(w,Y(lat));g.stroke();}
+  g.fillStyle='#7f98ad';g.font='10px system-ui';g.textAlign='center';for(let i=-12;i<=12;i+=3)g.fillText((i>0?'+':i<0?'−':'')+Math.abs(i),X(i*15),12);
+  const[a,b]=curCities(),R=a===b?null:1;
+  CITIES.forEach(ci=>{g.fillStyle='#e6a23c66';g.beginPath();g.arc(X(ci.lon),Y(ci.lat),2,0,7);g.fill();});
+  if(R){g.strokeStyle='#f2bd62';g.lineWidth=2;g.setLineDash([6,5]);g.beginPath();g.moveTo(X(a.lon),Y(a.lat));g.lineTo(X(b.lon),Y(b.lat));g.stroke();g.setLineDash([]);}
+  [[a,'#4fd18b'],[b,'#ff6b5a']].forEach(([ci,col])=>{g.fillStyle=col;g.beginPath();g.arc(X(ci.lon),Y(ci.lat),6,0,7);g.fill();g.strokeStyle='#fff';g.lineWidth=2;g.stroke();});
+  if(R&&mode==='del'&&(phase==='race'||phase==='count')&&trip.target>0){const p=clamp(trip.km/trip.target,0,1);g.font='16px system-ui';g.fillStyle='#fff';g.fillText('🚛',X(a.lon+(b.lon-a.lon)*p),Y(a.lat+(b.lat-a.lat)*p)+5);}
+  updateTzInfo();
+}
+function tzBox(ci,ms){return '<b>'+ci.n+'</b><br>'+t('tzReg')+': <strong>'+t('rg_'+regionOf(ci))+'</strong><br>'+t('tzZone')+': <strong>'+safeTz(ci.tz).replace(/_/g,' ')+' ('+utcLabel(ci.tz,ms)+')</strong><br>'+t('tzNow')+':<div class="t">'+fmtT(ci.tz,ms)+'</div>';}
+function updateTzInfo(){const[a,b]=curCities(),ms=phase==='race'&&mode==='del'?trip.startMs+trip.simMs:Date.now();$('tzA').innerHTML=tzBox(a,ms);$('tzB').innerHTML=tzBox(b,ms);}
+setInterval(()=>{if(!$('mMap').hidden)updateTzInfo();},1000);
+/* ---------- мережа (кімнати) ---------- */
+const net={on:false,host:false,peer:null,conns:[],hostConn:null,id:null,players:{},timer:null,wait:null,code:''};
+function netStatus(s){$('netStatus').textContent=s;}
+function payload(){return{n:me.name,d:Math.round(me.d*10)/10,x:Math.round(me.x*100)/100,c:me.color,f:me.fin};}
+function sane(d){return{n:clean(d.n,14)||'?',d:Number(d.d)||0,x:clamp(Number(d.x)||1.5,0,3),c:/^#[0-9a-f]{6}$/i.test(d.c)?d.c:'#e6a23c',f:d.f==null?null:Number(d.f),ts:Date.now()};}
+function netOffline(msg){
+  if(net.timer)clearInterval(net.timer);if(net.wait)clearTimeout(net.wait);
+  try{if(net.peer)net.peer.destroy();}catch(e){}
+  Object.assign(net,{on:false,host:false,peer:null,conns:[],hostConn:null,players:{},timer:null,wait:null,code:''});
+  $('codeBox').hidden=true;$('leaveRow').hidden=true;$('createBtn').disabled=false;$('joinBtn').disabled=false;netStatus(msg||'');
+}
+function netReady(){
+  net.on=true;if(net.wait){clearTimeout(net.wait);net.wait=null;}
+  $('codeTxt').textContent=net.code;$('codeBox').hidden=false;$('leaveRow').hidden=false;$('createBtn').disabled=true;$('joinBtn').disabled=true;
+  netStatus(t('rIn',{code:net.code}));net.timer=setInterval(netTick,100);
+}
+function netTick(){
+  if(net.host){net.players[net.id]=Object.assign(payload(),{ts:Date.now()});const now=Date.now();for(const id in net.players)if(now-net.players[id].ts>5000)delete net.players[id];const m={t:'p',p:net.players};net.conns.forEach(c=>{if(c.open)c.send(m);});}
+  else if(net.hostConn&&net.hostConn.open)net.hostConn.send(Object.assign({t:'s'},payload()));
+}
+function hostGo(){const s=Math.floor(Math.random()*2147483647);beginCountdown(s);net.conns.forEach(c=>{if(c.open)c.send({t:'go',s});});}
+function needPeer(){if(typeof Peer==='undefined'){netStatus(t('rOff'));return false;}return true;}
+function randCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
+function netCreate(tries){
+  if(!needPeer())return;net.code=randCode();netStatus(t('rConn'));
+  net.wait=setTimeout(()=>netOffline(t('rFail')),12000);
+  const p=new Peer('trkr2-'+net.code.toLowerCase());net.peer=p;
+  p.on('open',id=>{net.host=true;net.id=id;
+    p.on('connection',c=>{c.on('open',()=>{net.conns.push(c);});c.on('data',d=>{if(!d)return;if(d.t==='s')net.players[c.peer]=sane(d);else if(d.t==='goreq'&&phase!=='race'&&phase!=='count')hostGo();});c.on('close',()=>{net.conns=net.conns.filter(x=>x!==c);delete net.players[c.peer];});});
+    netReady();});
+  p.on('error',e=>{if(e.type==='unavailable-id'&&!net.on&&(tries||0)<4){try{p.destroy();}catch(x){}clearTimeout(net.wait);netCreate((tries||0)+1);}else netOffline(t(net.on?'rLost':'rFail'));});
+}
+function netJoin(code){
+  if(!needPeer())return;net.code=code;netStatus(t('rConn'));net.wait=setTimeout(()=>netOffline(t('rFail')),12000);
+  const p=new Peer();net.peer=p;
+  p.on('open',id=>{net.id=id;const c=p.connect('trkr2-'+code.toLowerCase(),{reliable:true});net.hostConn=c;
+    c.on('open',()=>netReady());
+    c.on('data',d=>{if(!d)return;if(d.t==='p'&&d.p&&typeof d.p==='object'){const o={};for(const k in d.p)o[k]=sane(d.p[k]);net.players=o;}else if(d.t==='go')beginCountdown(Number(d.s)|0);});
+    c.on('close',()=>netOffline(t('rLost')));});
+  p.on('error',e=>netOffline(t(e.type==='peer-unavailable'?'rNotFound':'rFail')));
+}
+$('createBtn').onclick=()=>netCreate(0);
+$('joinBtn').onclick=()=>{const c=$('room').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!c){netStatus(t('rEnter'));return;}$('room').value=c;netJoin(c);};
+$('leaveBtn').onclick=()=>netOffline('');
+$('copyBtn').onclick=()=>{const c=net.code;try{navigator.clipboard.writeText(c).then(()=>toast(t('rCopied')),()=>{});}catch(e){}};
+window.addEventListener('pagehide',()=>{if(net.peer)netOffline('');});
+/* ---------- запуск і фініш ---------- */
+function beginCountdown(s){
+  seed=s|0;me.name=clean($('name').value.trim(),14)||'Driver';me.color=$('color').value;
+  me.d=0;me.x=1.5;me.v=0;me.crash=0;me.inv=0;me.fin=null;dnfT=0;raceTime=0;collected.clear();weather='sun';wTimer=0;
+  if(mode==='del'){const[a,b]=curCities();trip.from=a;trip.to=b;trip.target=roadKm(a,b);trip.km=0;trip.crashes=0;trip.cargo=CARGO[+$('selCargo').value||0];trip.startMs=Date.now();trip.simMs=0;if(me.fuel<=0||me.fuel>100)me.fuel=100;}
+  else me.fuel=100;
+  phase='count';countT=3.5;$('ov').hidden=true;
+}
+function pressStart(){
+  if(phase==='count'||phase==='race')return;
+  if(mode==='race'&&net.on){if(net.host)hostGo();else if(net.hostConn&&net.hostConn.open)net.hostConn.send({t:'goreq'});}
+  else beginCountdown(Math.floor(Math.random()*2147483647));
+}
+$('startBtn').onclick=pressStart;
+function finishRun(ok){
+  phase='done';me.v=0;
+  if(!ok){$('ovT').textContent=t('noT');$('ovP').textContent=t('noP');}
+  else if(mode==='del'){
+    const c=trip.cargo;let r=(50+trip.target*.6)*c[2]*(1+.1*S.up.c);if(c[3])r*=Math.max(.4,1-.12*trip.crashes);let bonus='';if(c[4]&&trip.crashes===0){r*=1.25;bonus=t('express');}
+    r=Math.round(r);S.money+=r;S.km+=trip.target;S.trips++;save();
+    $('ovT').textContent=t('okT');$('ovP').textContent=t('okDel',{km:trip.target.toLocaleString(S.lang),reward:r.toLocaleString(S.lang),bonus:bonus})+' 🕒 '+fmtT(trip.to.tz,trip.startMs+trip.simMs)+' '+trip.to.n+' · '+t('crashes',{n:trip.crashes});
+  }else{me.fin=Math.round((performance.now()-t0))/1000;$('ovT').textContent=t('okT');$('ovP').textContent=t('okRace',{time:me.fin.toFixed(1)});}
+  $('startBtn').textContent=t('again');$('ov').hidden=false;updateRouteInfo();
+}
+/* ---------- оновлення ---------- */
+function localMs(){return trip.startMs+trip.simMs;}
+function curTz(){return trip.target&&trip.km>trip.target/2?trip.to.tz:(trip.from?trip.from.tz:'UTC');}
+function isNight(){if(mode==='del'&&phase!=='idle'&&trip.from){const h=hourIn(curTz(),localMs());return h>=20||h<6;}return false;}
+function update(dt){
+  if(shake>0)shake-=dt;
+  if(phase==='count'){countT-=dt;if(countT<=0){phase='race';t0=performance.now();}return;}
+  if(phase!=='race')return;
+  raceTime=(performance.now()-t0)/1000;
+  wTimer+=dt;if(wTimer>40){wTimer=0;const r=Math.random();weather=r<.55?'sun':r<.8?'rain':'snow';}
+  const dif=S.diff==='e'?1.15:S.diff==='h'?.85:1;
+  const steer=(input.right?1:0)-(input.left?1:0);
+  me.x=clamp(me.x+steer*1.7*(1+.08*S.up.r)*dt,.45,2.55);
+  const vm=vmax(),acc=12*(1+.12*S.up.e)*dif*(mode==='del'?trip.cargo[5]:1);
+  if(input.gas&&me.fuel>0&&me.crash<=0)me.v+=acc*(1-me.v/vm)*dt;else me.v-=2.5*dt;
+  if(input.brake)me.v-=26*dt;
+  me.v=clamp(me.v,0,vm);
+  const dd=me.v*dt;me.d+=dd;
+  if(mode==='del'){
+    const dkm=dd*S.scale/1000;trip.km+=dkm;trip.simMs+=dt*S.scale*1000;
+    me.fuel=Math.max(0,me.fuel-dkm/rangeKm()*100*(S.diff==='h'?1.3:1));
+  }else me.fuel=Math.max(0,me.fuel-dd*.022);
+  if(me.crash>0)me.crash-=dt;if(me.inv>0)me.inv-=dt;
+  const k0=Math.floor((me.d-OB0-30)/OBS),k1=Math.ceil((me.d-OB0+30)/OBS);
+  for(let k=k0;k<=k1;k++){const o=obAt(k);if(!o)continue;const oy=-(o.d-me.d)*PX;
+    if(me.inv<=0&&oy>-88&&oy<40&&Math.abs(o.lane+.5-me.x)<.37){me.v*=.2;me.crash=.7;me.inv=1.4;shake=.4;if(mode==='del')trip.crashes++;}}
+  const f0=Math.floor((me.d-170)/220),f1=Math.ceil((me.d-130)/220);
+  for(let k=f0;k<=f1;k++){const f=fuelAt(k);if(!f||collected.has(k))continue;const oy=-(f.d-me.d)*PX;
+    if(oy>-70&&oy<90&&Math.abs(f.lane+.5-me.x)<.5){collected.add(k);me.fuel=Math.min(100,me.fuel+(mode==='del'?12:22));}}
+  if(me.fuel<=0&&me.v<.5){dnfT+=dt;if(dnfT>4)finishRun(false);}else dnfT=0;
+  if(mode==='del'&&trip.km>=trip.target){trip.km=trip.target;finishRun(true);}
+  else if(mode==='race'&&me.d>=RACE){me.d=RACE;finishRun(true);}
+}
+function syncOthers(dt){
+  const seen={},a=Math.min(1,dt*12);
+  if(mode==='race')for(const id in net.players){if(id===net.id)continue;const p=net.players[id];seen[id]=1;let o=others[id];if(!o)o=others[id]={rd:p.d,rx:p.x};o.rd+=(p.d-o.rd)*a;o.rx+=(p.x-o.rx)*a;o.n=p.n;o.c=p.c;o.d=p.d;o.f=p.f;}
+  for(const id in others)if(!seen[id])delete others[id];
+}
+/* ---------- малювання ---------- */
+function rr(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);ctx.fill();}
+function drawTruck(x,y,color,name,alpha){
+  ctx.save();ctx.globalAlpha=alpha;
+  ctx.fillStyle='#1a232b';[[-28,-30],[24,-30],[-28,60],[24,60],[-28,76],[24,76]].forEach(w=>ctx.fillRect(x+w[0],y+w[1],5,14));
+  ctx.fillStyle='#dce3e5';rr(x-24,y-6,48,100,5);ctx.fillStyle=color;ctx.fillRect(x-24,y+28,48,8);
+  ctx.fillStyle='#aab9c0';ctx.fillRect(x-20,y+44,40,3);ctx.fillRect(x-20,y+58,40,3);
+  ctx.fillStyle=color;rr(x-22,y-52,44,48,8);ctx.fillStyle='#5c91a8';rr(x-16,y-44,32,14,3);
+  ctx.fillStyle='#fff2b0';ctx.fillRect(x-18,y-54,8,4);ctx.fillRect(x+10,y-54,8,4);
+  if(name){ctx.globalAlpha=1;ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.strokeStyle='#000a';ctx.lineWidth=3;ctx.strokeText(name,x,y-62);ctx.fillStyle='#fff';ctx.fillText(name,x,y-62);}
+  ctx.restore();
+}
+function draw(){
+  ctx.save();if(shake>0)ctx.translate((Math.random()-.5)*9,(Math.random()-.5)*9);
+  const off=(me.d*PX)%120;
+  ctx.fillStyle=weather==='snow'?'#c9d6dc':'#4f7c4f';ctx.fillRect(-10,-10,W+20,H+20);
+  ctx.fillStyle=weather==='snow'?'#bccad1':'#477547';for(let y=-120+off;y<H;y+=120)ctx.fillRect(-10,y,W+20,60);
+  ctx.fillStyle='#4a545e';ctx.fillRect(RL,-10,LANE*3,H+20);
+  ctx.fillStyle='#e8e5d5';ctx.fillRect(RL-4,-10,4,H+20);ctx.fillRect(RL+LANE*3,-10,4,H+20);
+  ctx.fillStyle='#f5e6a5';for(let l=1;l<3;l++)for(let y=-80+(me.d*PX)%80;y<H;y+=80)ctx.fillRect(RL+l*LANE-3,y,6,44);
+  const minD=me.d-(H+80-PY)/PX,maxD=me.d+(PY+80)/PX;
+  for(let k=Math.floor(minD/25);k<=Math.ceil(maxD/25);k++){if(k<0)continue;const y=PY-(k*25-me.d)*PX,left=hash(seed,k+400000)<.5,x=left?14+hash(seed,k+500000)*34:W-14-hash(seed,k+500000)*34;
+    ctx.fillStyle='#2f5f3a';ctx.beginPath();ctx.arc(x,y,15,0,7);ctx.fill();ctx.fillStyle='#3d7a4a';ctx.beginPath();ctx.arc(x-3,y-3,9,0,7);ctx.fill();}
+  if(mode==='race'){const fy=PY-(RACE-me.d)*PX;if(fy>-30&&fy<H+30)for(let i=0;i<18;i++){ctx.fillStyle=i%2?'#111':'#fff';ctx.fillRect(RL+i*20,fy-10,20,10);ctx.fillStyle=i%2?'#fff':'#111';ctx.fillRect(RL+i*20,fy,20,10);}}
+  for(let k=Math.floor((minD-OB0)/OBS);k<=Math.ceil((maxD-OB0)/OBS);k++){const o=obAt(k);if(!o)continue;const y=PY-(o.d-me.d)*PX,x=RL+(o.lane+.5)*LANE;
+    if(o.type===3){ctx.fillStyle='#fff';ctx.fillRect(x-46,y-10,92,20);ctx.fillStyle='#e8742c';for(let i=0;i<5;i++)ctx.fillRect(x-46+i*20,y-10,10,20);}
+    else{ctx.fillStyle=carColors[o.type];rr(x-20,y-36,40,72,8);ctx.fillStyle='#9fd0e0';ctx.fillRect(x-14,y-20,28,14);ctx.fillRect(x-14,y+10,28,9);}}
+  for(let k=Math.floor((minD-150)/220);k<=Math.ceil((maxD-150)/220);k++){const f=fuelAt(k);if(!f||collected.has(k))continue;const y=PY-(f.d-me.d)*PX,x=RL+(f.lane+.5)*LANE;
+    ctx.fillStyle='#d94b3b';rr(x-15,y-17,30,34,6);ctx.fillStyle='#fff';ctx.font='bold 20px system-ui';ctx.textAlign='center';ctx.fillText('⛽',x,y+7);}
+  let up=0,down=0;
+  for(const id in others){const o=others[id],y=PY-(o.rd-me.d)*PX,x=RL+o.rx*LANE;
+    if(y>-130&&y<H+60)drawTruck(x,y,o.c,o.n,.9);
+    else{ctx.font='bold 12px system-ui';ctx.textAlign='center';const dist=Math.round(o.rd-me.d),txt=(dist>0?'▲ ':'▼ ')+o.n+' '+(dist>0?'+':'')+dist+' '+t('mU'),yy=dist>0?18+up++*16:H-10-down++*16;ctx.strokeStyle='#000b';ctx.lineWidth=3;ctx.strokeText(txt,W/2,yy);ctx.fillStyle='#fff';ctx.fillText(txt,W/2,yy);}}
+  const blink=me.inv>0&&Math.floor(me.inv*10)%2===0;drawTruck(RL+me.x*LANE,PY,me.color,'',blink?.45:1);
+  if(weather!=='sun'){ctx.globalAlpha=.5;ctx.strokeStyle='#d8f0ff';ctx.fillStyle='#fff';ctx.lineWidth=2;for(let i=0;i<80;i++){const x=(i*83+me.d*PX*.2)%(W+20),y=(i*47+me.d*PX*.9+performance.now()*.2)%H;if(weather==='rain'){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-6,y+16);ctx.stroke();}else{ctx.beginPath();ctx.arc(x,y,2.2,0,7);ctx.fill();}}ctx.globalAlpha=1;ctx.fillStyle=weather==='rain'?'#1d3a5a22':'#ffffff22';ctx.fillRect(0,0,W,H);}
+  if(isNight()){ctx.fillStyle='rgba(5,13,35,.62)';ctx.fillRect(0,0,W,H);const x=RL+me.x*LANE,b=ctx.createLinearGradient(0,PY-60,0,PY-300);b.addColorStop(0,'rgba(255,240,170,.45)');b.addColorStop(1,'rgba(255,240,170,0)');ctx.fillStyle=b;ctx.beginPath();ctx.moveTo(x-16,PY-54);ctx.lineTo(x+16,PY-54);ctx.lineTo(x+85,PY-300);ctx.lineTo(x-85,PY-300);ctx.fill();}
+  ctx.font='bold 13px system-ui';ctx.textAlign='left';ctx.fillStyle='#fff';ctx.strokeStyle='#000a';ctx.lineWidth=3;
+  const wl=(weather==='rain'?'🌧️ ':weather==='snow'?'❄️ ':'☀️ ')+(isNight()?'🌙':'');ctx.strokeText(wl,10,22);ctx.fillText(wl,10,22);
+  if(me.fuel<=0&&phase==='race'){ctx.font='bold 20px system-ui';ctx.textAlign='center';ctx.lineWidth=4;ctx.strokeText('⛽ 0%',W/2,320);ctx.fillText('⛽ 0%',W/2,320);}
+  if(phase==='count'){const n=Math.ceil(countT-.5),s=n>0?String(n):'GO!';ctx.font='bold 84px system-ui';ctx.textAlign='center';ctx.strokeStyle='#000c';ctx.lineWidth=8;ctx.strokeText(s,W/2,300);ctx.fillStyle='#ffd27a';ctx.fillText(s,W/2,300);}
+  ctx.restore();
+}
+/* ---------- таблиця і HUD ---------- */
+function standings(){const list=[{n:me.name||'Driver',d:me.d,f:me.fin,me:true}];for(const id in net.players){if(id===net.id)continue;const p=net.players[id];list.push({n:p.n,d:p.d,f:p.f,me:false});}
+  list.sort((a,b)=>{if(a.f!=null&&b.f!=null)return a.f-b.f;if(a.f!=null)return -1;if(b.f!=null)return 1;return b.d-a.d;});return list;}
+function updateHud(){
+  $('v1').textContent=Math.round(me.v*3.6);
+  $('fuelBar').style.width=clamp(me.fuel,0,100)+'%';$('fuelBar').style.background=me.fuel<20?'#d94b3b':'#e6a23c';
+  if(mode==='del'){
+    $('v2').textContent=trip.target?Math.max(0,Math.ceil(trip.target-trip.km)).toLocaleString(S.lang):'—';
+    $('v3').textContent=trip.from&&phase!=='idle'?fmtT(curTz(),localMs()):fmtT(curCities()[0].tz,Date.now());
+    $('v4').textContent=S.money.toLocaleString(S.lang);
+  }else{
+    $('v2').textContent=Math.round(me.d);const s=standings();$('v3').textContent=(s.findIndex(r=>r.me)+1)+'/'+s.length;
+    $('v4').textContent=(phase==='race'?raceTime:(me.fin||0)).toFixed(1);
+    $('lb').innerHTML=s.slice(0,10).map((r,i)=>'<div class="'+(r.me?'me':'')+'"><span>'+(i+1)+'. '+clean(r.n,14)+(r.me?' ('+t('you')+')':'')+'</span><span>'+(r.f!=null?r.f.toFixed(1)+' s 🏁':Math.round(r.d)+' '+t('mU'))+'</span></div>').join('');
   }
-
-  function updateHud(){
-
-    $('speed').textContent=Math.round(state.speed);$('distance').textContent=state.distance.toFixed(1);$('hudRemaining').textContent=Math.ceil(Math.max(0,tripLength-state.distance)).toLocaleString('ru-RU');$('fuel').textContent=Math.round(state.fuel/state.fuelMax*100);$('money').textContent=state.money;
-
-    $('remaining').textContent=Math.max(0,tripLength-state.distance).toFixed(1);$('tripBar').style.width=(state.distance/tripLength*100)+'%';
-
-    $('gear').textContent=state.speed<1?'N':state.speed<35?'1':state.speed<70?'2':'3';
-
-    $('engineText').textContent=state.running?'Двигатель работает':'Двигатель выключен';
-
-    $('loadBar').style.width=(state.cargo/state.capacity*100)+'%';$('cargoWeight').textContent=state.cargo;$('capacity').textContent=state.capacity;
-
-    [...$('cargoSelect').options].forEach(o=>{o.disabled=Number(o.value)>state.capacity;});
-
-    $('status').textContent=state.running?'● В РЕЙСЕ':'● ГОТОВ К РЕЙСУ';
-
-    const hh=String(Math.floor(state.time/60)%24).padStart(2,'0'),mm=String(Math.floor(state.time)%60).padStart(2,'0');$('gameClock').textContent=hh+':'+mm;
-
-  }
-
-  function finish(success){state.running=false;state.finished=true;state.speed=0;if(success){const reward=Math.round(250+tripLength*2+state.cargo*.8);state.money+=reward;$('endTitle').textContent='Доставка выполнена!';$('endText').textContent='Ты прошёл '+tripLength.toLocaleString('ru-RU')+' км и заработал '+reward.toLocaleString('ru-RU')+' ₴. Отличная работа, водитель!';}else{$('endTitle').textContent='Топливо закончилось';$('endText').textContent='Грузовик остановился. Заправься и попробуй ещё раз.';} $('endOverlay').hidden=false;updateHud();}
-
-  let lastFrame=0;
-
-  function tick(now){
-
-    const dt=lastFrame?Math.min((now-lastFrame)/1000,.05):0;lastFrame=now;
-
-    if(state.running){
-
-      state.time=(state.time+dt*3)%1440;
-
-      if(state.weatherMode==='auto'){state.weatherTimer+=dt;if(state.weatherTimer>=35){state.weatherTimer=0;const choices=['sun','rain','snow'];let next=choices[Math.floor(Math.random()*choices.length)];if(next===state.weather)next=choices[(choices.indexOf(next)+1)%choices.length];state.weather=next;$('weatherSelect').value='auto';$('routeMessage').textContent='Погода изменилась автоматически: '+(next==='sun'?'ясно ☀️':next==='rain'?'дождь 🌧️':'снег ❄️');}}
-
-      const loadFactor=1-(state.cargo/state.capacity)*.28;
-
-      const difficulty=$('difficulty').value;
-
-      const power=state.engineLevel*4;
-
-      if(state.gas && state.fuel>0) state.speed+=(22+power)*(difficulty==='easy'?1.15:difficulty==='hard'?.82:1)*loadFactor*dt;
-
-      else state.speed-=2.5*dt;
-
-      if(state.brake)state.speed-=45*dt;
-
-      const speedLimit=(state.weather==='snow'?75:state.weather==='rain'?95:120)+state.engineLevel*5;
-
-      state.speed=clamp(state.speed,0,speedLimit);
-
-      if(state.speed>0){const km=state.speed*dt*60/3600;state.distance+=km;state.road+=state.speed*dt*2.2;state.fuel-=km*.12*(difficulty==='hard'?1.35:difficulty==='easy'?.8:1);}
-
-      state.fuel=clamp(state.fuel,0,state.fuelMax);
-
-      if(state.distance>=tripLength) {state.distance=tripLength;finish(true);}
-
-      else if(state.fuel<=0 && state.speed<1)finish(false);
-
-      updateHud();
-
-    }
-
-    draw(); requestAnimationFrame(tick);
-
-  }
-
-  function start(){if($('startBtn').disabled)return;state.running=true;state.finished=false;state.gas=false;state.brake=false;state.speed=0;state.distance=0;state.fuel=state.fuelMax;state.road=0;$('startOverlay').hidden=true;$('endOverlay').hidden=true;$('notice').textContent='Удачного пути!';updateHud();}
-
-  function reset(){state.running=false;state.gas=false;state.brake=false;state.speed=0;state.distance=0;state.fuel=state.fuelMax;state.road=0;state.finished=false;$('endOverlay').hidden=true;$('startOverlay').hidden=false;updateHud();}
-
-  function hold(button,field){const down=e=>{e.preventDefault();state[field]=true;};const up=e=>{e.preventDefault();state[field]=false;};button.addEventListener('pointerdown',down);['pointerup','pointerleave','pointercancel'].forEach(ev=>button.addEventListener(ev,up));}
-
-  hold($('gas'),'gas');hold($('brake'),'brake');
-
-  window.addEventListener('pointerup',()=>{state.gas=false;state.brake=false;});window.addEventListener('pointercancel',()=>{state.gas=false;state.brake=false;});
-
-  $('startBtn').addEventListener('click',start);$('againBtn').addEventListener('click',reset);$('repair').addEventListener('click',reset);
-
-  $('cargoSelect').addEventListener('change',e=>{state.cargo=Number(e.target.value);$('cargoName').textContent=e.target.options[e.target.selectedIndex].text.split(' — ')[0];$('notice').textContent=state.cargo>state.capacity?'Слишком тяжёлый груз!':'Груз закреплён. Можно отправляться.';updateHud();});
-
-  $('weatherSelect').addEventListener('change',e=>{state.weatherMode=e.target.value;state.weatherTimer=0;if(state.weatherMode==='auto'){$('routeMessage').textContent='Погода будет меняться сама каждые 35 секунд.';return;}state.weather=state.weatherMode;$('routeMessage').textContent=state.weather==='snow'?'Снег: грузовик ограничен до 75 км/ч. Будь осторожен!':state.weather==='rain'?'Дождь: максимальная скорость 95 км/ч. Дорога скользкая.':'Ясная погода: можно ехать до 120 км/ч.';});
-
-  $('lightsToggle').addEventListener('click',()=>{state.headlights=!state.headlights;$('lightsToggle').textContent=state.headlights?'💡 ФАРЫ: ВКЛ':'💡 ФАРЫ: ВЫКЛ';$('lightsToggle').classList.toggle('on',state.headlights);});
-
-  $('refuel').addEventListener('click',()=>{if(state.money>=100){state.money-=100;state.fuel=state.fuelMax;$('notice').textContent='Бак заправлен!';}else{$('notice').textContent='Пока не хватает денег на заправку.';}updateHud();});
-
-  state.engineLevel=0;state.fuelMax=100;state.convoy=false;
-
-  function buyUpgrade(cost,apply,message){if(state.money<cost){$('garageNotice').textContent='Не хватает денег. Выполни ещё один рейс!';return;}state.money-=cost;apply();$('garageNotice').textContent=message;updateHud();}
-
-  $('engineUpgrade').addEventListener('click',()=>buyUpgrade(800,()=>{state.engineLevel++;$('engineUpgrade').textContent='Уровень '+state.engineLevel+' · улучшено';},'Двигатель улучшен!'));
-
-  $('tankUpgrade').addEventListener('click',()=>buyUpgrade(600,()=>{state.fuelMax+=25;state.fuel=state.fuelMax;$('tankUpgrade').textContent='Бак '+state.fuelMax+'% · улучшено';},'Установлен увеличенный бак!'));
-
-  $('cargoUpgrade').addEventListener('click',()=>buyUpgrade(1000,()=>{state.capacity+=100;$('cargoUpgrade').textContent='Груз '+state.capacity+' кг · улучшено';updateHud();},'Прицеп усилен: +100 кг!'));
-
-  $('soundToggle').addEventListener('click',()=>{$('soundToggle').textContent=$('soundToggle').textContent==='ВЫКЛ'?'ВКЛ':'ВЫКЛ';$('garageNotice').textContent='Настройка звука сохранена для этой сессии.';});
-
-  $('trafficToggle').addEventListener('click',()=>{state.convoy=!state.convoy;$('trafficToggle').textContent=state.convoy?'ВКЛ':'ВЫКЛ';$('convoyStatus').textContent=state.convoy?'Рядом едет грузовик-напарник (тренировочный режим).':'Одиночный рейс. Онлайн-мультиплеер пока не подключён.';});
-
-  $('openMap').addEventListener('click',()=>{$('mapModal').hidden=false;updateMapInfo();});$('closeMap').addEventListener('click',()=>$('mapModal').hidden=true);$('mapModal').addEventListener('click',e=>{if(e.target===$('mapModal'))$('mapModal').hidden=true;});$('originCity').addEventListener('change',()=>{syncCityTime();updateMapInfo();});setInterval(()=>{if(!$('mapModal').hidden)updateMapInfo();},1000);
-
-  window.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='d')state.gas=true;if(e.key==='ArrowLeft'||e.key==='a')state.brake=true;});
-
-  window.addEventListener('keyup',e=>{if(e.key==='ArrowRight'||e.key==='d')state.gas=false;if(e.key==='ArrowLeft'||e.key==='a')state.brake=false;});
-
-  setupCities();syncCityTime();updateMapInfo();updateHud();draw();requestAnimationFrame(tick);
-
+}
+setInterval(updateHud,150);
+/* ---------- керування ---------- */
+function hold(id,key){const b=$(id),on=e=>{e.preventDefault();input[key]=true;b.classList.add('on');},off=e=>{e.preventDefault();input[key]=false;b.classList.remove('on');};
+  b.addEventListener('pointerdown',on);['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,off));b.addEventListener('contextmenu',e=>e.preventDefault());}
+hold('bL','left');hold('bR','right');hold('bB','brake');hold('bG','gas');
+const keyMap={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right',ArrowUp:'gas',w:'gas',W:'gas',ArrowDown:'brake',s:'brake',S:'brake',' ':'gas'};
+window.addEventListener('keydown',e=>{const k=keyMap[e.key];if(k&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='SELECT'){input[k]=true;e.preventDefault();}});
+window.addEventListener('keyup',e=>{const k=keyMap[e.key];if(k)input[k]=false;});
+function loop(now){const dt=lastFrame?Math.min((now-lastFrame)/1000,.05):0;lastFrame=now;update(dt);syncOthers(dt);draw();requestAnimationFrame(loop);}
+applyI18n();setMode('del');requestAnimationFrame(loop);
 })();
-
 </script>
-
 </body>
-
 </html>
