@@ -27,14 +27,14 @@ h1{margin:0;font-size:19px;line-height:1.1}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
 .tab{background:#1b2d40;color:#aebdca;border:1px solid #ffffff1b;border-radius:10px;padding:11px 6px;font-weight:800;font-size:13px}
 .tab.on{background:#e6a23c;color:#17202c;border-color:#e6a23c}
-.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
 .nav button{background:#29465e;color:#fff;border:1px solid #ffffff20;border-radius:10px;padding:10px 4px;font-weight:800;font-size:12px}
 .card{background:#172638;border:1px solid #ffffff1b;border-radius:14px;padding:12px;margin-bottom:10px}
 .card h2{margin:0 0 8px;font-size:14px}
 .row{display:flex;gap:8px;margin-bottom:8px}
 .row>*{min-width:0}
 label.f{flex:1;font-size:10px;font-weight:800;color:#91a5b9;letter-spacing:.06em;text-transform:uppercase}
-input,select{width:100%;background:#263d52;color:#fff;border:1px solid #ffffff25;border-radius:10px;padding:10px;font:inherit;font-size:14px;margin-top:4px}
+input,select{-webkit-user-select:text;user-select:text;width:100%;background:#263d52;color:#fff;border:1px solid #ffffff25;border-radius:10px;padding:10px;font:inherit;font-size:14px;margin-top:4px}
 button{font:inherit;border:0;cursor:pointer;touch-action:manipulation}
 .btn{flex:1;background:#29465e;color:#fff;border:1px solid #ffffff20;border-radius:10px;padding:11px;font-weight:800;font-size:13px}
 .btn.main{background:#e6a23c;color:#17202c;border:0}
@@ -95,8 +95,13 @@ footer{text-align:center;color:#71869b;font-size:10px;padding:10px}
 <body>
 <div class="wrap">
 <header><div class="logo">🚛</div><div><h1 data-i18n="app"></h1><div class="sub" data-i18n="tag"></div></div></header>
+<section class="card" id="accCard"><h2 data-i18n="accT"></h2>
+<div id="accForm"><div class="row"><label class="f"><span data-i18n="accName"></span><input id="accUser" maxlength="10" autocomplete="username"></label><label class="f"><span data-i18n="accPass"></span><input id="accPw" type="password" autocomplete="current-password"></label></div>
+<div class="row"><button class="btn main" id="accLoginBtn" data-i18n="accLogin"></button><button class="btn" id="accRegBtn" data-i18n="accReg"></button></div><div class="stat" data-i18n="accGuest"></div></div>
+<div id="accIn" hidden><div class="status" id="accHi"></div><div class="row"><button class="btn off" id="accOutBtn" data-i18n="accOut"></button></div></div>
+<div class="status" id="accMsg"></div></section>
 <div class="tabs"><button class="tab on" id="tDel" data-i18n="mDel"></button><button class="tab" id="tRace" data-i18n="mRace"></button></div>
-<div class="nav"><button id="bGar" data-i18n="bGar"></button><button id="bMap" data-i18n="bMap"></button><button id="bSet" data-i18n="bSet"></button></div>
+<div class="nav"><button id="bGar" data-i18n="bGar"></button><button id="bMap" data-i18n="bMap"></button><button id="bSet" data-i18n="bSet"></button><button id="bTop" data-i18n="bTop"></button></div>
 
 <section class="card" id="delCard">
 <h2 data-i18n="routeT"></h2>
@@ -141,7 +146,7 @@ footer{text-align:center;color:#71869b;font-size:10px;padding:10px}
 <h2 data-i18n="aboutT"></h2>
 <p data-i18n="about1"></p><p data-i18n="about2"></p><p data-i18n="about3"></p>
 </section>
-<footer>Trucker Online · PeerJS</footer>
+<footer>Trucker Online · Firebase</footer>
 </div>
 
 <div class="modal" id="mGar" hidden><div class="mp"><div class="mh"><h2 data-i18n="bGar"></h2><button class="x" data-close="mGar">✕</button></div><div class="status" id="garMoney"></div><div id="garList"></div></div></div>
@@ -155,17 +160,20 @@ footer{text-align:center;color:#71869b;font-size:10px;padding:10px}
 <div class="row"><button class="btn off" id="resetBtn" data-i18n="reset"></button></div>
 </div></div>
 
+<div class="modal" id="mTop" hidden><div class="mp"><div class="mh"><h2 data-i18n="topT"></h2><button class="x" data-close="mTop">✕</button></div><div class="lb" id="topList"></div></div></div>
 <div class="toast" id="toast" hidden></div>
 
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 (()=>{
 const I18N={};
-I18N.uk={app:'Дальнобійник Онлайн',tag:'Розвози вантажі світом, прокачуй вантажівку, їдь з друзями',mDel:'📦 Доставка',mRace:'🏁 Гонка онлайн',bGar:'🛠️ Гараж',bMap:'🗺️ Карта',bSet:'⚙️ Налаштування',routeT:'🌍 Маршрут по світу',from:'Звідки',to:'Куди',cargo:'Вантаж',refuel:'⛽ Заправити · 100 ₴',roomT:'🌐 Кімната для гри з друзями',rName:"Ім'я",rColor:'Колір',rCreate:'➕ Створити кімнату',rCode:'Код кімнати',rJoin:'Увійти',rYour:'Код:',rCopy:'Копіювати',rLeave:'Вийти з кімнати',brake:'ГАЛЬМО',gas:'ГАЗ',board:'🏁 Таблиця',aboutT:'Про гру «Дальнобійник Онлайн»',about1:"Безкоштовна гра про вантажівки: працює в браузері на телефоні та комп'ютері, нічого встановлювати не треба.",about2:'Обери місто відправлення та призначення в будь-якій країні світу (крім Росії), вантаж і їдь. Дорогою міняється погода, день змінюється ніччю, а місцевий час залежить від часового поясу міста.',about3:'Заробляй гроші, прокачуй двигун, бак, шини та причіп. Створи кімнату й запроси друзів на гонку: хто перший доїде, той переміг.',langNote:'Усі підписи гри перекладено на ці мови. Назви країн показуються вашою мовою автоматично.',lang:'Мова',diff:'Складність',scale:'Стиснення часу',reset:'Скинути прогрес',dE:'Легка',dN:'Звичайна',dH:'Складна',kmU:'км',mU:'м',kmhU:'км/г',spd:'Швидкість',left:'Залишилось',clock:'Час',money:'Гроші',dist:'Дистанція',place:'Місце',timeL:'Час, с',go:'СТАРТ',again:'ЩЕ РАЗ',rdyT:'Готовий до рейсу?',rdyDel:'Обери маршрут і вантаж. Збирай каністри ⛽ і об\'їжджай авто.',rdyRace:'Проїдь 5000 м першим. Збирай каністри ⛽ і об\'їжджай авто.',okT:'Доставлено! 🏁',okDel:'{km} км позаду. Нагорода: {reward} ₴{bonus}',okRace:'Твій час: {time} с.',noT:'Паливо скінчилось',noP:'Вантажівка зупинилась. Збирай каністри ⛽ дорогою.',noMoney:'Не вистачає грошей',refueled:'Бак повний!',you:'ти',rOff:'Онлайн-режим працює на окремому сайті, не всередині Claude.',rConn:'Підключення...',rIn:'Ви в кімнаті {code}. Натисни СТАРТ, і гонка почнеться в усіх.',rFail:'Не вдалося підключитись. Спробуй ще раз.',rNotFound:'Кімнату не знайдено.',rLost:"Зв'язок втрачено.",rEnter:'Введи код кімнати.',rCopied:'Скопійовано',gMoney:'Гроші: {n} ₴',up_e:'⚙️ Двигун',up_t:'⛽ Бак',up_r:'🛞 Шини',up_c:'📦 Причіп',d_e:'Швидший розгін і вища максимальна швидкість',d_t:'Більше палива на рейс',d_r:'Краще керування, менше проблем у дощ і сніг',d_c:'+10% до оплати за доставку',lvl:'Рівень',buy:'Купити · {n} ₴',max:'МАКС',noCash:'Не вистачає грошей',bought:'Покращено!',tzCity:'Місто',tzReg:'Регіон',tzZone:'Пояс',tzNow:'Місцевий час',rg_eu:'Європа',rg_na:'Північна Америка',rg_sa:'Південна Америка',rg_af:'Африка',rg_me:'Близький Схід',rg_as:'Азія',rg_ea:'Східна Азія',rg_oc:'Океанія',c_box:'Коробки з товарами',c_fur:'Меблі',c_par:'Посилки',c_food:'Продукти (експрес)',c_el:'Електроніка (крихке)',c_part:'Автозапчастини',c_med:'Медикаменти (експрес)',c_glass:'Скло (крихке)',stat:'Усього: {km} км · {trips} рейсів',crashes:'аварій: {n}',express:' · експрес-бонус +25%',same:'Обери різні міста',minU:'хв'};
-I18N.en={app:'Trucker Online',tag:'Deliver cargo worldwide, upgrade your truck, drive with friends',mDel:'📦 Delivery',mRace:'🏁 Online race',bGar:'🛠️ Garage',bMap:'🗺️ Map',bSet:'⚙️ Settings',routeT:'🌍 Route across the world',from:'From',to:'To',cargo:'Cargo',refuel:'⛽ Refuel · 100 ₴',roomT:'🌐 Room to play with friends',rName:'Name',rColor:'Color',rCreate:'➕ Create room',rCode:'Room code',rJoin:'Join',rYour:'Code:',rCopy:'Copy',rLeave:'Leave room',brake:'BRAKE',gas:'GAS',board:'🏁 Standings',aboutT:'About Trucker Online',about1:'A free truck game that runs in your browser on a phone or computer. Nothing to install.',about2:'Pick a departure and destination city in any country of the world (except Russia), choose your cargo and drive. The weather changes on the way, day turns to night, and local time follows the time zone of the city.',about3:'Earn money and upgrade the engine, tank, tires and trailer. Create a room and invite friends to a race: the first to arrive wins.',langNote:'All game text is translated into these languages. Country names are shown in your language automatically.',lang:'Language',diff:'Difficulty',scale:'Time compression',reset:'Reset progress',dE:'Easy',dN:'Normal',dH:'Hard',kmU:'km',mU:'m',kmhU:'km/h',spd:'Speed',left:'Left',clock:'Time',money:'Money',dist:'Distance',place:'Place',timeL:'Time, s',go:'START',again:'AGAIN',rdyT:'Ready to roll?',rdyDel:'Pick a route and cargo. Collect fuel cans ⛽ and avoid cars.',rdyRace:'Be first to drive 5000 m. Collect fuel cans ⛽ and avoid cars.',okT:'Delivered! 🏁',okDel:'{km} km done. Reward: {reward} ₴{bonus}',okRace:'Your time: {time} s.',noT:'Out of fuel',noP:'The truck has stopped. Collect fuel cans ⛽ on the road.',noMoney:'Not enough money',refueled:'Tank is full!',you:'you',rOff:'Online mode works on a standalone website, not inside Claude.',rConn:'Connecting...',rIn:'You are in room {code}. Press START and the race begins for everyone.',rFail:'Could not connect. Try again.',rNotFound:'Room not found.',rLost:'Connection lost.',rEnter:'Enter a room code.',rCopied:'Copied',gMoney:'Money: {n} ₴',up_e:'⚙️ Engine',up_t:'⛽ Tank',up_r:'🛞 Tires',up_c:'📦 Trailer',d_e:'Faster acceleration and higher top speed',d_t:'More fuel per trip',d_r:'Better handling, less trouble in rain and snow',d_c:'+10% pay per delivery',lvl:'Level',buy:'Buy · {n} ₴',max:'MAX',noCash:'Not enough money',bought:'Upgraded!',tzCity:'City',tzReg:'Region',tzZone:'Zone',tzNow:'Local time',rg_eu:'Europe',rg_na:'North America',rg_sa:'South America',rg_af:'Africa',rg_me:'Middle East',rg_as:'Asia',rg_ea:'East Asia',rg_oc:'Oceania',c_box:'Boxes of goods',c_fur:'Furniture',c_par:'Parcels',c_food:'Food (express)',c_el:'Electronics (fragile)',c_part:'Auto parts',c_med:'Medicine (express)',c_glass:'Glass (fragile)',stat:'Total: {km} km · {trips} trips',crashes:'crashes: {n}',express:' · express bonus +25%',same:'Pick different cities',minU:'min'};
-I18N.ru={app:'Дальнобойщик Онлайн',tag:'Развози грузы по миру, прокачивай грузовик, езжай с друзьями',mDel:'📦 Доставка',mRace:'🏁 Гонка онлайн',bGar:'🛠️ Гараж',bMap:'🗺️ Карта',bSet:'⚙️ Настройки',routeT:'🌍 Маршрут по миру',from:'Откуда',to:'Куда',cargo:'Груз',refuel:'⛽ Заправить · 100 ₴',roomT:'🌐 Комната для игры с друзьями',rName:'Имя',rColor:'Цвет',rCreate:'➕ Создать комнату',rCode:'Код комнаты',rJoin:'Войти',rYour:'Код:',rCopy:'Копировать',rLeave:'Выйти из комнаты',brake:'ТОРМОЗ',gas:'ГАЗ',board:'🏁 Таблица',aboutT:'Об игре «Дальнобойщик Онлайн»',about1:'Бесплатная игра про грузовики: работает в браузере на телефоне и компьютере, ничего устанавливать не нужно.',about2:'Выбери город отправления и назначения в любой стране мира (кроме России), груз и поезжай. В пути меняется погода, день сменяется ночью, а местное время зависит от часового пояса города.',about3:'Зарабатывай деньги, прокачивай двигатель, бак, шины и прицеп. Создай комнату и пригласи друзей на гонку: кто первый доедет, тот победил.',langNote:'Все надписи игры переведены на эти языки. Названия стран показываются на вашем языке автоматически.',lang:'Язык',diff:'Сложность',scale:'Сжатие времени',reset:'Сбросить прогресс',dE:'Лёгкая',dN:'Обычная',dH:'Сложная',kmU:'км',mU:'м',kmhU:'км/ч',spd:'Скорость',left:'Осталось',clock:'Время',money:'Деньги',dist:'Дистанция',place:'Место',timeL:'Время, с',go:'СТАРТ',again:'ЕЩЁ РАЗ',rdyT:'Готов к рейсу?',rdyDel:'Выбери маршрут и груз. Собирай канистры ⛽ и объезжай машины.',rdyRace:'Проедь 5000 м первым. Собирай канистры ⛽ и объезжай машины.',okT:'Доставлено! 🏁',okDel:'{km} км позади. Награда: {reward} ₴{bonus}',okRace:'Твоё время: {time} с.',noT:'Топливо кончилось',noP:'Грузовик остановился. Собирай канистры ⛽ по пути.',noMoney:'Не хватает денег',refueled:'Бак полный!',you:'ты',rOff:'Онлайн-режим работает на отдельном сайте, не внутри Claude.',rConn:'Подключение...',rIn:'Вы в комнате {code}. Нажми СТАРТ, и гонка начнётся у всех.',rFail:'Не удалось подключиться. Попробуй ещё раз.',rNotFound:'Комната не найдена.',rLost:'Связь потеряна.',rEnter:'Введи код комнаты.',rCopied:'Скопировано',gMoney:'Деньги: {n} ₴',up_e:'⚙️ Двигатель',up_t:'⛽ Бак',up_r:'🛞 Шины',up_c:'📦 Прицеп',d_e:'Быстрее разгон и выше максимальная скорость',d_t:'Больше топлива на рейс',d_r:'Лучше управление, меньше проблем в дождь и снег',d_c:'+10% к оплате за доставку',lvl:'Уровень',buy:'Купить · {n} ₴',max:'МАКС',noCash:'Не хватает денег',bought:'Улучшено!',tzCity:'Город',tzReg:'Регион',tzZone:'Пояс',tzNow:'Местное время',rg_eu:'Европа',rg_na:'Северная Америка',rg_sa:'Южная Америка',rg_af:'Африка',rg_me:'Ближний Восток',rg_as:'Азия',rg_ea:'Восточная Азия',rg_oc:'Океания',c_box:'Коробки с товарами',c_fur:'Мебель',c_par:'Посылки',c_food:'Продукты (экспресс)',c_el:'Электроника (хрупкое)',c_part:'Автозапчасти',c_med:'Лекарства (экспресс)',c_glass:'Стекло (хрупкое)',stat:'Всего: {km} км · {trips} рейсов',crashes:'аварий: {n}',express:' · экспресс-бонус +25%',same:'Выбери разные города',minU:'мин'};
-I18N.pl={app:'Trucker Online',tag:'Wożenie ładunków po świecie, ulepszanie ciężarówki, jazda z przyjaciółmi',mDel:'📦 Dostawa',mRace:'🏁 Wyścig online',bGar:'🛠️ Garaż',bMap:'🗺️ Mapa',bSet:'⚙️ Ustawienia',routeT:'🌍 Trasa po świecie',from:'Skąd',to:'Dokąd',cargo:'Ładunek',refuel:'⛽ Zatankuj · 100 ₴',roomT:'🌐 Pokój do gry ze znajomymi',rName:'Imię',rColor:'Kolor',rCreate:'➕ Utwórz pokój',rCode:'Kod pokoju',rJoin:'Dołącz',rYour:'Kod:',rCopy:'Kopiuj',rLeave:'Wyjdź z pokoju',brake:'HAMULEC',gas:'GAZ',board:'🏁 Tabela',aboutT:'O grze Trucker Online',about1:'Darmowa gra o ciężarówkach działa w przeglądarce na telefonie i komputerze. Nic nie trzeba instalować.',about2:'Wybierz miasto startu i celu w dowolnym kraju świata (oprócz Rosji), ładunek i jedź. W drodze zmienia się pogoda, dzień zamienia się w noc, a czas lokalny zależy od strefy czasowej miasta.',about3:'Zarabiaj pieniądze i ulepszaj silnik, zbiornik, opony i naczepę. Utwórz pokój i zaproś znajomych na wyścig: wygrywa ten, kto dojedzie pierwszy.',langNote:'Wszystkie teksty gry są przetłumaczone na te języki. Nazwy krajów pokazują się w Twoim języku automatycznie.',lang:'Język',diff:'Trudność',scale:'Kompresja czasu',reset:'Resetuj postęp',dE:'Łatwy',dN:'Normalny',dH:'Trudny',kmU:'km',mU:'m',kmhU:'km/h',spd:'Prędkość',left:'Zostało',clock:'Czas',money:'Pieniądze',dist:'Dystans',place:'Miejsce',timeL:'Czas, s',go:'START',again:'JESZCZE RAZ',rdyT:'Gotowy do drogi?',rdyDel:'Wybierz trasę i ładunek. Zbieraj kanistry ⛽ i omijaj samochody.',rdyRace:'Przejedź 5000 m jako pierwszy. Zbieraj kanistry ⛽ i omijaj samochody.',okT:'Dostarczono! 🏁',okDel:'Przejechano {km} km. Nagroda: {reward} ₴{bonus}',okRace:'Twój czas: {time} s.',noT:'Koniec paliwa',noP:'Ciężarówka stanęła. Zbieraj kanistry ⛽ po drodze.',noMoney:'Za mało pieniędzy',refueled:'Bak pełny!',you:'ty',rOff:'Tryb online działa na osobnej stronie, nie w Claude.',rConn:'Łączenie...',rIn:'Jesteś w pokoju {code}. Naciśnij START, a wyścig ruszy u wszystkich.',rFail:'Nie udało się połączyć. Spróbuj ponownie.',rNotFound:'Nie znaleziono pokoju.',rLost:'Utracono połączenie.',rEnter:'Wpisz kod pokoju.',rCopied:'Skopiowano',gMoney:'Pieniądze: {n} ₴',up_e:'⚙️ Silnik',up_t:'⛽ Zbiornik',up_r:'🛞 Opony',up_c:'📦 Naczepa',d_e:'Szybsze przyspieszenie i wyższa prędkość maksymalna',d_t:'Więcej paliwa na trasę',d_r:'Lepsze prowadzenie, mniej problemów w deszczu i śniegu',d_c:'+10% do zapłaty za dostawę',lvl:'Poziom',buy:'Kup · {n} ₴',max:'MAX',noCash:'Za mało pieniędzy',bought:'Ulepszono!',tzCity:'Miasto',tzReg:'Region',tzZone:'Strefa',tzNow:'Czas lokalny',rg_eu:'Europa',rg_na:'Ameryka Północna',rg_sa:'Ameryka Południowa',rg_af:'Afryka',rg_me:'Bliski Wschód',rg_as:'Azja',rg_ea:'Azja Wschodnia',rg_oc:'Oceania',c_box:'Pudła z towarami',c_fur:'Meble',c_par:'Paczki',c_food:'Żywność (ekspres)',c_el:'Elektronika (delikatne)',c_part:'Części samochodowe',c_med:'Leki (ekspres)',c_glass:'Szkło (delikatne)',stat:'Razem: {km} km · {trips} kursów',crashes:'wypadki: {n}',express:' · bonus ekspresowy +25%',same:'Wybierz różne miasta',minU:'min'};
-I18N.de={app:'Trucker Online',tag:'Fracht weltweit liefern, Lkw aufrüsten, mit Freunden fahren',mDel:'📦 Lieferung',mRace:'🏁 Online-Rennen',bGar:'🛠️ Garage',bMap:'🗺️ Karte',bSet:'⚙️ Einstellungen',routeT:'🌍 Route um die Welt',from:'Von',to:'Nach',cargo:'Fracht',refuel:'⛽ Tanken · 100 ₴',roomT:'🌐 Raum zum Spielen mit Freunden',rName:'Name',rColor:'Farbe',rCreate:'➕ Raum erstellen',rCode:'Raumcode',rJoin:'Beitreten',rYour:'Code:',rCopy:'Kopieren',rLeave:'Raum verlassen',brake:'BREMSE',gas:'GAS',board:'🏁 Rangliste',aboutT:'Über Trucker Online',about1:'Ein kostenloses Lkw-Spiel, das im Browser auf Handy und Computer läuft. Nichts zu installieren.',about2:'Wähle Start- und Zielstadt in einem beliebigen Land der Welt (außer Russland), such dir eine Fracht aus und fahr los. Unterwegs ändert sich das Wetter, der Tag wird zur Nacht, und die Ortszeit folgt der Zeitzone der Stadt.',about3:'Verdiene Geld und rüste Motor, Tank, Reifen und Anhänger auf. Erstelle einen Raum und lade Freunde zum Rennen ein: Wer zuerst ankommt, gewinnt.',langNote:'Alle Spieltexte sind in diese Sprachen übersetzt. Ländernamen erscheinen automatisch in deiner Sprache.',lang:'Sprache',diff:'Schwierigkeit',scale:'Zeitraffer',reset:'Fortschritt zurücksetzen',dE:'Leicht',dN:'Normal',dH:'Schwer',kmU:'km',mU:'m',kmhU:'km/h',spd:'Tempo',left:'Übrig',clock:'Zeit',money:'Geld',dist:'Strecke',place:'Platz',timeL:'Zeit, s',go:'START',again:'NOCH MAL',rdyT:'Bereit für die Fahrt?',rdyDel:'Wähle Route und Fracht. Sammle Kanister ⛽ und weiche Autos aus.',rdyRace:'Fahre als Erster 5000 m. Sammle Kanister ⛽ und weiche Autos aus.',okT:'Geliefert! 🏁',okDel:'{km} km geschafft. Belohnung: {reward} ₴{bonus}',okRace:'Deine Zeit: {time} s.',noT:'Kein Treibstoff mehr',noP:'Der Lkw steht. Sammle unterwegs Kanister ⛽.',noMoney:'Nicht genug Geld',refueled:'Tank voll!',you:'du',rOff:'Der Online-Modus läuft auf einer eigenen Website, nicht in Claude.',rConn:'Verbinde...',rIn:'Du bist in Raum {code}. Drücke START, dann beginnt das Rennen für alle.',rFail:'Verbindung fehlgeschlagen. Versuche es erneut.',rNotFound:'Raum nicht gefunden.',rLost:'Verbindung verloren.',rEnter:'Gib einen Raumcode ein.',rCopied:'Kopiert',gMoney:'Geld: {n} ₴',up_e:'⚙️ Motor',up_t:'⛽ Tank',up_r:'🛞 Reifen',up_c:'📦 Anhänger',d_e:'Schneller beschleunigen und höhere Höchstgeschwindigkeit',d_t:'Mehr Treibstoff pro Fahrt',d_r:'Bessere Lenkung, weniger Probleme bei Regen und Schnee',d_c:'+10 % Bezahlung pro Lieferung',lvl:'Stufe',buy:'Kaufen · {n} ₴',max:'MAX',noCash:'Nicht genug Geld',bought:'Aufgerüstet!',tzCity:'Stadt',tzReg:'Region',tzZone:'Zone',tzNow:'Ortszeit',rg_eu:'Europa',rg_na:'Nordamerika',rg_sa:'Südamerika',rg_af:'Afrika',rg_me:'Naher Osten',rg_as:'Asien',rg_ea:'Ostasien',rg_oc:'Ozeanien',c_box:'Kisten mit Waren',c_fur:'Möbel',c_par:'Pakete',c_food:'Lebensmittel (Express)',c_el:'Elektronik (zerbrechlich)',c_part:'Autoteile',c_med:'Medikamente (Express)',c_glass:'Glas (zerbrechlich)',stat:'Gesamt: {km} km · {trips} Fahrten',crashes:'Unfälle: {n}',express:' · Express-Bonus +25 %',same:'Wähle verschiedene Städte',minU:'Min.'};
+I18N.uk={bTop:'🏆 Рейтинг',topT:'🏆 Топ дальнобійників',noTop:'Поки порожньо. Зроби рейс, увійшовши в акаунт.',offTop:'Рейтинг працює на сайті, підключеному до сервера.',accT:'👤 Акаунт',accName:'Логін',accPass:'Пароль',accLogin:'Увійти',accReg:'Зареєструватись',accOut:'Вийти з акаунта',accHi:'Ти увійшов як {n}. Прогрес зберігається в акаунті.',accGuest:'Грай як гість або створи акаунт.',accBad:'Невірний логін або пароль.',accExists:'Такий логін уже є на цьому пристрої.',accShort:'Логін від 2 символів, пароль від 6.',dX:'Експерт',dK:'Хардкор',rRe:'Зв\'язок перервався. Перепідключаюсь...',app:'Дальнобійник Онлайн',tag:'Розвози вантажі світом, прокачуй вантажівку, їдь з друзями',mDel:'📦 Доставка',mRace:'🏁 Гонка онлайн',bGar:'🛠️ Гараж',bMap:'🗺️ Карта',bSet:'⚙️ Налаштування',routeT:'🌍 Маршрут по світу',from:'Звідки',to:'Куди',cargo:'Вантаж',refuel:'⛽ Заправити · 100 ₴',roomT:'🌐 Кімната для гри з друзями',rName:"Ім'я",rColor:'Колір',rCreate:'➕ Створити кімнату',rCode:'Код кімнати',rJoin:'Увійти',rYour:'Код:',rCopy:'Копіювати',rLeave:'Вийти з кімнати',brake:'ГАЛЬМО',gas:'ГАЗ',board:'🏁 Таблиця',aboutT:'Про гру «Дальнобійник Онлайн»',about1:"Безкоштовна гра про вантажівки: працює в браузері на телефоні та комп'ютері, нічого встановлювати не треба.",about2:'Обери місто відправлення та призначення в будь-якій країні світу (крім Росії), вантаж і їдь. Дорогою міняється погода, день змінюється ніччю, а місцевий час залежить від часового поясу міста.',about3:'Заробляй гроші, прокачуй двигун, бак, шини та причіп. Створи кімнату й запроси друзів на гонку: хто перший доїде, той переміг.',langNote:'Усі підписи гри перекладено на ці мови. Назви країн показуються вашою мовою автоматично.',lang:'Мова',diff:'Складність',scale:'Стиснення часу',reset:'Скинути прогрес',dE:'Легка',dN:'Звичайна',dH:'Складна',kmU:'км',mU:'м',kmhU:'км/г',spd:'Швидкість',left:'Залишилось',clock:'Час',money:'Гроші',dist:'Дистанція',place:'Місце',timeL:'Час, с',go:'СТАРТ',again:'ЩЕ РАЗ',rdyT:'Готовий до рейсу?',rdyDel:'Обери маршрут і вантаж. Збирай каністри ⛽ і об\'їжджай авто.',rdyRace:'Проїдь 5000 м першим. Збирай каністри ⛽ і об\'їжджай авто.',okT:'Доставлено! 🏁',okDel:'{km} км позаду. Нагорода: {reward} ₴{bonus}',okRace:'Твій час: {time} с.',noT:'Паливо скінчилось',noP:'Вантажівка зупинилась. Збирай каністри ⛽ дорогою.',noMoney:'Не вистачає грошей',refueled:'Бак повний!',you:'ти',rOff:'Онлайн-режим працює на окремому сайті, не всередині Claude.',rConn:'Підключення...',rIn:'Ви в кімнаті {code}. Натисни СТАРТ, і гонка почнеться в усіх.',rFail:'Не вдалося підключитись. Спробуй ще раз.',rNotFound:'Кімнату не знайдено.',rLost:"Зв'язок втрачено.",rEnter:'Введи код кімнати.',rCopied:'Скопійовано',gMoney:'Гроші: {n} ₴',up_e:'⚙️ Двигун',up_t:'⛽ Бак',up_r:'🛞 Шини',up_c:'📦 Причіп',d_e:'Швидший розгін і вища максимальна швидкість',d_t:'Більше палива на рейс',d_r:'Краще керування, менше проблем у дощ і сніг',d_c:'+10% до оплати за доставку',lvl:'Рівень',buy:'Купити · {n} ₴',max:'МАКС',noCash:'Не вистачає грошей',bought:'Покращено!',tzCity:'Місто',tzReg:'Регіон',tzZone:'Пояс',tzNow:'Місцевий час',rg_eu:'Європа',rg_na:'Північна Америка',rg_sa:'Південна Америка',rg_af:'Африка',rg_me:'Близький Схід',rg_as:'Азія',rg_ea:'Східна Азія',rg_oc:'Океанія',c_box:'Коробки з товарами',c_fur:'Меблі',c_par:'Посилки',c_food:'Продукти (експрес)',c_el:'Електроніка (крихке)',c_part:'Автозапчастини',c_med:'Медикаменти (експрес)',c_glass:'Скло (крихке)',stat:'Усього: {km} км · {trips} рейсів',crashes:'аварій: {n}',express:' · експрес-бонус +25%',same:'Обери різні міста',minU:'хв'};
+I18N.en={bTop:'🏆 Top',topT:'🏆 Top truckers',noTop:'Empty for now. Finish a delivery while logged in.',offTop:'The ranking works on the website connected to the server.',accT:'👤 Account',accName:'Username',accPass:'Password',accLogin:'Log in',accReg:'Sign up',accOut:'Log out',accHi:'Logged in as {n}. Progress is saved in your account.',accGuest:'Play as a guest or create an account.',accBad:'Wrong username or password.',accExists:'This username already exists on this device.',accShort:'Username 2+ characters, password 6+.',dX:'Expert',dK:'Hardcore',rRe:'Connection lost. Reconnecting...',app:'Trucker Online',tag:'Deliver cargo worldwide, upgrade your truck, drive with friends',mDel:'📦 Delivery',mRace:'🏁 Online race',bGar:'🛠️ Garage',bMap:'🗺️ Map',bSet:'⚙️ Settings',routeT:'🌍 Route across the world',from:'From',to:'To',cargo:'Cargo',refuel:'⛽ Refuel · 100 ₴',roomT:'🌐 Room to play with friends',rName:'Name',rColor:'Color',rCreate:'➕ Create room',rCode:'Room code',rJoin:'Join',rYour:'Code:',rCopy:'Copy',rLeave:'Leave room',brake:'BRAKE',gas:'GAS',board:'🏁 Standings',aboutT:'About Trucker Online',about1:'A free truck game that runs in your browser on a phone or computer. Nothing to install.',about2:'Pick a departure and destination city in any country of the world (except Russia), choose your cargo and drive. The weather changes on the way, day turns to night, and local time follows the time zone of the city.',about3:'Earn money and upgrade the engine, tank, tires and trailer. Create a room and invite friends to a race: the first to arrive wins.',langNote:'All game text is translated into these languages. Country names are shown in your language automatically.',lang:'Language',diff:'Difficulty',scale:'Time compression',reset:'Reset progress',dE:'Easy',dN:'Normal',dH:'Hard',kmU:'km',mU:'m',kmhU:'km/h',spd:'Speed',left:'Left',clock:'Time',money:'Money',dist:'Distance',place:'Place',timeL:'Time, s',go:'START',again:'AGAIN',rdyT:'Ready to roll?',rdyDel:'Pick a route and cargo. Collect fuel cans ⛽ and avoid cars.',rdyRace:'Be first to drive 5000 m. Collect fuel cans ⛽ and avoid cars.',okT:'Delivered! 🏁',okDel:'{km} km done. Reward: {reward} ₴{bonus}',okRace:'Your time: {time} s.',noT:'Out of fuel',noP:'The truck has stopped. Collect fuel cans ⛽ on the road.',noMoney:'Not enough money',refueled:'Tank is full!',you:'you',rOff:'Online mode works on a standalone website, not inside Claude.',rConn:'Connecting...',rIn:'You are in room {code}. Press START and the race begins for everyone.',rFail:'Could not connect. Try again.',rNotFound:'Room not found.',rLost:'Connection lost.',rEnter:'Enter a room code.',rCopied:'Copied',gMoney:'Money: {n} ₴',up_e:'⚙️ Engine',up_t:'⛽ Tank',up_r:'🛞 Tires',up_c:'📦 Trailer',d_e:'Faster acceleration and higher top speed',d_t:'More fuel per trip',d_r:'Better handling, less trouble in rain and snow',d_c:'+10% pay per delivery',lvl:'Level',buy:'Buy · {n} ₴',max:'MAX',noCash:'Not enough money',bought:'Upgraded!',tzCity:'City',tzReg:'Region',tzZone:'Zone',tzNow:'Local time',rg_eu:'Europe',rg_na:'North America',rg_sa:'South America',rg_af:'Africa',rg_me:'Middle East',rg_as:'Asia',rg_ea:'East Asia',rg_oc:'Oceania',c_box:'Boxes of goods',c_fur:'Furniture',c_par:'Parcels',c_food:'Food (express)',c_el:'Electronics (fragile)',c_part:'Auto parts',c_med:'Medicine (express)',c_glass:'Glass (fragile)',stat:'Total: {km} km · {trips} trips',crashes:'crashes: {n}',express:' · express bonus +25%',same:'Pick different cities',minU:'min'};
+I18N.ru={bTop:'🏆 Рейтинг',topT:'🏆 Топ дальнобойщиков',noTop:'Пока пусто. Сделай рейс, войдя в аккаунт.',offTop:'Рейтинг работает на сайте, подключённом к серверу.',accT:'👤 Аккаунт',accName:'Логин',accPass:'Пароль',accLogin:'Войти',accReg:'Зарегистрироваться',accOut:'Выйти из аккаунта',accHi:'Ты вошёл как {n}. Прогресс хранится в аккаунте.',accGuest:'Играй как гость или создай аккаунт.',accBad:'Неверный логин или пароль.',accExists:'Такой логин уже есть на этом устройстве.',accShort:'Логин от 2 символов, пароль от 6.',dX:'Эксперт',dK:'Хардкор',rRe:'Связь прервалась. Переподключаюсь...',app:'Дальнобойщик Онлайн',tag:'Развози грузы по миру, прокачивай грузовик, езжай с друзьями',mDel:'📦 Доставка',mRace:'🏁 Гонка онлайн',bGar:'🛠️ Гараж',bMap:'🗺️ Карта',bSet:'⚙️ Настройки',routeT:'🌍 Маршрут по миру',from:'Откуда',to:'Куда',cargo:'Груз',refuel:'⛽ Заправить · 100 ₴',roomT:'🌐 Комната для игры с друзьями',rName:'Имя',rColor:'Цвет',rCreate:'➕ Создать комнату',rCode:'Код комнаты',rJoin:'Войти',rYour:'Код:',rCopy:'Копировать',rLeave:'Выйти из комнаты',brake:'ТОРМОЗ',gas:'ГАЗ',board:'🏁 Таблица',aboutT:'Об игре «Дальнобойщик Онлайн»',about1:'Бесплатная игра про грузовики: работает в браузере на телефоне и компьютере, ничего устанавливать не нужно.',about2:'Выбери город отправления и назначения в любой стране мира (кроме России), груз и поезжай. В пути меняется погода, день сменяется ночью, а местное время зависит от часового пояса города.',about3:'Зарабатывай деньги, прокачивай двигатель, бак, шины и прицеп. Создай комнату и пригласи друзей на гонку: кто первый доедет, тот победил.',langNote:'Все надписи игры переведены на эти языки. Названия стран показываются на вашем языке автоматически.',lang:'Язык',diff:'Сложность',scale:'Сжатие времени',reset:'Сбросить прогресс',dE:'Лёгкая',dN:'Обычная',dH:'Сложная',kmU:'км',mU:'м',kmhU:'км/ч',spd:'Скорость',left:'Осталось',clock:'Время',money:'Деньги',dist:'Дистанция',place:'Место',timeL:'Время, с',go:'СТАРТ',again:'ЕЩЁ РАЗ',rdyT:'Готов к рейсу?',rdyDel:'Выбери маршрут и груз. Собирай канистры ⛽ и объезжай машины.',rdyRace:'Проедь 5000 м первым. Собирай канистры ⛽ и объезжай машины.',okT:'Доставлено! 🏁',okDel:'{km} км позади. Награда: {reward} ₴{bonus}',okRace:'Твоё время: {time} с.',noT:'Топливо кончилось',noP:'Грузовик остановился. Собирай канистры ⛽ по пути.',noMoney:'Не хватает денег',refueled:'Бак полный!',you:'ты',rOff:'Онлайн-режим работает на отдельном сайте, не внутри Claude.',rConn:'Подключение...',rIn:'Вы в комнате {code}. Нажми СТАРТ, и гонка начнётся у всех.',rFail:'Не удалось подключиться. Попробуй ещё раз.',rNotFound:'Комната не найдена.',rLost:'Связь потеряна.',rEnter:'Введи код комнаты.',rCopied:'Скопировано',gMoney:'Деньги: {n} ₴',up_e:'⚙️ Двигатель',up_t:'⛽ Бак',up_r:'🛞 Шины',up_c:'📦 Прицеп',d_e:'Быстрее разгон и выше максимальная скорость',d_t:'Больше топлива на рейс',d_r:'Лучше управление, меньше проблем в дождь и снег',d_c:'+10% к оплате за доставку',lvl:'Уровень',buy:'Купить · {n} ₴',max:'МАКС',noCash:'Не хватает денег',bought:'Улучшено!',tzCity:'Город',tzReg:'Регион',tzZone:'Пояс',tzNow:'Местное время',rg_eu:'Европа',rg_na:'Северная Америка',rg_sa:'Южная Америка',rg_af:'Африка',rg_me:'Ближний Восток',rg_as:'Азия',rg_ea:'Восточная Азия',rg_oc:'Океания',c_box:'Коробки с товарами',c_fur:'Мебель',c_par:'Посылки',c_food:'Продукты (экспресс)',c_el:'Электроника (хрупкое)',c_part:'Автозапчасти',c_med:'Лекарства (экспресс)',c_glass:'Стекло (хрупкое)',stat:'Всего: {km} км · {trips} рейсов',crashes:'аварий: {n}',express:' · экспресс-бонус +25%',same:'Выбери разные города',minU:'мин'};
+I18N.pl={bTop:'🏆 Ranking',topT:'🏆 Najlepsi kierowcy',noTop:'Na razie pusto. Zrób kurs po zalogowaniu.',offTop:'Ranking działa na stronie połączonej z serwerem.',accT:'👤 Konto',accName:'Login',accPass:'Hasło',accLogin:'Zaloguj',accReg:'Zarejestruj',accOut:'Wyloguj',accHi:'Zalogowano jako {n}. Postęp zapisuje się na koncie.',accGuest:'Graj jako gość lub załóż konto.',accBad:'Zły login lub hasło.',accExists:'Taki login już istnieje na tym urządzeniu.',accShort:'Login min. 2 znaki, hasło min. 6.',dX:'Ekspert',dK:'Hardcore',rRe:'Utracono połączenie. Łączę ponownie...',app:'Trucker Online',tag:'Wożenie ładunków po świecie, ulepszanie ciężarówki, jazda z przyjaciółmi',mDel:'📦 Dostawa',mRace:'🏁 Wyścig online',bGar:'🛠️ Garaż',bMap:'🗺️ Mapa',bSet:'⚙️ Ustawienia',routeT:'🌍 Trasa po świecie',from:'Skąd',to:'Dokąd',cargo:'Ładunek',refuel:'⛽ Zatankuj · 100 ₴',roomT:'🌐 Pokój do gry ze znajomymi',rName:'Imię',rColor:'Kolor',rCreate:'➕ Utwórz pokój',rCode:'Kod pokoju',rJoin:'Dołącz',rYour:'Kod:',rCopy:'Kopiuj',rLeave:'Wyjdź z pokoju',brake:'HAMULEC',gas:'GAZ',board:'🏁 Tabela',aboutT:'O grze Trucker Online',about1:'Darmowa gra o ciężarówkach działa w przeglądarce na telefonie i komputerze. Nic nie trzeba instalować.',about2:'Wybierz miasto startu i celu w dowolnym kraju świata (oprócz Rosji), ładunek i jedź. W drodze zmienia się pogoda, dzień zamienia się w noc, a czas lokalny zależy od strefy czasowej miasta.',about3:'Zarabiaj pieniądze i ulepszaj silnik, zbiornik, opony i naczepę. Utwórz pokój i zaproś znajomych na wyścig: wygrywa ten, kto dojedzie pierwszy.',langNote:'Wszystkie teksty gry są przetłumaczone na te języki. Nazwy krajów pokazują się w Twoim języku automatycznie.',lang:'Język',diff:'Trudność',scale:'Kompresja czasu',reset:'Resetuj postęp',dE:'Łatwy',dN:'Normalny',dH:'Trudny',kmU:'km',mU:'m',kmhU:'km/h',spd:'Prędkość',left:'Zostało',clock:'Czas',money:'Pieniądze',dist:'Dystans',place:'Miejsce',timeL:'Czas, s',go:'START',again:'JESZCZE RAZ',rdyT:'Gotowy do drogi?',rdyDel:'Wybierz trasę i ładunek. Zbieraj kanistry ⛽ i omijaj samochody.',rdyRace:'Przejedź 5000 m jako pierwszy. Zbieraj kanistry ⛽ i omijaj samochody.',okT:'Dostarczono! 🏁',okDel:'Przejechano {km} km. Nagroda: {reward} ₴{bonus}',okRace:'Twój czas: {time} s.',noT:'Koniec paliwa',noP:'Ciężarówka stanęła. Zbieraj kanistry ⛽ po drodze.',noMoney:'Za mało pieniędzy',refueled:'Bak pełny!',you:'ty',rOff:'Tryb online działa na osobnej stronie, nie w Claude.',rConn:'Łączenie...',rIn:'Jesteś w pokoju {code}. Naciśnij START, a wyścig ruszy u wszystkich.',rFail:'Nie udało się połączyć. Spróbuj ponownie.',rNotFound:'Nie znaleziono pokoju.',rLost:'Utracono połączenie.',rEnter:'Wpisz kod pokoju.',rCopied:'Skopiowano',gMoney:'Pieniądze: {n} ₴',up_e:'⚙️ Silnik',up_t:'⛽ Zbiornik',up_r:'🛞 Opony',up_c:'📦 Naczepa',d_e:'Szybsze przyspieszenie i wyższa prędkość maksymalna',d_t:'Więcej paliwa na trasę',d_r:'Lepsze prowadzenie, mniej problemów w deszczu i śniegu',d_c:'+10% do zapłaty za dostawę',lvl:'Poziom',buy:'Kup · {n} ₴',max:'MAX',noCash:'Za mało pieniędzy',bought:'Ulepszono!',tzCity:'Miasto',tzReg:'Region',tzZone:'Strefa',tzNow:'Czas lokalny',rg_eu:'Europa',rg_na:'Ameryka Północna',rg_sa:'Ameryka Południowa',rg_af:'Afryka',rg_me:'Bliski Wschód',rg_as:'Azja',rg_ea:'Azja Wschodnia',rg_oc:'Oceania',c_box:'Pudła z towarami',c_fur:'Meble',c_par:'Paczki',c_food:'Żywność (ekspres)',c_el:'Elektronika (delikatne)',c_part:'Części samochodowe',c_med:'Leki (ekspres)',c_glass:'Szkło (delikatne)',stat:'Razem: {km} km · {trips} kursów',crashes:'wypadki: {n}',express:' · bonus ekspresowy +25%',same:'Wybierz różne miasta',minU:'min'};
+I18N.de={bTop:'🏆 Top',topT:'🏆 Beste Trucker',noTop:'Noch leer. Liefere eine Fracht, während du angemeldet bist.',offTop:'Die Rangliste funktioniert auf der Website mit Serververbindung.',accT:'👤 Konto',accName:'Benutzername',accPass:'Passwort',accLogin:'Anmelden',accReg:'Registrieren',accOut:'Abmelden',accHi:'Angemeldet als {n}. Der Fortschritt wird im Konto gespeichert.',accGuest:'Spiele als Gast oder erstelle ein Konto.',accBad:'Falscher Benutzername oder Passwort.',accExists:'Dieser Benutzername existiert auf diesem Gerät schon.',accShort:'Name ab 2 Zeichen, Passwort ab 6.',dX:'Experte',dK:'Hardcore',rRe:'Verbindung verloren. Verbinde neu...',app:'Trucker Online',tag:'Fracht weltweit liefern, Lkw aufrüsten, mit Freunden fahren',mDel:'📦 Lieferung',mRace:'🏁 Online-Rennen',bGar:'🛠️ Garage',bMap:'🗺️ Karte',bSet:'⚙️ Einstellungen',routeT:'🌍 Route um die Welt',from:'Von',to:'Nach',cargo:'Fracht',refuel:'⛽ Tanken · 100 ₴',roomT:'🌐 Raum zum Spielen mit Freunden',rName:'Name',rColor:'Farbe',rCreate:'➕ Raum erstellen',rCode:'Raumcode',rJoin:'Beitreten',rYour:'Code:',rCopy:'Kopieren',rLeave:'Raum verlassen',brake:'BREMSE',gas:'GAS',board:'🏁 Rangliste',aboutT:'Über Trucker Online',about1:'Ein kostenloses Lkw-Spiel, das im Browser auf Handy und Computer läuft. Nichts zu installieren.',about2:'Wähle Start- und Zielstadt in einem beliebigen Land der Welt (außer Russland), such dir eine Fracht aus und fahr los. Unterwegs ändert sich das Wetter, der Tag wird zur Nacht, und die Ortszeit folgt der Zeitzone der Stadt.',about3:'Verdiene Geld und rüste Motor, Tank, Reifen und Anhänger auf. Erstelle einen Raum und lade Freunde zum Rennen ein: Wer zuerst ankommt, gewinnt.',langNote:'Alle Spieltexte sind in diese Sprachen übersetzt. Ländernamen erscheinen automatisch in deiner Sprache.',lang:'Sprache',diff:'Schwierigkeit',scale:'Zeitraffer',reset:'Fortschritt zurücksetzen',dE:'Leicht',dN:'Normal',dH:'Schwer',kmU:'km',mU:'m',kmhU:'km/h',spd:'Tempo',left:'Übrig',clock:'Zeit',money:'Geld',dist:'Strecke',place:'Platz',timeL:'Zeit, s',go:'START',again:'NOCH MAL',rdyT:'Bereit für die Fahrt?',rdyDel:'Wähle Route und Fracht. Sammle Kanister ⛽ und weiche Autos aus.',rdyRace:'Fahre als Erster 5000 m. Sammle Kanister ⛽ und weiche Autos aus.',okT:'Geliefert! 🏁',okDel:'{km} km geschafft. Belohnung: {reward} ₴{bonus}',okRace:'Deine Zeit: {time} s.',noT:'Kein Treibstoff mehr',noP:'Der Lkw steht. Sammle unterwegs Kanister ⛽.',noMoney:'Nicht genug Geld',refueled:'Tank voll!',you:'du',rOff:'Der Online-Modus läuft auf einer eigenen Website, nicht in Claude.',rConn:'Verbinde...',rIn:'Du bist in Raum {code}. Drücke START, dann beginnt das Rennen für alle.',rFail:'Verbindung fehlgeschlagen. Versuche es erneut.',rNotFound:'Raum nicht gefunden.',rLost:'Verbindung verloren.',rEnter:'Gib einen Raumcode ein.',rCopied:'Kopiert',gMoney:'Geld: {n} ₴',up_e:'⚙️ Motor',up_t:'⛽ Tank',up_r:'🛞 Reifen',up_c:'📦 Anhänger',d_e:'Schneller beschleunigen und höhere Höchstgeschwindigkeit',d_t:'Mehr Treibstoff pro Fahrt',d_r:'Bessere Lenkung, weniger Probleme bei Regen und Schnee',d_c:'+10 % Bezahlung pro Lieferung',lvl:'Stufe',buy:'Kaufen · {n} ₴',max:'MAX',noCash:'Nicht genug Geld',bought:'Aufgerüstet!',tzCity:'Stadt',tzReg:'Region',tzZone:'Zone',tzNow:'Ortszeit',rg_eu:'Europa',rg_na:'Nordamerika',rg_sa:'Südamerika',rg_af:'Afrika',rg_me:'Naher Osten',rg_as:'Asien',rg_ea:'Ostasien',rg_oc:'Ozeanien',c_box:'Kisten mit Waren',c_fur:'Möbel',c_par:'Pakete',c_food:'Lebensmittel (Express)',c_el:'Elektronik (zerbrechlich)',c_part:'Autoteile',c_med:'Medikamente (Express)',c_glass:'Glas (zerbrechlich)',stat:'Gesamt: {km} km · {trips} Fahrten',crashes:'Unfälle: {n}',express:' · Express-Bonus +25 %',same:'Wähle verschiedene Städte',minU:'Min.'};
 /* Короткі словники: відсутні ключі автоматично беруться з англійської */
 I18N.fr={app:'Trucker Online',tag:'Livre partout dans le monde, améliore ton camion, roule avec tes amis',mDel:'📦 Livraison',mRace:'🏁 Course en ligne',bGar:'🛠️ Garage',bMap:'🗺️ Carte',bSet:'⚙️ Réglages',routeT:'🌍 Itinéraire dans le monde',from:'De',to:'Vers',cargo:'Cargaison',refuel:'⛽ Faire le plein · 100 ₴',roomT:'🌐 Salon pour jouer entre amis',rName:'Nom',rColor:'Couleur',rCreate:'➕ Créer un salon',rCode:'Code du salon',rJoin:'Rejoindre',rCopy:'Copier',rLeave:'Quitter le salon',brake:'FREIN',gas:'GAZ',board:'🏁 Classement',lang:'Langue',diff:'Difficulté',reset:'Réinitialiser',dE:'Facile',dN:'Normal',dH:'Difficile',spd:'Vitesse',left:'Reste',clock:'Heure',money:'Argent',dist:'Distance',place:'Place',go:'DÉPART',again:'ENCORE',rdyT:'Prêt à partir ?',noT:'Panne sèche',okT:'Livré ! 🏁',up_e:'⚙️ Moteur',up_t:'⛽ Réservoir',up_r:'🛞 Pneus',up_c:'📦 Remorque',lvl:'Niveau',buy:'Acheter · {n} ₴',max:'MAX',tzCity:'Ville',tzReg:'Région',tzZone:'Fuseau',tzNow:'Heure locale',rg_eu:'Europe',rg_na:'Amérique du Nord',rg_sa:'Amérique du Sud',rg_af:'Afrique',rg_me:'Moyen-Orient',rg_as:'Asie',rg_ea:'Asie de l’Est',rg_oc:'Océanie'};
 I18N.es={app:'Trucker Online',tag:'Reparte carga por el mundo, mejora tu camión, juega con amigos',mDel:'📦 Entrega',mRace:'🏁 Carrera online',bGar:'🛠️ Garaje',bMap:'🗺️ Mapa',bSet:'⚙️ Ajustes',routeT:'🌍 Ruta por el mundo',from:'Desde',to:'Hasta',cargo:'Carga',refuel:'⛽ Repostar · 100 ₴',roomT:'🌐 Sala para jugar con amigos',rName:'Nombre',rColor:'Color',rCreate:'➕ Crear sala',rCode:'Código de sala',rJoin:'Entrar',rCopy:'Copiar',rLeave:'Salir de la sala',brake:'FRENO',gas:'GAS',board:'🏁 Clasificación',lang:'Idioma',diff:'Dificultad',reset:'Reiniciar progreso',dE:'Fácil',dN:'Normal',dH:'Difícil',spd:'Velocidad',left:'Falta',clock:'Hora',money:'Dinero',dist:'Distancia',place:'Puesto',go:'SALIR',again:'OTRA VEZ',rdyT:'¿Listo para salir?',noT:'Sin combustible',okT:'¡Entregado! 🏁',up_e:'⚙️ Motor',up_t:'⛽ Depósito',up_r:'🛞 Neumáticos',up_c:'📦 Remolque',lvl:'Nivel',buy:'Comprar · {n} ₴',max:'MÁX',tzCity:'Ciudad',tzReg:'Región',tzZone:'Zona',tzNow:'Hora local',rg_eu:'Europa',rg_na:'Norteamérica',rg_sa:'Sudamérica',rg_af:'África',rg_me:'Oriente Medio',rg_as:'Asia',rg_ea:'Asia Oriental',rg_oc:'Oceanía'};
@@ -411,11 +419,20 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function clean(s,n){return String(s==null?'':s).replace(/[<>&"']/g,'').slice(0,n);}
 function hash(seed,k){let x=Math.imul((k|0)^seed,2654435761)>>>0;x=Math.imul(x^(x>>>15),2246822519)>>>0;x=Math.imul(x^(x>>>13),3266489917)>>>0;x^=x>>>16;return(x>>>0)/4294967296;}
 /* ---------- збереження ---------- */
-const SAVE_KEY='trk2';
-const S={lang:'uk',money:300,up:{e:0,t:0,r:0,c:0},km:0,trips:0,diff:'n',scale:240};
-try{const o=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(o){Object.assign(S,o);S.up=Object.assign({e:0,t:0,r:0,c:0},o.up||{});}}catch(e){}
-if(!I18N[S.lang])S.lang='uk';
-function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));}catch(e){}}
+const FB_CFG={apiKey:"AIzaSyDe8k6Zu16G-ndZCm9bd0s0gX_RV4jJ6bA",authDomain:"trucker-54bbc.firebaseapp.com",databaseURL:"https://trucker-54bbc-default-rtdb.europe-west1.firebasedatabase.app",projectId:"trucker-54bbc",storageBucket:"trucker-54bbc.firebasestorage.app",messagingSenderId:"478217034882",appId:"1:478217034882:web:9ceab53a02fe3d6487689b"};
+let fbAuth=null,fbDb=null;
+try{if(window.firebase&&firebase.initializeApp){firebase.initializeApp(FB_CFG);fbAuth=firebase.auth();fbDb=firebase.database();}}catch(e){fbAuth=null;fbDb=null;}
+function cloudOn(){return !!(fbAuth&&fbDb);}
+const ACC_KEY='trk2acc';
+let ACC={users:{},cur:null};
+try{const a=JSON.parse(localStorage.getItem(ACC_KEY)||'null');if(a&&a.users)ACC=a;}catch(e){}
+function saveKey(){return ACC.cur?'trk2_'+ACC.cur:'trk2';}
+const DEF=()=>({lang:'uk',money:300,up:{e:0,t:0,r:0,c:0},km:0,trips:0,diff:'n',scale:240,name:''});
+const S=DEF();
+function loadS(keepLang){const lang=S.lang;Object.assign(S,DEF());try{const o=JSON.parse(localStorage.getItem(saveKey())||'null');if(o){Object.assign(S,o);S.up=Object.assign({e:0,t:0,r:0,c:0},o.up||{});}else if(keepLang)S.lang=lang;}catch(e){}if(!I18N[S.lang])S.lang='uk';}
+loadS(false);
+function save(){try{localStorage.setItem(saveKey(),JSON.stringify(S));localStorage.setItem(ACC_KEY,JSON.stringify(ACC));}catch(e){}if(typeof cloudSaveSoon==='function')cloudSaveSoon();}
+const DIFF={e:{a:1.15,f:.85,r:.9,d:.4,s:.8},n:{a:1,f:1,r:1,d:.55,s:.55},h:{a:.85,f:1.3,r:1.2,d:.65,s:.45},x:{a:.75,f:1.55,r:1.5,d:.72,s:.35},k:{a:.65,f:1.9,r:2,d:.8,s:.25}};
 function t(k,v){let s=(I18N[S.lang]&&I18N[S.lang][k])||I18N.en[k]||I18N.uk[k]||k;if(v)for(const q in v)s=s.replace('{'+q+'}',v[q]);return s;}
 /* ---------- час і пояси ---------- */
 const tzOk={};
@@ -439,12 +456,12 @@ const collected=new Set(),input={gas:false,brake:false,left:false,right:false},o
 function vmax(){const f=weather==='rain'?Math.min(1,.82+.04*S.up.r):weather==='snow'?Math.min(1,.68+.06*S.up.r):1;return(39+2*S.up.e)*f;}
 function rangeKm(){return 1500+600*S.up.t;}
 const OB0=80,OBS=30,carColors=['#c0564b','#4b7bc0','#d8c34a','#7a7f86'];
-function obAt(k){if(k<0||hash(seed,k)>.55)return null;return{d:OB0+k*OBS,lane:Math.floor(hash(seed,k+100000)*3),type:Math.floor(hash(seed,k+200000)*4)};}
+function obAt(k){if(k<0||hash(seed,k)>(mode==='race'?.55:(DIFF[S.diff]||DIFF.n).d))return null;return{d:OB0+k*OBS,lane:Math.floor(hash(seed,k+100000)*3),type:Math.floor(hash(seed,k+200000)*4)};}
 function fuelAt(k){return k<0?null:{d:150+k*220,lane:Math.floor(hash(seed,k+300000)*3)};}
 /* ---------- інтерфейс ---------- */
 function toast(m){const e=$('toast');e.textContent=m;e.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>{e.hidden=true;},2200);}
 function applyI18n(){
-  document.documentElement.lang=S.lang;
+  document.documentElement.lang=S.lang;if(typeof renderAcc==='function')renderAcc();
   document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.dataset.i18n);});
   $('name').placeholder=t('rName');$('room').placeholder='ABCDE';
   buildCitySelects();buildCargo();buildSettings();updateRouteInfo();setHudLabels();renderGarage();setOverlay();updateHud();
@@ -460,7 +477,7 @@ function buildCitySelects(){
 function buildCargo(){const s=$('selCargo'),o=s.value;s.innerHTML=CARGO.map((c,i)=>'<option value="'+i+'">'+t(c[1])+(c[3]?' 🧪':'')+(c[4]?' ⚡':'')+'</option>').join('');s.value=o||'0';}
 function buildSettings(){
   $('selLang').innerHTML=LANGS.map(l=>'<option value="'+l[0]+'">'+l[1]+'</option>').join('');$('selLang').value=S.lang;
-  $('selDiff').innerHTML='<option value="e">'+t('dE')+'</option><option value="n">'+t('dN')+'</option><option value="h">'+t('dH')+'</option>';$('selDiff').value=S.diff;
+  $('selDiff').innerHTML='<option value="e">'+t('dE')+'</option><option value="n">'+t('dN')+'</option><option value="h">'+t('dH')+'</option><option value="x">'+t('dX')+'</option><option value="k">'+t('dK')+'</option>';$('selDiff').value=S.diff;
   $('selScale').value=String(S.scale);
 }
 function curCities(){return[CITIES[+$('selFrom').value],CITIES[+$('selTo').value]];}
@@ -489,7 +506,7 @@ function setMode(m){
 $('tDel').onclick=()=>{if(phase==='race'||phase==='count')return;setMode('del');};
 $('tRace').onclick=()=>{if(phase==='race'||phase==='count')return;setMode('race');};
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{$(b.dataset.close).hidden=true;});
-['mGar','mMap','mSet'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))$(id).hidden=true;}));
+['mGar','mMap','mSet','mTop'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))$(id).hidden=true;}));
 $('bGar').onclick=()=>{renderGarage();$('mGar').hidden=false;};
 $('bMap').onclick=()=>{$('mMap').hidden=false;drawMap();};
 $('bSet').onclick=()=>{$('mSet').hidden=false;};
@@ -497,7 +514,7 @@ $('selFrom').onchange=$('selTo').onchange=()=>{updateRouteInfo();if(!$('mMap').h
 $('selLang').onchange=e=>{S.lang=e.target.value;save();applyI18n();};
 $('selDiff').onchange=e=>{S.diff=e.target.value;save();};
 $('selScale').onchange=e=>{S.scale=+e.target.value;save();};
-$('resetBtn').onclick=()=>{try{localStorage.removeItem(SAVE_KEY);}catch(e){}Object.assign(S,{money:300,up:{e:0,t:0,r:0,c:0},km:0,trips:0});save();renderGarage();updateRouteInfo();updateHud();toast('OK');};
+$('resetBtn').onclick=()=>{try{localStorage.removeItem(saveKey());}catch(e){}Object.assign(S,{money:300,up:{e:0,t:0,r:0,c:0},km:0,trips:0});save();renderGarage();updateRouteInfo();updateHud();toast('OK');};
 $('refuelBtn').onclick=()=>{if(phase==='race'&&mode==='del'&&me.v>1){return;}if(S.money<100){toast(t('noMoney'));return;}S.money-=100;me.fuel=100;save();toast(t('refueled'));updateHud();};
 /* ---------- гараж ---------- */
 const UPC={e:600,t:500,r:400,c:900};
@@ -525,63 +542,129 @@ function drawMap(){
 function tzBox(ci,ms){return '<b>'+ci.n+'</b><br>'+t('tzReg')+': <strong>'+t('rg_'+regionOf(ci))+'</strong><br>'+t('tzZone')+': <strong>'+safeTz(ci.tz).replace(/_/g,' ')+' ('+utcLabel(ci.tz,ms)+')</strong><br>'+t('tzNow')+':<div class="t">'+fmtT(ci.tz,ms)+'</div>';}
 function updateTzInfo(){const[a,b]=curCities(),ms=phase==='race'&&mode==='del'?trip.startMs+trip.simMs:Date.now();$('tzA').innerHTML=tzBox(a,ms);$('tzB').innerHTML=tzBox(b,ms);}
 setInterval(()=>{if(!$('mMap').hidden)updateTzInfo();},1000);
-/* ---------- мережа (кімнати) ---------- */
-const net={on:false,host:false,peer:null,conns:[],hostConn:null,id:null,players:{},timer:null,wait:null,code:''};
+/* ---------- мережа (кімнати на сервері Firebase) ---------- */
+const NET_KEY='trk2room';
+const net={on:false,code:'',id:null,players:{},timer:null,off:0,lastGo:0,joinedAt:0,tick:0,ref:null,me:null,conn:null};
 function netStatus(s){$('netStatus').textContent=s;}
-function payload(){return{n:me.name,d:Math.round(me.d*10)/10,x:Math.round(me.x*100)/100,c:me.color,f:me.fin};}
+function srvNow(){return Date.now()+net.off;}
+function payload(){return{n:clean($('name').value.trim(),14)||'Driver',d:Math.round(me.d*10)/10,x:Math.round(me.x*100)/100,c:$('color').value,f:me.fin};}
 function sane(d){return{n:clean(d.n,14)||'?',d:Number(d.d)||0,x:clamp(Number(d.x)||1.5,0,3),c:/^#[0-9a-f]{6}$/i.test(d.c)?d.c:'#e6a23c',f:d.f==null?null:Number(d.f),ts:Date.now()};}
-function netOffline(msg){
-  if(net.timer)clearInterval(net.timer);if(net.wait)clearTimeout(net.wait);
-  try{if(net.peer)net.peer.destroy();}catch(e){}
-  Object.assign(net,{on:false,host:false,peer:null,conns:[],hostConn:null,players:{},timer:null,wait:null,code:''});
-  $('codeBox').hidden=true;$('leaveRow').hidden=true;$('createBtn').disabled=false;$('joinBtn').disabled=false;netStatus(msg||'');
-}
-function netReady(){
-  net.on=true;if(net.wait){clearTimeout(net.wait);net.wait=null;}
-  $('codeTxt').textContent=net.code;$('codeBox').hidden=false;$('leaveRow').hidden=false;$('createBtn').disabled=true;$('joinBtn').disabled=true;
-  netStatus(t('rIn',{code:net.code}));net.timer=setInterval(netTick,100);
-}
-function netTick(){
-  if(net.host){net.players[net.id]=Object.assign(payload(),{ts:Date.now()});const now=Date.now();for(const id in net.players)if(now-net.players[id].ts>5000)delete net.players[id];const m={t:'p',p:net.players};net.conns.forEach(c=>{if(c.open)c.send(m);});}
-  else if(net.hostConn&&net.hostConn.open)net.hostConn.send(Object.assign({t:'s'},payload()));
-}
-function hostGo(){const s=Math.floor(Math.random()*2147483647);beginCountdown(s);net.conns.forEach(c=>{if(c.open)c.send({t:'go',s});});}
-function needPeer(){if(typeof Peer==='undefined'){netStatus(t('rOff'));return false;}return true;}
+function remember(){try{localStorage.setItem(NET_KEY,JSON.stringify({code:net.code,ts:Date.now()}));}catch(e){}}
+function forget(){try{localStorage.removeItem(NET_KEY);}catch(e){}}
 function randCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
-function netCreate(tries){
-  if(!needPeer())return;net.code=randCode();netStatus(t('rConn'));
-  net.wait=setTimeout(()=>netOffline(t('rFail')),12000);
-  const p=new Peer('trkr2-'+net.code.toLowerCase());net.peer=p;
-  p.on('open',id=>{net.host=true;net.id=id;
-    p.on('connection',c=>{c.on('open',()=>{net.conns.push(c);});c.on('data',d=>{if(!d)return;if(d.t==='s')net.players[c.peer]=sane(d);else if(d.t==='goreq'&&phase!=='race'&&phase!=='count')hostGo();});c.on('close',()=>{net.conns=net.conns.filter(x=>x!==c);delete net.players[c.peer];});});
-    netReady();});
-  p.on('error',e=>{if(e.type==='unavailable-id'&&!net.on&&(tries||0)<4){try{p.destroy();}catch(x){}clearTimeout(net.wait);netCreate((tries||0)+1);}else netOffline(t(net.on?'rLost':'rFail'));});
+function netSend(){if(!net.me)return;try{net.me.set(Object.assign(payload(),{t:firebase.database.ServerValue.TIMESTAMP})).catch(()=>{});}catch(e){}}
+function netDetach(){
+  if(net.timer)clearInterval(net.timer);net.timer=null;
+  try{if(net.ref){net.ref.child('players').off();net.ref.child('go').off();}if(net.conn)net.conn.off();}catch(e){}
 }
-function netJoin(code){
-  if(!needPeer())return;net.code=code;netStatus(t('rConn'));net.wait=setTimeout(()=>netOffline(t('rFail')),12000);
-  const p=new Peer();net.peer=p;
-  p.on('open',id=>{net.id=id;const c=p.connect('trkr2-'+code.toLowerCase(),{reliable:true});net.hostConn=c;
-    c.on('open',()=>netReady());
-    c.on('data',d=>{if(!d)return;if(d.t==='p'&&d.p&&typeof d.p==='object'){const o={};for(const k in d.p)o[k]=sane(d.p[k]);net.players=o;}else if(d.t==='go')beginCountdown(Number(d.s)|0);});
-    c.on('close',()=>netOffline(t('rLost')));});
-  p.on('error',e=>netOffline(t(e.type==='peer-unavailable'?'rNotFound':'rFail')));
+function roomUi(on){$('codeBox').hidden=!on;$('leaveRow').hidden=!on;$('createBtn').disabled=on;$('joinBtn').disabled=on;if(on)$('codeTxt').textContent=net.code;}
+function netOffline(msg){
+  const me0=net.me,ref=net.ref,alone=Object.keys(net.players).length<=1;
+  netDetach();try{if(me0)me0.remove();if(ref&&alone)ref.remove();}catch(e){}
+  Object.assign(net,{on:false,code:'',players:{},me:null,ref:null,conn:null});forget();roomUi(false);netStatus(msg||'');
 }
-$('createBtn').onclick=()=>netCreate(0);
-$('joinBtn').onclick=()=>{const c=$('room').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!c){netStatus(t('rEnter'));return;}$('room').value=c;netJoin(c);};
+function startRoom(code,ref){
+  netDetach();Object.assign(net,{ref:ref,code:code,id:'p'+Math.random().toString(36).slice(2,9),players:{},on:true});
+  net.me=ref.child('players/'+net.id);net.joinedAt=srvNow();
+  ref.child('players').on('value',s=>{const v=s.val()||{},o={};for(const k in v)o[k]=sane(v[k]);net.players=o;});
+  ref.child('go').on('value',s=>{const g=s.val();if(!g||!g.t||g.t===net.lastGo)return;if(g.t>net.joinedAt&&phase!=='race'&&phase!=='count'){net.lastGo=g.t;if(mode!=='race')setMode('race');beginCountdown(Number(g.s)|0);}});
+  net.conn=fbDb.ref('.info/connected');
+  net.conn.on('value',s=>{if(s.val()){try{net.me.onDisconnect().remove();}catch(e){}netSend();netStatus(t('rIn',{code:code}));}else netStatus(t('rRe'));});
+  net.timer=setInterval(()=>{netSend();if(++net.tick%40===0)remember();},250);
+  roomUi(true);remember();
+}
+/* how: 'create' | 'join' | 'resume' */
+function netEnter(code,how){
+  if(!cloudOn()){netStatus(t('rOff'));return;}
+  netStatus(t('rConn'));$('createBtn').disabled=true;$('joinBtn').disabled=true;
+  const ref=fbDb.ref('rooms/'+code),back=()=>{$('createBtn').disabled=false;$('joinBtn').disabled=false;};
+  fbDb.ref('.info/serverTimeOffset').once('value').then(s=>{net.off=s.val()||0;return ref.child('players').once('value');}).then(s=>{
+    const has=s.exists();
+    if(how==='create'&&has){netEnter(randCode(),'create');return;}
+    if(how==='join'&&!has){back();forget();netStatus(t('rNotFound'));return;}
+    startRoom(code,ref);
+  }).catch(()=>{back();netStatus(t('rFail'));});
+}
+function netGo(){if(!net.ref)return;try{net.ref.child('go').set({s:Math.floor(Math.random()*2147483647),t:firebase.database.ServerValue.TIMESTAMP});}catch(e){}}
+$('createBtn').onclick=()=>netEnter(randCode(),'create');
+$('joinBtn').onclick=()=>{const c=$('room').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!c){netStatus(t('rEnter'));return;}$('room').value=c;netEnter(c,'join');};
 $('leaveBtn').onclick=()=>netOffline('');
 $('copyBtn').onclick=()=>{const c=net.code;try{navigator.clipboard.writeText(c).then(()=>toast(t('rCopied')),()=>{});}catch(e){}};
-window.addEventListener('pagehide',()=>{if(net.peer)netOffline('');});
+window.addEventListener('pagehide',()=>{if(net.on)remember();});
+/* ---------- акаунт: Firebase (хмара) або локальний запасний ---------- */
+async function hashPw(pw,salt){const s=salt+':'+pw;try{if(crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}}catch(e){}let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return 'x'+h;}
+function renderAcc(){
+  const on=!!ACC.cur;$('accForm').hidden=on;$('accIn').hidden=!on;
+  $('accHi').textContent=on?t('accHi',{n:ACC.cur}):'';
+  $('name').readOnly=on;if(on){$('name').value=ACC.cur;S.name=ACC.cur;}else $('name').value=S.name||'';
+}
+function accMsg(k){$('accMsg').textContent=k?t(k):'';}
+function normName(v){return clean(v.trim(),10).toLowerCase().replace(/[^\p{L}\p{N}_.-]/gu,'');}
+function cloudEmail(n){return 'u'+Array.from(new TextEncoder().encode(n)).map(b=>b.toString(16).padStart(2,'0')).join('')+'@trucker-game.app';}
+let cloudTimer=null;
+function cloudSaveSoon(){if(!cloudOn()||!fbAuth.currentUser)return;clearTimeout(cloudTimer);cloudTimer=setTimeout(cloudSaveNow,1500);}
+function cloudSaveNow(){
+  const u=fbAuth&&fbAuth.currentUser;if(!u||!ACC.cur)return;
+  try{fbDb.ref('users/'+u.uid+'/save').set(JSON.parse(JSON.stringify(S)));
+    fbDb.ref('leaderboard/'+u.uid).set({n:ACC.cur,km:Math.round(S.km),trips:S.trips});}catch(e){}
+}
+function cloudErr(e){const c=(e&&e.code)||'';
+  if(c==='auth/email-already-in-use')accMsg('accExists');
+  else if(c==='auth/network-request-failed')accMsg('rFail');
+  else if(c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-credential'||c==='auth/invalid-login-credentials'||c==='auth/invalid-email')accMsg('accBad');
+  else $('accMsg').textContent=c||String(e);}
+$('accRegBtn').onclick=async()=>{
+  const n=normName($('accUser').value),pw=$('accPw').value;
+  if(n.length<2||pw.length<6){accMsg('accShort');return;}
+  if(cloudOn()){
+    try{const c=await fbAuth.createUserWithEmailAndPassword(cloudEmail(n),pw);await c.user.updateProfile({displayName:n});
+      const lang=S.lang;Object.assign(S,DEF());S.lang=lang;S.name=n;ACC.cur=n;save();cloudSaveNow();$('accPw').value='';accMsg('');applyI18n();renderAcc();toast(n);}catch(e){cloudErr(e);}
+    return;}
+  if(ACC.users[n]){accMsg('accExists');return;}
+  const salt=Math.random().toString(36).slice(2);ACC.users[n]={s:salt,h:await hashPw(pw,salt)};
+  const lang=S.lang;ACC.cur=n;Object.assign(S,DEF());S.lang=lang;S.name=n;save();$('accPw').value='';accMsg('');applyI18n();renderAcc();toast(n);
+};
+$('accLoginBtn').onclick=async()=>{
+  const n=normName($('accUser').value),pw=$('accPw').value;
+  if(cloudOn()){try{await fbAuth.signInWithEmailAndPassword(cloudEmail(n),pw);$('accPw').value='';accMsg('');}catch(e){cloudErr(e);}return;}
+  const u=ACC.users[n];
+  if(!u||u.h!==await hashPw(pw,u.s)){accMsg('accBad');return;}
+  ACC.cur=n;try{localStorage.setItem(ACC_KEY,JSON.stringify(ACC));}catch(e){}loadS(true);$('accPw').value='';accMsg('');applyI18n();renderAcc();toast(n);
+};
+$('accOutBtn').onclick=()=>{
+  if(cloudOn()){cloudSaveNow();fbAuth.signOut().catch(()=>{});}
+  ACC.cur=null;try{localStorage.setItem(ACC_KEY,JSON.stringify(ACC));}catch(e){}loadS(true);applyI18n();renderAcc();
+};
+if(cloudOn())fbAuth.onAuthStateChanged(u=>{
+  if(!u){if(ACC.cur){ACC.cur=null;loadS(true);applyI18n();renderAcc();}return;}
+  const n=normName(u.displayName||'');if(!n)return;ACC.cur=n;
+  fbDb.ref('users/'+u.uid+'/save').once('value').then(s=>{const o=s.val();
+    if(o){const lang=S.lang;Object.assign(S,DEF(),o);S.up=Object.assign({e:0,t:0,r:0,c:0},o.up||{});if(!I18N[S.lang])S.lang=lang;}
+    S.name=n;try{localStorage.setItem(saveKey(),JSON.stringify(S));localStorage.setItem(ACC_KEY,JSON.stringify(ACC));}catch(e){}
+    applyI18n();renderAcc();if(!o)cloudSaveNow();}).catch(()=>{applyI18n();renderAcc();});
+});
+/* рейтинг */
+function openTop(){
+  $('mTop').hidden=false;
+  if(!cloudOn()){$('topList').textContent=t('offTop');return;}
+  $('topList').textContent='...';
+  fbDb.ref('leaderboard').orderByChild('km').limitToLast(10).once('value').then(s=>{
+    const a=[];s.forEach(c=>{a.push(c.val());});a.sort((x,y)=>(y.km||0)-(x.km||0));
+    $('topList').innerHTML=a.length?a.map((r,i)=>'<div><span>'+(i+1)+'. '+clean(r.n,14)+'</span><span>'+(+r.km||0).toLocaleString(S.lang)+' '+t('kmU')+' · '+(+r.trips||0)+'</span></div>').join(''):t('noTop');
+  }).catch(()=>{$('topList').textContent=t('rFail');});
+}
+$('bTop').onclick=openTop;
 /* ---------- запуск і фініш ---------- */
 function beginCountdown(s){
   seed=s|0;me.name=clean($('name').value.trim(),14)||'Driver';me.color=$('color').value;
   me.d=0;me.x=1.5;me.v=0;me.crash=0;me.inv=0;me.fin=null;dnfT=0;raceTime=0;collected.clear();weather='sun';wTimer=0;
   if(mode==='del'){const[a,b]=curCities();trip.from=a;trip.to=b;trip.target=roadKm(a,b);trip.km=0;trip.crashes=0;trip.cargo=CARGO[+$('selCargo').value||0];trip.startMs=Date.now();trip.simMs=0;if(me.fuel<=0||me.fuel>100)me.fuel=100;}
   else me.fuel=100;
-  phase='count';countT=3.5;$('ov').hidden=true;
+  phase='count';countT=3.5;$('ov').hidden=true;try{if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});}catch(e){}
 }
 function pressStart(){
   if(phase==='count'||phase==='race')return;
-  if(mode==='race'&&net.on){if(net.host)hostGo();else if(net.hostConn&&net.hostConn.open)net.hostConn.send({t:'goreq'});}
+  if(mode==='race'&&net.on){netGo();}
   else beginCountdown(Math.floor(Math.random()*2147483647));
 }
 $('startBtn').onclick=pressStart;
@@ -590,7 +673,7 @@ function finishRun(ok){
   if(!ok){$('ovT').textContent=t('noT');$('ovP').textContent=t('noP');}
   else if(mode==='del'){
     const c=trip.cargo;let r=(50+trip.target*.6)*c[2]*(1+.1*S.up.c);if(c[3])r*=Math.max(.4,1-.12*trip.crashes);let bonus='';if(c[4]&&trip.crashes===0){r*=1.25;bonus=t('express');}
-    r=Math.round(r);S.money+=r;S.km+=trip.target;S.trips++;save();
+    r*=(DIFF[S.diff]||DIFF.n).r;r=Math.round(r);S.money+=r;S.km+=trip.target;S.trips++;save();
     $('ovT').textContent=t('okT');$('ovP').textContent=t('okDel',{km:trip.target.toLocaleString(S.lang),reward:r.toLocaleString(S.lang),bonus:bonus})+' 🕒 '+fmtT(trip.to.tz,trip.startMs+trip.simMs)+' '+trip.to.n+' · '+t('crashes',{n:trip.crashes});
   }else{me.fin=Math.round((performance.now()-t0))/1000;$('ovT').textContent=t('okT');$('ovP').textContent=t('okRace',{time:me.fin.toFixed(1)});}
   $('startBtn').textContent=t('again');$('ov').hidden=false;updateRouteInfo();
@@ -604,8 +687,8 @@ function update(dt){
   if(phase==='count'){countT-=dt;if(countT<=0){phase='race';t0=performance.now();}return;}
   if(phase!=='race')return;
   raceTime=(performance.now()-t0)/1000;
-  wTimer+=dt;if(wTimer>40){wTimer=0;const r=Math.random();weather=r<.55?'sun':r<.8?'rain':'snow';}
-  const dif=S.diff==='e'?1.15:S.diff==='h'?.85:1;
+  wTimer+=dt;if(wTimer>40){wTimer=0;const r=Math.random();weather=r<D.s?'sun':r<D.s+(1-D.s)*.6?'rain':'snow';}
+  const D=DIFF[S.diff]||DIFF.n,dif=mode==='race'?1:D.a;
   const steer=(input.right?1:0)-(input.left?1:0);
   me.x=clamp(me.x+steer*1.7*(1+.08*S.up.r)*dt,.45,2.55);
   const vm=vmax(),acc=12*(1+.12*S.up.e)*dif*(mode==='del'?trip.cargo[5]:1);
@@ -615,7 +698,7 @@ function update(dt){
   const dd=me.v*dt;me.d+=dd;
   if(mode==='del'){
     const dkm=dd*S.scale/1000;trip.km+=dkm;trip.simMs+=dt*S.scale*1000;
-    me.fuel=Math.max(0,me.fuel-dkm/rangeKm()*100*(S.diff==='h'?1.3:1));
+    me.fuel=Math.max(0,me.fuel-dkm/rangeKm()*100*D.f);
   }else me.fuel=Math.max(0,me.fuel-dd*.022);
   if(me.crash>0)me.crash-=dt;if(me.inv>0)me.inv-=dt;
   const k0=Math.floor((me.d-OB0-30)/OBS),k1=Math.ceil((me.d-OB0+30)/OBS);
@@ -700,7 +783,9 @@ const keyMap={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:
 window.addEventListener('keydown',e=>{const k=keyMap[e.key];if(k&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='SELECT'){input[k]=true;e.preventDefault();}});
 window.addEventListener('keyup',e=>{const k=keyMap[e.key];if(k)input[k]=false;});
 function loop(now){const dt=lastFrame?Math.min((now-lastFrame)/1000,.05):0;lastFrame=now;update(dt);syncOthers(dt);draw();requestAnimationFrame(loop);}
+renderAcc();$('name').addEventListener('input',()=>{S.name=clean($('name').value,14);save();});
 applyI18n();setMode('del');requestAnimationFrame(loop);
+try{const r=JSON.parse(localStorage.getItem(NET_KEY)||'null');if(r&&r.code&&Date.now()-r.ts<15*60000&&cloudOn()){setMode('race');$('room').value=r.code;netEnter(r.code,'resume');}}catch(e){}
 })();
 </script>
 </body>
